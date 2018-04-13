@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import findDOMNode from 'react-dom'
 import { DragSource, DropTarget } from 'react-dnd'
 import { ItemTypes } from './constants'
 import flow from 'lodash/flow'
@@ -77,16 +76,18 @@ const cardTarget = {
   }
 }
 
-function collect(connect, monitor) {
+const collectDragSource = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   }
 }
 
+const collectDropTarget = connect => ({
+  connectDropTarget: connect.dropTarget()
+})
+
 export default flow(
-  DropTarget(ItemTypes.CARD, cardTarget, connect => ({
-    connectDropTarget: connect.dropTarget()
-  })),
-  DragSource(ItemTypes.CARD, cardSource, collect)
+  DropTarget(ItemTypes.CARD, cardTarget, collectDropTarget),
+  DragSource(ItemTypes.CARD, cardSource, collectDragSource)
 )(Card)
