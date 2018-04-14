@@ -44,9 +44,8 @@ const cardSource = {
   endDrag(props, monitor) {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
-
     if (dropResult && dropResult.listId !== item.listId) {
-      props.removeCard(item.index)
+      props.removeCard(item.index, props.listIndex)
     }
   }
 }
@@ -70,18 +69,16 @@ const cardTarget = {
       return
     }
     if (props.listId === sourceListId) {
-      props.moveCard(dragIndex, hoverIndex)
+      props.moveCard(dragIndex, hoverIndex, props.listIndex)
       monitor.getItem().index = hoverIndex
     }
   }
 }
 
-const collectDragSource = (connect, monitor) => {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  }
-}
+const collectDragSource = (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+})
 
 const collectDropTarget = connect => ({
   connectDropTarget: connect.dropTarget()
