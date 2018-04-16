@@ -12,42 +12,65 @@ class Container extends Component {
       isOver,
       connectCardDropTarget,
       connectContainerDragSource,
-      connectContainerDropTarget
+      connectContainerDropTarget,
+      connectContainerDragPreview
     } = this.props
     const isActive = canDrop && isOver
     const style = {
       width: '200px',
       height: '404px',
-      border: '1px dashed gray'
+      border: '1px solid black'
     }
     const backgroundColor = isActive ? 'lightgreen' : '#FFF'
-    return connectContainerDragSource(
-      connectContainerDropTarget(
-        connectCardDropTarget(
-          <div style={{ float: 'left' }}>
-            <h4>{this.props.list.name}</h4>
-            <div
-              ref={element => (this.containerRef = element)}
-              style={{ ...style, backgroundColor, float: 'left' }}
-            >
-              {cards.map((card, i) => (
-                <Card
-                  key={card.id}
-                  index={i}
-                  id={card.id}
-                  listId={this.props.list.id}
-                  listIndex={this.props.index}
-                  card={card}
-                  removeCard={this.props.removeCard}
-                  moveCard={this.props.moveCard}
-                />
-              ))}
-            </div>
+    return connectContainerDropTarget(
+      <div
+        style={{
+          float: 'left',
+          margin: '1px',
+          border: '1px solid gray'
+        }}
+      >
+        {connectContainerDragPreview(
+          <div>
+            {connectContainerDragSource(
+              <h4 style={{ paddingLeft: '5px', margin: '5px' }}>
+                <span style={{ ...handleStyle }} />
+                {this.props.list.name}
+              </h4>
+            )}
+            {connectCardDropTarget(
+              <div
+                ref={element => (this.containerRef = element)}
+                style={{ ...style, backgroundColor, float: 'left' }}
+              >
+                {cards.map((card, i) => (
+                  <Card
+                    key={card.id}
+                    index={i}
+                    id={card.id}
+                    listId={this.props.list.id}
+                    listIndex={this.props.index}
+                    card={card}
+                    removeCard={this.props.removeCard}
+                    moveCard={this.props.moveCard}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        )
-      )
+        )}
+      </div>
     )
   }
+}
+
+const handleStyle = {
+  backgroundColor: 'green',
+  width: '1rem',
+  height: '1rem',
+  display: 'inline-block',
+  marginRight: '0.75rem',
+  cursor: 'move'
 }
 
 const cardTarget = {
@@ -101,6 +124,7 @@ const collectCardDropTarget = (connect, monitor) => ({
 
 const collectContainerDragSource = (connect, monitor) => ({
   connectContainerDragSource: connect.dragSource(),
+  connectContainerDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 })
 
