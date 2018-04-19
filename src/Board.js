@@ -52,10 +52,8 @@ class Board extends Component {
                   key={list.id}
                   list={list}
                   index={list.position}
-                  moveCard={this.moveCard}
                   removeCard={this.removeCard}
                   pushCard={this.pushCard}
-                  moveContainer={this.moveContainer}
                 />
               ))}
             </div>

@@ -33,4 +33,26 @@ const changeContainerOrder = async ({ dragIndex, hoverIndex }) => {
   }
 }
 
-export default { fetchAllContainers, changeCardOrder, changeContainerOrder }
+const moveCardToOtherContainer = async () => {
+  try {
+    console.log('move card to other container')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteCardFromOldContainer = async () => {
+  try {
+    console.log('delete card')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export default {
+  fetchAllContainers,
+  changeCardOrder,
+  changeContainerOrder,
+  moveCardToOtherContainer,
+  deleteCardFromOldContainer
+}

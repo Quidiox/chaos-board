@@ -40,12 +40,12 @@
       "position": 2,
       "items": [
         {
-          "id": 3,
+          "id": 5,
           "text": "list 3 hello world",
           "position": 0
         },
         {
-          "id": 4,
+          "id": 6,
           "text": "list 3 hello you",
           "position": 1
         }

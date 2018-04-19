@@ -6,7 +6,10 @@ import { ItemTypes } from './constants'
 import { sortByPosition } from './utils/helpers'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { requestMoveContainer } from './reducers/boardReducer'
+import {
+  requestMoveContainer,
+  requestMoveCardToOtherContainer
+} from './reducers/boardReducer'
 
 class Container extends Component {
   render() {
@@ -52,7 +55,6 @@ class Container extends Component {
                     listIndex={this.props.index}
                     card={card}
                     removeCard={this.props.removeCard}
-                    moveCard={this.props.moveCard}
                   />
                 ))}
               </div>
@@ -83,7 +85,8 @@ const cardTarget = {
   drop(props, monitor, component) {
     const { id } = props.list
     const sourceObj = monitor.getItem()
-    if (id !== sourceObj.listId) props.pushCard(sourceObj.card, props.index)
+    if (id !== sourceObj.listId)
+      props.requestMoveCardToOtherContainer(sourceObj.card, props.index)
     return {
       listId: id
     }
@@ -139,7 +142,10 @@ const collectContainerDropTarget = connect => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestMoveContainer }, dispatch)
+  bindActionCreators(
+    { requestMoveContainer, requestMoveCardToOtherContainer },
+    dispatch
+  )
 
 Container = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectCardDropTarget),

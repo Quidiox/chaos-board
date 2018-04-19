@@ -4,7 +4,10 @@ import { ItemTypes } from './constants'
 import flow from 'lodash/flow'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { requestMoveCard } from './reducers/boardReducer'
+import {
+  requestMoveCard,
+  requestDeleteCardFromOldContainer
+} from './reducers/boardReducer'
 
 class Card extends Component {
   render() {
@@ -48,7 +51,7 @@ const cardSource = {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.listId !== item.listId) {
-      props.removeCard(item.index, props.listIndex)
+      props.requestDeleteCardFromOldContainer(item.index, props.listIndex)
     }
   }
 }
@@ -88,7 +91,10 @@ const collectDropTarget = connect => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestMoveCard }, dispatch)
+  bindActionCreators(
+    { requestMoveCard, requestDeleteCardFromOldContainer },
+    dispatch
+  )
 
 Card = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectDropTarget),

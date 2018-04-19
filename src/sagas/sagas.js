@@ -4,6 +4,10 @@ import {
   BOARD_INITIALIZE,
   CARD_MOVE_REQUEST,
   CARD_MOVE,
+  CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
+  CARD_MOVE_TO_OTHER_CONTAINER,
+  CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
+  CARD_DELETE_FROM_OLD_CONTAINER,
   CONTAINER_MOVE_REQUEST,
   CONTAINER_MOVE
 } from '../reducers/actionTypes'
@@ -25,7 +29,7 @@ function* watchInitializeBoard() {
 
 function* moveCard(action) {
   try {
-    const meta = {...action.meta}
+    const meta = { ...action.meta }
     const response = yield call(apiService.changeCardOrder, meta)
     yield put(genericActionCreater(CARD_MOVE, null, null, meta))
   } catch (error) {
@@ -37,9 +41,47 @@ function* watchMoveCard() {
   yield takeLatest(CARD_MOVE_REQUEST, moveCard)
 }
 
+function* moveCardToOtherContainer(action) {
+  try {
+    const { listIndex, card } = action.meta
+    const response = yield call(apiService.moveCardToOtherContainer, action)
+    yield put(
+      genericActionCreater(CARD_MOVE_TO_OTHER_CONTAINER, card, null, listIndex)
+    )
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchMoveCardToOtherContainer() {
+  yield takeLatest(
+    CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
+    moveCardToOtherContainer
+  )
+}
+
+function* deleteCardFromOldContainer(action) {
+  try {
+    const meta = action.meta
+    const response = yield call(apiService.deleteCardFromOldContainer, meta)
+    yield put(
+      genericActionCreater(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
+    )
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchDeleteCardFromOldContainer() {
+  yield takeLatest(
+    CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
+    deleteCardFromOldContainer
+  )
+}
+
 function* moveContainer(action) {
   try {
-    const meta = {...action.meta}
+    const meta = { ...action.meta }
     const response = yield call(apiService.changeContainerOrder, meta)
     yield put(genericActionCreater(CONTAINER_MOVE, null, null, meta))
   } catch (error) {
@@ -55,6 +97,8 @@ export default function* rootSaga() {
   yield all([
     call(watchInitializeBoard),
     call(watchMoveCard),
+    call(watchMoveCardToOtherContainer),
+    call(watchDeleteCardFromOldContainer),
     call(watchMoveContainer)
   ])
 }
