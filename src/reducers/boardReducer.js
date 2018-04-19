@@ -20,18 +20,25 @@ const boardReducer = (state = [], action) => {
   switch (action.type) {
     case BOARD_INITIALIZE:
       return action.payload
-    case CARD_MOVE:
+    case CARD_MOVE: {
       const { dragIndex, hoverIndex, listIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
       const list = [...stateCopy[listIndex].items]
       list[dragIndex].position = hoverIndex
       list[hoverIndex].position = dragIndex
-      console.log(stateCopy[listIndex].items)
       return stateCopy
+    }
     case CARD_CREATE:
     case CARD_DELETE:
     case CARD_EDIT:
-    case CONTAINER_MOVE:
+    case CONTAINER_MOVE: {
+      const { dragIndex, hoverIndex } = action.meta
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      console.log(stateCopy)
+      stateCopy[dragIndex].position = hoverIndex
+      stateCopy[hoverIndex].position = dragIndex
+      return stateCopy
+    }
     case CONTAINER_CREATE:
     case CONTAINER_DELETE:
     case CONTAINER_EDIT:
@@ -49,15 +56,16 @@ export const requestMoveCard = (dragIndex, hoverIndex, listIndex) => ({
   meta: { dragIndex, hoverIndex, listIndex }
 })
 
-export const requestMoveContainer = () => ({
-  type: CONTAINER_MOVE_REQUEST
+export const requestMoveContainer = (dragIndex, hoverIndex) => ({
+  type: CONTAINER_MOVE_REQUEST,
+  meta: { dragIndex, hoverIndex }
 })
 
-export const genericActionCreater = (type, payload, meta, error) => ({
+export const genericActionCreater = (type, payload, error, meta) => ({
   type,
   payload,
-  meta,
-  error
+  error,
+  meta
 })
 
 export default boardReducer

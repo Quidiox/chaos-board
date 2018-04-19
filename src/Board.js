@@ -4,12 +4,7 @@ import { connect } from 'react-redux'
 import update from 'immutability-helper'
 import { bindActionCreators } from 'redux'
 import { requestInitializeBoard } from './reducers/boardReducer'
-
-const style = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  paddingTop: '20px'
-}
+import { sortByPosition } from './utils/helpers'
 
 class Board extends Component {
   componentDidMount() {
@@ -72,14 +67,15 @@ class Board extends Component {
   }
 
   render() {
-    console.log(this.props)
+    const containers = this.props.containers
+    const sortedContainers = sortByPosition(containers)
     return (
       <div>
         <h1>Test board</h1>
-        {this.props.containers && (
+        {containers && (
           <div style={{ ...style }}>
             <div style={{ float: 'left' }}>
-              {this.props.containers.map((list, i) => (
+              {sortedContainers.map((list, i) => (
                 <Container
                   key={list.id}
                   list={list}
@@ -96,6 +92,12 @@ class Board extends Component {
       </div>
     )
   }
+}
+
+const style = {
+  display: 'flex',
+  justifyContent: 'space-around',
+  paddingTop: '20px'
 }
 
 const mapStateToProps = state => ({ containers: state.containers })

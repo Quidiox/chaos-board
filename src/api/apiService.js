@@ -23,10 +23,11 @@ const changeCardOrder = async ({ dragIndex, hoverIndex, listIndex }) => {
   }
 }
 
-const changeContainerOrder = async id => {
+const changeContainerOrder = async ({ dragIndex, hoverIndex }) => {
   try {
-    const response = await fetch(baseUrl + 'containers/' + id)
-    return await response.json()
+    console.log('hello container: ', dragIndex, hoverIndex)
+    // const response = await fetch(baseUrl + 'containers/' + id)
+    // return await response.json()
   } catch (error) {
     console.log(error)
   }

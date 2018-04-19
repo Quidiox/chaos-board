@@ -29,7 +29,7 @@ function* moveCard(action) {
     console.log('moveCard saga: ', meta)
     const response = yield call(apiService.changeCardOrder, meta)
     console.log('move card response: ', meta)
-    yield put(genericActionCreater(CARD_MOVE, null, meta))
+    yield put(genericActionCreater(CARD_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)
   }
@@ -41,8 +41,10 @@ function* watchMoveCard() {
 
 function* moveContainer(action) {
   try {
-    yield ''
-    console.log(CONTAINER_MOVE,'hello')
+    const meta = {...action.meta}
+    console.log('containerSaga meta: ', meta)
+    const response = yield call(apiService.changeContainerOrder, meta)
+    yield put(genericActionCreater(CONTAINER_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)
   }

@@ -3,16 +3,15 @@ import { DragSource, DropTarget } from 'react-dnd'
 import flow from 'lodash/flow'
 import Card from './Card'
 import { ItemTypes } from './constants'
+import { sortByPosition } from './utils/helpers'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { requestMoveContainer } from './reducers/boardReducer'
 
 class Container extends Component {
-  sortCards = cards =>
-    cards.sort((a, b) => {
-      return a.position > b.position
-    })
   render() {
     const cards = this.props.list.items
-    const sortedCards = this.sortCards(cards)
-    console.log(cards)
+    const sortedCards = sortByPosition(cards)
     const {
       canDrop,
       isOver,
@@ -22,11 +21,6 @@ class Container extends Component {
       connectContainerDragPreview
     } = this.props
     const isActive = canDrop && isOver
-    const style = {
-      width: '200px',
-      height: '404px',
-      border: '1px solid black'
-    }
     const backgroundColor = isActive ? 'lightgreen' : '#FFF'
     return connectContainerDropTarget(
       <div
@@ -68,6 +62,12 @@ class Container extends Component {
       </div>
     )
   }
+}
+
+const style = {
+  width: '200px',
+  height: '404px',
+  border: '1px solid black'
 }
 
 const handleStyle = {
@@ -117,7 +117,7 @@ const containerTarget = {
     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
       return
     }
-    props.moveContainer(dragIndex, hoverIndex)
+    props.requestMoveContainer(dragIndex, hoverIndex)
     monitor.getItem().index = hoverIndex
   }
 }
@@ -138,8 +138,13 @@ const collectContainerDropTarget = connect => ({
   connectContainerDropTarget: connect.dropTarget()
 })
 
-export default flow(
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ requestMoveContainer }, dispatch)
+
+Container = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectCardDropTarget),
   DragSource(ItemTypes.CONTAINER, containerSource, collectContainerDragSource),
   DropTarget(ItemTypes.CONTAINER, containerTarget, collectContainerDropTarget)
 )(Container)
+
+export default connect(null, mapDispatchToProps)(Container)
