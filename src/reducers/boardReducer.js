@@ -16,7 +16,7 @@ import {
 const boardReducer = (state = [], action) => {
   // console.log('ACTION TYPE: ', action.type)
   // console.log('ACTION PAYLOAD', action.payload)
-  console.log('ACTION META', action.meta)
+  // console.log('ACTION META', action.meta)
   switch (action.type) {
     case BOARD_INITIALIZE:
       return action.payload
@@ -34,7 +34,6 @@ const boardReducer = (state = [], action) => {
     case CONTAINER_MOVE: {
       const { dragIndex, hoverIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      console.log(stateCopy)
       stateCopy[dragIndex].position = hoverIndex
       stateCopy[hoverIndex].position = dragIndex
       return stateCopy

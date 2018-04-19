@@ -38,34 +38,6 @@ class Board extends Component {
     )
   }
 
-  moveCard = (dragIndex, hoverIndex, listIndex) => {
-    const { items } = this.state.lists[listIndex]
-    const dragCard = items[dragIndex]
-    this.setState(
-      update(this.state, {
-        lists: {
-          [listIndex]: {
-            items: {
-              $splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]]
-            }
-          }
-        }
-      })
-    )
-  }
-
-  moveContainer = (dragIndex, hoverIndex) => {
-    const { lists } = this.state
-    const dragContainer = lists[dragIndex]
-    this.setState(
-      update(this.state, {
-        lists: {
-          $splice: [[dragIndex, 1], [hoverIndex, 0, dragContainer]]
-        }
-      })
-    )
-  }
-
   render() {
     const containers = this.props.containers
     const sortedContainers = sortByPosition(containers)

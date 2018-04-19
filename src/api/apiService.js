@@ -11,7 +11,7 @@ const fetchAllContainers = async () => {
 
 const changeCardOrder = async ({ dragIndex, hoverIndex, listIndex }) => {
   try {
-    console.log('hello world! ', dragIndex, hoverIndex, listIndex)
+    // console.log('hello world! ', dragIndex, hoverIndex, listIndex)
     /*const response = await fetch(baseUrl + 'containers/' + listIndex, {
       method: 'PUT',
       body: JSON.stringify(),
@@ -25,7 +25,7 @@ const changeCardOrder = async ({ dragIndex, hoverIndex, listIndex }) => {
 
 const changeContainerOrder = async ({ dragIndex, hoverIndex }) => {
   try {
-    console.log('hello container: ', dragIndex, hoverIndex)
+    // console.log('hello container: ', dragIndex, hoverIndex)
     // const response = await fetch(baseUrl + 'containers/' + id)
     // return await response.json()
   } catch (error) {
