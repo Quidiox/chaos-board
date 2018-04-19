@@ -1,21 +1,61 @@
 import { call, put, takeLatest, all } from 'redux-saga/effects'
-import { BOARD_INITIALIZE_REQUEST } from '../reducers/actionTypes'
+import {
+  BOARD_INITIALIZE_REQUEST,
+  BOARD_INITIALIZE,
+  CARD_MOVE_REQUEST,
+  CARD_MOVE,
+  CONTAINER_MOVE_REQUEST,
+  CONTAINER_MOVE
+} from '../reducers/actionTypes'
 import apiService from '../api/apiService'
-import { initializeBoard } from '../reducers/boardReducer'
+import { genericActionCreater } from '../reducers/boardReducer'
 
-function* getContainers() {
+function* initializeBoard() {
   try {
     const containers = yield call(apiService.fetchAllContainers)
-    yield put(initializeBoard(containers))
+    yield put(genericActionCreater(BOARD_INITIALIZE, containers))
   } catch (error) {
     console.log(error)
   }
 }
 
-function* watchGetContainers() {
-  yield takeLatest(BOARD_INITIALIZE_REQUEST, getContainers)
+function* watchInitializeBoard() {
+  yield takeLatest(BOARD_INITIALIZE_REQUEST, initializeBoard)
+}
+
+function* moveCard(action) {
+  try {
+    const meta = {...action.meta}
+    console.log('moveCard saga: ', meta)
+    const response = yield call(apiService.changeCardOrder, meta)
+    console.log('move card response: ', meta)
+    yield put(genericActionCreater(CARD_MOVE, null, meta))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchMoveCard() {
+  yield takeLatest(CARD_MOVE_REQUEST, moveCard)
+}
+
+function* moveContainer(action) {
+  try {
+    yield ''
+    console.log(CONTAINER_MOVE,'hello')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchMoveContainer() {
+  yield takeLatest(CONTAINER_MOVE_REQUEST, moveContainer)
 }
 
 export default function* rootSaga() {
-  yield all([call(watchGetContainers)])
+  yield all([
+    call(watchInitializeBoard),
+    call(watchMoveCard),
+    call(watchMoveContainer)
+  ])
 }

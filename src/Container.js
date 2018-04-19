@@ -5,8 +5,14 @@ import Card from './Card'
 import { ItemTypes } from './constants'
 
 class Container extends Component {
+  sortCards = cards =>
+    cards.sort((a, b) => {
+      return a.position > b.position
+    })
   render() {
     const cards = this.props.list.items
+    const sortedCards = this.sortCards(cards)
+    console.log(cards)
     const {
       canDrop,
       isOver,
@@ -43,10 +49,10 @@ class Container extends Component {
                 ref={element => (this.containerRef = element)}
                 style={{ ...style, backgroundColor, float: 'left' }}
               >
-                {cards.map((card, i) => (
+                {sortedCards.map((card, i) => (
                   <Card
                     key={card.id}
-                    index={i}
+                    index={card.position}
                     id={card.id}
                     listId={this.props.list.id}
                     listIndex={this.props.index}

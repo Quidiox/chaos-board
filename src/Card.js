@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
 import { ItemTypes } from './constants'
 import flow from 'lodash/flow'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { requestMoveCard } from './reducers/boardReducer'
 
 class Card extends Component {
   render() {
@@ -69,7 +72,7 @@ const cardTarget = {
       return
     }
     if (props.listId === sourceListId) {
-      props.moveCard(dragIndex, hoverIndex, props.listIndex)
+      props.requestMoveCard(dragIndex, hoverIndex, props.listIndex)
       monitor.getItem().index = hoverIndex
     }
   }
@@ -84,7 +87,12 @@ const collectDropTarget = connect => ({
   connectDropTarget: connect.dropTarget()
 })
 
-export default flow(
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ requestMoveCard }, dispatch)
+
+Card = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectDropTarget),
   DragSource(ItemTypes.CARD, cardSource, collectDragSource)
 )(Card)
+
+export default connect(null, mapDispatchToProps)(Card)

@@ -5,6 +5,12 @@ import update from 'immutability-helper'
 import { bindActionCreators } from 'redux'
 import { requestInitializeBoard } from './reducers/boardReducer'
 
+const style = {
+  display: 'flex',
+  justifyContent: 'space-around',
+  paddingTop: '20px'
+}
+
 class Board extends Component {
   componentDidMount() {
     this.props.requestInitializeBoard()
@@ -63,21 +69,21 @@ class Board extends Component {
         }
       })
     )
-  } 
+  }
 
   render() {
     console.log(this.props)
     return (
       <div>
+        <h1>Test board</h1>
         {this.props.containers && (
-          <div style={{ style }}>
-            <h1>Test board</h1>
+          <div style={{ ...style }}>
             <div style={{ float: 'left' }}>
               {this.props.containers.map((list, i) => (
                 <Container
                   key={list.id}
                   list={list}
-                  index={i}
+                  index={list.position}
                   moveCard={this.moveCard}
                   removeCard={this.removeCard}
                   pushCard={this.pushCard}
@@ -90,12 +96,6 @@ class Board extends Component {
       </div>
     )
   }
-}
-
-const style = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  paddingTop: '20px'
 }
 
 const mapStateToProps = state => ({ containers: state.containers })
