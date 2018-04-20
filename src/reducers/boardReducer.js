@@ -33,6 +33,7 @@ const boardReducer = (state = [], action) => {
       return stateCopy
     }
     case CARD_MOVE_TO_OTHER_CONTAINER: {
+      // console.log(action.card)
       const card = action.payload
       const listIndex = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))

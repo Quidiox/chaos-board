@@ -75,7 +75,7 @@ const cardTarget = {
       return
     }
     if (props.listId === sourceListId) {
-      props.requestMoveCard(dragIndex, hoverIndex, props.listIndex)
+      props.requestMoveCard(dragIndex, hoverIndex, props.listPosition)
       monitor.getItem().position = hoverIndex
     }
   }
