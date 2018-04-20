@@ -44,7 +44,7 @@ function* watchMoveCard() {
 function* moveCardToOtherContainer(action) {
   try {
     const { listIndex, card } = action.meta
-    const response = yield call(apiService.moveCardToOtherContainer, action)
+    const response = yield call(apiService.moveCardToAnotherContainer, action)
     yield put(
       genericActionCreater(CARD_MOVE_TO_OTHER_CONTAINER, card, null, listIndex)
     )

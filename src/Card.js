@@ -42,7 +42,7 @@ const style = {
 const cardSource = {
   beginDrag(props) {
     return {
-      index: props.index,
+      position: props.position,
       listId: props.listId,
       card: props.card
     }
@@ -51,15 +51,15 @@ const cardSource = {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.listId !== item.listId) {
-      props.requestDeleteCardFromOldContainer(item.index, props.listIndex)
+      props.requestDeleteCardFromOldContainer(item.position, props.listPosition)
     }
   }
 }
 
 const cardTarget = {
   hover(props, monitor, component) {
-    const dragIndex = monitor.getItem().index
-    const hoverIndex = props.index
+    const dragIndex = monitor.getItem().position
+    const hoverIndex = props.position
     const sourceListId = monitor.getItem().listId
     if (dragIndex === hoverIndex) {
       return
@@ -76,7 +76,7 @@ const cardTarget = {
     }
     if (props.listId === sourceListId) {
       props.requestMoveCard(dragIndex, hoverIndex, props.listIndex)
-      monitor.getItem().index = hoverIndex
+      monitor.getItem().position = hoverIndex
     }
   }
 }

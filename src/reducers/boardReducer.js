@@ -44,6 +44,9 @@ const boardReducer = (state = [], action) => {
       const { itemIndex, listIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
       stateCopy[listIndex].items.splice(itemIndex, 1)
+      for(let i = itemIndex; i<stateCopy[listIndex].items.length; ++i) {
+        stateCopy[listIndex].items[i].position-=1
+      }
       return stateCopy
     }
     case CARD_CREATE:

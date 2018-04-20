@@ -49,10 +49,10 @@ class Container extends Component {
                 {sortedCards.map((card, i) => (
                   <Card
                     key={card.id}
-                    index={card.position}
+                    position={card.position}
                     id={card.id}
                     listId={this.props.list.id}
-                    listIndex={this.props.index}
+                    listPosition={this.props.position}
                     card={card}
                     removeCard={this.props.removeCard}
                   />
@@ -86,7 +86,7 @@ const cardTarget = {
     const { id } = props.list
     const sourceObj = monitor.getItem()
     if (id !== sourceObj.listId)
-      props.requestMoveCardToOtherContainer(sourceObj.card, props.index)
+      props.requestMoveCardToOtherContainer(sourceObj.card, props.position)
     return {
       listId: id
     }
@@ -96,7 +96,7 @@ const cardTarget = {
 const containerSource = {
   beginDrag(props) {
     return {
-      index: props.index,
+      position: props.position,
       id: props.list.id,
       list: props.list
     }
@@ -105,8 +105,8 @@ const containerSource = {
 
 const containerTarget = {
   hover(props, monitor, component) {
-    const dragIndex = monitor.getItem().index
-    const hoverIndex = props.index
+    const dragIndex = monitor.getItem().position
+    const hoverIndex = props.position
     if (dragIndex === hoverIndex) {
       return
     }
@@ -121,7 +121,7 @@ const containerTarget = {
       return
     }
     props.requestMoveContainer(dragIndex, hoverIndex)
-    monitor.getItem().index = hoverIndex
+    monitor.getItem().position = hoverIndex
   }
 }
 

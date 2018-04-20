@@ -51,7 +51,7 @@ class Board extends Component {
                 <Container
                   key={list.id}
                   list={list}
-                  index={list.position}
+                  position={list.position}
                   removeCard={this.removeCard}
                   pushCard={this.pushCard}
                 />
