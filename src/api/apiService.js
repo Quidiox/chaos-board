@@ -3,8 +3,7 @@ const baseUrl = 'http://localhost:3005/'
 const fetchAllContainers = async () => {
   try {
     const response = await fetch(baseUrl + 'containers')
-    const containers = await response.json()
-    return containers
+    return await response.json()
   } catch (error) {
     console.log(error)
   }
