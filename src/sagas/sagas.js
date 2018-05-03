@@ -17,7 +17,6 @@ import { genericActionCreater } from '../reducers/boardReducer'
 function* initializeBoard() {
   try {
     const board = yield call(apiService.fetchBoard)
-    console.log(board)
     yield put(genericActionCreater(BOARD_INITIALIZE, board))
   } catch (error) {
     console.log(error)

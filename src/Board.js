@@ -24,7 +24,7 @@ class Board extends Component {
               {sortedContainers.map((list, i) => {
                 return (
                   <Container
-                    key={list._id}
+                    key={list.id}
                     list={list}
                     position={list.position}
                   />

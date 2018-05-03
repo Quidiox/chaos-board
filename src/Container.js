@@ -48,10 +48,10 @@ class Container extends Component {
               >
                 {sortedCards.map((card, i) => (
                   <Card
-                    key={card._id}
+                    key={card.id}
                     position={card.position}
-                    id={card._id}
-                    listId={this.props.list._id}
+                    id={card.id}
+                    listId={this.props.list.id}
                     listPosition={this.props.position}
                     card={card}
                   />
@@ -82,12 +82,12 @@ const handleStyle = {
 
 const cardTarget = {
   drop(props, monitor, component) {
-    const { _id } = props.list
+    const { id } = props.list
     const sourceObj = monitor.getItem()
-    if (_id !== sourceObj.listId)
+    if (id !== sourceObj.listId)
       props.requestMoveCardToOtherContainer(sourceObj.card, props.position)
     return {
-      listId: _id
+      listId: id
     }
   }
 }
@@ -96,7 +96,7 @@ const containerSource = {
   beginDrag(props) {
     return {
       position: props.position,
-      id: props.list._id,
+      id: props.list.id,
       list: props.list
     }
   }
