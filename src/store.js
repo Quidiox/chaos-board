@@ -7,7 +7,7 @@ import boardRecuder from './reducers/boardReducer'
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
-  combineReducers({ containers: boardRecuder }),
+  combineReducers({ board: boardRecuder }),
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 

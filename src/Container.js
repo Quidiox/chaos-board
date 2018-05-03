@@ -13,7 +13,7 @@ import {
 
 class Container extends Component {
   render() {
-    const cards = this.props.list.items
+    const cards = this.props.list.cards
     const sortedCards = sortByPosition(cards)
     const {
       canDrop,
@@ -38,7 +38,7 @@ class Container extends Component {
             {connectContainerDragSource(
               <h4 style={{ paddingLeft: '5px', margin: '5px' }}>
                 <span style={{ ...handleStyle }} />
-                {this.props.list.name}
+                {this.props.list.title}
               </h4>
             )}
             {connectCardDropTarget(
@@ -48,13 +48,12 @@ class Container extends Component {
               >
                 {sortedCards.map((card, i) => (
                   <Card
-                    key={card.id}
+                    key={card._id}
                     position={card.position}
-                    id={card.id}
-                    listId={this.props.list.id}
+                    id={card._id}
+                    listId={this.props.list._id}
                     listPosition={this.props.position}
                     card={card}
-                    removeCard={this.props.removeCard}
                   />
                 ))}
               </div>
@@ -83,12 +82,12 @@ const handleStyle = {
 
 const cardTarget = {
   drop(props, monitor, component) {
-    const { id } = props.list
+    const { _id } = props.list
     const sourceObj = monitor.getItem()
-    if (id !== sourceObj.listId)
+    if (_id !== sourceObj.listId)
       props.requestMoveCardToOtherContainer(sourceObj.card, props.position)
     return {
-      listId: id
+      listId: _id
     }
   }
 }
@@ -97,7 +96,7 @@ const containerSource = {
   beginDrag(props) {
     return {
       position: props.position,
-      id: props.list.id,
+      id: props.list._id,
       list: props.list
     }
   }
@@ -120,6 +119,7 @@ const containerTarget = {
     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
       return
     }
+    console.log(monitor.getItem())
     props.requestMoveContainer(dragIndex, hoverIndex)
     monitor.getItem().position = hoverIndex
   }

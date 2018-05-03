@@ -27,26 +27,25 @@ const boardReducer = (state = [], action) => {
     case CARD_MOVE: {
       const { dragIndex, hoverIndex, listIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      const list = [...stateCopy[listIndex].items]
+      const list = [...stateCopy.containers[listIndex].cards]
       list[dragIndex].position = hoverIndex
       list[hoverIndex].position = dragIndex
       return stateCopy
     }
     case CARD_MOVE_TO_OTHER_CONTAINER: {
-      // console.log(action.card)
       const card = action.payload
       const listIndex = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      card.position = stateCopy[listIndex].items.length
-      stateCopy[listIndex].items.push(card)
+      card.position = stateCopy.containers[listIndex].cards.length
+      stateCopy.containers[listIndex].cards.push(card)
       return stateCopy
     }
     case CARD_DELETE_FROM_OLD_CONTAINER: {
       const { itemIndex, listIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      stateCopy[listIndex].items.splice(itemIndex, 1)
-      for(let i = itemIndex; i<stateCopy[listIndex].items.length; ++i) {
-        stateCopy[listIndex].items[i].position-=1
+      stateCopy.containers[listIndex].cards.splice(itemIndex, 1)
+      for(let i = itemIndex; i<stateCopy.containers[listIndex].cards.length; ++i) {
+        stateCopy.containers[listIndex].cards[i].position-=1
       }
       return stateCopy
     }
@@ -56,8 +55,9 @@ const boardReducer = (state = [], action) => {
     case CONTAINER_MOVE: {
       const { dragIndex, hoverIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      stateCopy[dragIndex].position = hoverIndex
-      stateCopy[hoverIndex].position = dragIndex
+      console.log(stateCopy)
+      stateCopy.containers[dragIndex].position = hoverIndex
+      stateCopy.containers[hoverIndex].position = dragIndex
       return stateCopy
     }
     case CONTAINER_CREATE:

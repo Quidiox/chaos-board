@@ -11,23 +11,25 @@ class Board extends Component {
   }
 
   render() {
-    const containers = this.props.containers
-    const sortedContainers = sortByPosition(containers)
+    const board = this.props.board
+    const sortedContainers = board.containers
+      ? sortByPosition(board.containers)
+      : []
     return (
       <div>
-        <h1>Test board</h1>
-        {containers && (
+        <h1>{board.title}</h1>
+        {board.containers && (
           <div style={{ ...style }}>
             <div style={{ float: 'left' }}>
-              {sortedContainers.map((list, i) => (
-                <Container
-                  key={list.id}
-                  list={list}
-                  position={list.position}
-                  removeCard={this.removeCard}
-                  pushCard={this.pushCard}
-                />
-              ))}
+              {sortedContainers.map((list, i) => {
+                return (
+                  <Container
+                    key={list._id}
+                    list={list}
+                    position={list.position}
+                  />
+                )
+              })}
             </div>
           </div>
         )}
@@ -42,7 +44,7 @@ const style = {
   paddingTop: '20px'
 }
 
-const mapStateToProps = state => ({ containers: state.containers })
+const mapStateToProps = state => ({ board: state.board })
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ requestInitializeBoard }, dispatch)
