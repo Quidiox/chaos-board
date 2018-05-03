@@ -31,6 +31,7 @@ function* moveCard(action) {
   try {
     const meta = { ...action.meta }
     const response = yield call(apiService.changeCardOrder, meta)
+    console.log(response)
     yield put(genericActionCreater(CARD_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)

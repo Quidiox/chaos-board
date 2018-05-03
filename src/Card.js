@@ -75,7 +75,15 @@ const cardTarget = {
       return
     }
     if (props.listId === sourceListId) {
-      props.requestMoveCard(dragIndex, hoverIndex, props.listPosition)
+      const dragPosCard = props.board.containers[props.listPosition].cards[dragIndex]
+      console.log('hoverOverCard: ', dragPosCard, props.id)
+      props.requestMoveCard(
+        dragIndex,
+        hoverIndex,
+        props.listPosition,
+        props.id,
+        dragPosCard.id
+      )
       monitor.getItem().position = hoverIndex
     }
   }
@@ -96,9 +104,11 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
+const mapStateToProps = state => ({ board: state.board })
+
 Card = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectDropTarget),
   DragSource(ItemTypes.CARD, cardSource, collectDragSource)
 )(Card)
 
-export default connect(null, mapDispatchToProps)(Card)
+export default connect(mapStateToProps, mapDispatchToProps)(Card)

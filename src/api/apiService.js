@@ -1,8 +1,8 @@
 const baseUrl = 'http://localhost:3005/'
 
-const fetchBoard = async (boardId='5ae9d453b0f47c69442dd3b9') => {
+const fetchBoard = async (boardId = '5ae9d453b0f47c69442dd3b9') => {
   try {
-    const response = await fetch(baseUrl + 'api/board/'+ boardId)
+    const response = await fetch(baseUrl + 'api/board/' + boardId)
     return await response.json()
   } catch (error) {
     console.log(error)
@@ -18,24 +18,17 @@ const fetchAllBoards = async () => {
   }
 }
 
-const fetchAllContainers = async () => {
+const changeCardOrder = async data => {
   try {
-    const response = await fetch(baseUrl + 'containers')
+    const response = await fetch(
+      baseUrl + 'api/card/move',
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      }
+    )
     return await response.json()
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const changeCardOrder = async ({ dragIndex, hoverIndex, listIndex }) => {
-  try {
-    // console.log('hello world! ', dragIndex, hoverIndex, listIndex)
-    /*const response = await fetch(baseUrl + 'containers/' + listIndex, {
-      method: 'PUT',
-      body: JSON.stringify(),
-      headers: new Headers({ 'Content-Type': 'application/json' })
-    })
-    return await response.json() */
   } catch (error) {
     console.log(error)
   }
@@ -68,7 +61,6 @@ const deleteCardFromOldContainer = async () => {
 }
 
 export default {
-  fetchAllContainers,
   changeCardOrder,
   changeContainerOrder,
   moveCardToAnotherContainer,

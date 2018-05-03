@@ -119,7 +119,6 @@ const containerTarget = {
     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
       return
     }
-    console.log(monitor.getItem())
     props.requestMoveContainer(dragIndex, hoverIndex)
     monitor.getItem().position = hoverIndex
   }

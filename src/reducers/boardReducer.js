@@ -72,9 +72,9 @@ export const requestInitializeBoard = () => ({
   type: BOARD_INITIALIZE_REQUEST
 })
 
-export const requestMoveCard = (dragIndex, hoverIndex, listIndex) => ({
+export const requestMoveCard = (dragIndex, hoverIndex, listIndex, cardId, dragPosCardId) => ({
   type: CARD_MOVE_REQUEST,
-  meta: { dragIndex, hoverIndex, listIndex }
+  meta: { dragIndex, hoverIndex, listIndex, cardId, dragPosCardId }
 })
 
 export const requestMoveContainer = (dragIndex, hoverIndex) => ({
