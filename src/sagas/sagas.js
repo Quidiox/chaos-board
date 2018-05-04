@@ -84,6 +84,7 @@ function* moveContainer(action) {
   try {
     const meta = { ...action.meta }
     const response = yield call(apiService.changeContainerOrder, meta)
+    console.log(response)
     yield put(genericActionCreater(CONTAINER_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)

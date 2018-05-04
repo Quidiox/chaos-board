@@ -76,7 +76,6 @@ const cardTarget = {
     }
     if (props.listId === sourceListId) {
       const dragPosCard = props.board.containers[props.listPosition].cards[dragIndex]
-      console.log('hoverOverCard: ', dragPosCard, props.id)
       props.requestMoveCard(
         dragIndex,
         hoverIndex,

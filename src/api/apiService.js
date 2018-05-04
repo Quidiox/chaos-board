@@ -20,25 +20,25 @@ const fetchAllBoards = async () => {
 
 const changeCardOrder = async data => {
   try {
-    const response = await fetch(
-      baseUrl + 'api/card/move',
-      {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: new Headers({ 'Content-Type': 'application/json' })
-      }
-    )
+    const response = await fetch(baseUrl + 'api/card/move', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
     return await response.json()
   } catch (error) {
     console.log(error)
   }
 }
 
-const changeContainerOrder = async ({ dragIndex, hoverIndex }) => {
+const changeContainerOrder = async data => {
   try {
-    // console.log('hello container: ', dragIndex, hoverIndex)
-    // const response = await fetch(baseUrl + 'containers/' + id)
-    // return await response.json()
+    const response = await fetch(baseUrl + 'api/container/move', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await response.json()
   } catch (error) {
     console.log(error)
   }

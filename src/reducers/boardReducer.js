@@ -55,7 +55,6 @@ const boardReducer = (state = [], action) => {
     case CONTAINER_MOVE: {
       const { dragIndex, hoverIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      console.log(stateCopy)
       stateCopy.containers[dragIndex].position = hoverIndex
       stateCopy.containers[hoverIndex].position = dragIndex
       return stateCopy
@@ -77,9 +76,9 @@ export const requestMoveCard = (dragIndex, hoverIndex, listIndex, cardId, dragPo
   meta: { dragIndex, hoverIndex, listIndex, cardId, dragPosCardId }
 })
 
-export const requestMoveContainer = (dragIndex, hoverIndex) => ({
+export const requestMoveContainer = (dragIndex, hoverIndex, containerId, dragPosContainerId) => ({
   type: CONTAINER_MOVE_REQUEST,
-  meta: { dragIndex, hoverIndex }
+  meta: { dragIndex, hoverIndex, containerId, dragPosContainerId }
 })
 
 export const requestMoveCardToOtherContainer = (card, listIndex) => ({
