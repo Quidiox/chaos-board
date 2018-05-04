@@ -50,8 +50,9 @@ const cardSource = {
   endDrag(props, monitor) {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
+    console.log(item.listId, dropResult.listId)
     if (dropResult && dropResult.listId !== item.listId) {
-      props.requestDeleteCardFromOldContainer(item.position, props.listPosition)
+      props.requestDeleteCardFromOldContainer(item.position, props.listPosition, item.listId, item.card.id)
     }
   }
 }

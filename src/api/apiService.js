@@ -44,17 +44,29 @@ const changeContainerOrder = async data => {
   }
 }
 
-const moveCardToAnotherContainer = async () => {
+const moveCardToAnotherContainer = async data => {
   try {
-    // console.log('move card to other container')
+    console.log(data)
+    const response = await fetch(baseUrl + 'api/container/addtonew', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await response.json()
   } catch (error) {
     console.log(error)
   }
 }
 
-const deleteCardFromOldContainer = async () => {
+const deleteCardFromOldContainer = async data => {
   try {
-    // console.log('delete card')
+    console.log(data)
+    const response = await fetch(baseUrl + 'api/container/removefromold', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await response.json()
   } catch (error) {
     console.log(error)
   }

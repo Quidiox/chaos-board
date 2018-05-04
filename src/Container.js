@@ -85,7 +85,7 @@ const cardTarget = {
     const { id } = props.list
     const sourceObj = monitor.getItem()
     if (id !== sourceObj.listId)
-      props.requestMoveCardToOtherContainer(sourceObj.card, props.position)
+      props.requestMoveCardToOtherContainer(sourceObj.card, props.position, id)
     return {
       listId: id
     }
@@ -119,7 +119,6 @@ const containerTarget = {
     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
       return
     }
-    console.log(props.list.id, dragIndex, hoverIndex, props.board.containers[dragIndex].id)
     const dragPosContainerId = props.board.containers[dragIndex].id
     props.requestMoveContainer(dragIndex, hoverIndex, props.list.id, dragPosContainerId)
     monitor.getItem().position = hoverIndex

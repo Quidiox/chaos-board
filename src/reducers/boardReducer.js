@@ -81,14 +81,14 @@ export const requestMoveContainer = (dragIndex, hoverIndex, containerId, dragPos
   meta: { dragIndex, hoverIndex, containerId, dragPosContainerId }
 })
 
-export const requestMoveCardToOtherContainer = (card, listIndex) => ({
+export const requestMoveCardToOtherContainer = (card, listIndex, containerId) => ({
   type: CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
-  meta: { card, listIndex }
+  meta: { card, listIndex, containerId }
 })
 
-export const requestDeleteCardFromOldContainer = (itemIndex, listIndex) => ({
+export const requestDeleteCardFromOldContainer = (itemIndex, listIndex, containerId, cardId) => ({
   type: CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
-  meta: { itemIndex, listIndex }
+  meta: { itemIndex, listIndex, containerId, cardId }
 })
 
 export const genericActionCreater = (type, payload, error, meta) => ({

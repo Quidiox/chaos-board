@@ -44,8 +44,10 @@ function* watchMoveCard() {
 
 function* moveCardToOtherContainer(action) {
   try {
-    const { listIndex, card } = action.meta
-    const response = yield call(apiService.moveCardToAnotherContainer, action)
+    const { listIndex, card, containerId } = action.meta
+    const data = { cardId: card.id, containerId}
+    const response = yield call(apiService.moveCardToAnotherContainer, data)
+    console.log(response)
     yield put(
       genericActionCreater(CARD_MOVE_TO_OTHER_CONTAINER, card, null, listIndex)
     )
@@ -65,6 +67,7 @@ function* deleteCardFromOldContainer(action) {
   try {
     const meta = action.meta
     const response = yield call(apiService.deleteCardFromOldContainer, meta)
+    console.log(response)
     yield put(
       genericActionCreater(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
     )
