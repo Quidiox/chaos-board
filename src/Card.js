@@ -50,7 +50,6 @@ const cardSource = {
   endDrag(props, monitor) {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
-    console.log(item.listId, dropResult.listId)
     if (dropResult && dropResult.listId !== item.listId) {
       props.requestDeleteCardFromOldContainer(item.position, props.listPosition, item.listId, item.card.id)
     }
@@ -76,7 +75,7 @@ const cardTarget = {
       return
     }
     if (props.listId === sourceListId) {
-      const dragPosCard = props.board.containers[props.listPosition].cards[dragIndex]
+      const dragPosCard = props.containers[props.listPosition].cards[dragIndex]
       props.requestMoveCard(
         dragIndex,
         hoverIndex,
@@ -104,7 +103,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-const mapStateToProps = state => ({ board: state.board })
+const mapStateToProps = state => ({ containers: state.board.containers })
 
 Card = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectDropTarget),

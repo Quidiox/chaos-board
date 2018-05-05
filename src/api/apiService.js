@@ -46,7 +46,6 @@ const changeContainerOrder = async data => {
 
 const moveCardToAnotherContainer = async data => {
   try {
-    console.log(data)
     const response = await fetch(baseUrl + 'api/container/addtonew', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -60,7 +59,6 @@ const moveCardToAnotherContainer = async data => {
 
 const deleteCardFromOldContainer = async data => {
   try {
-    console.log(data)
     const response = await fetch(baseUrl + 'api/container/removefromold', {
       method: 'PUT',
       body: JSON.stringify(data),

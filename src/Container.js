@@ -119,7 +119,7 @@ const containerTarget = {
     if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
       return
     }
-    const dragPosContainerId = props.board.containers[dragIndex].id
+    const dragPosContainerId = props.containers[dragIndex].id
     props.requestMoveContainer(dragIndex, hoverIndex, props.list.id, dragPosContainerId)
     monitor.getItem().position = hoverIndex
   }
@@ -147,7 +147,7 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
-const mapStateToProps = state => ({ board: state.board })
+const mapStateToProps = state => ({ containers: state.board.containers })
 
 Container = flow(
   DropTarget(ItemTypes.CARD, cardTarget, collectCardDropTarget),
