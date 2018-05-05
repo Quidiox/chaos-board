@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery, all } from 'redux-saga/effects'
 import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
@@ -57,7 +57,7 @@ function* moveCardToOtherContainer(action) {
 }
 
 function* watchMoveCardToOtherContainer() {
-  yield takeLatest(
+  yield takeEvery(
     CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
     moveCardToOtherContainer
   )
@@ -77,7 +77,7 @@ function* deleteCardFromOldContainer(action) {
 }
 
 function* watchDeleteCardFromOldContainer() {
-  yield takeLatest(
+  yield takeEvery(
     CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
     deleteCardFromOldContainer
   )
