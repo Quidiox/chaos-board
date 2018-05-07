@@ -6,17 +6,19 @@
     "immutability-helper": "2.6.6",
     "lodash.flow": "3.5.0",
     "normalizr": "3.2.4",
-    "react": "^16.3.1",
+    "react": "16.3.1",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "2.6.0",
-    "react-dom": "^16.3.1",
+    "react-dom": "16.3.1",
     "react-redux": "5.0.7",
     "react-scripts": "1.1.4",
     "redux": "3.7.2",
     "redux-devtools-extension": "2.13.2",
     "redux-saga": "0.16.0",
     "redux-saga-devtools": "0.2.0",
-    "reselect": "3.0.1"
+    "reselect": "3.0.1",
+    "semantic-ui-css": "2.3.1",
+    "semantic-ui-react": "0.80.0"
   },
   "scripts": {
     "start": "react-scripts start",

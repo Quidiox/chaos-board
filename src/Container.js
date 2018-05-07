@@ -13,7 +13,7 @@ import {
 
 class Container extends Component {
   render() {
-    const cards = this.props.list.cards
+    const cards = this.props.container.cards
     const sortedCards = sortByPosition(cards)
     const {
       canDrop,
@@ -37,8 +37,11 @@ class Container extends Component {
           <div>
             {connectContainerDragSource(
               <h4 style={{ paddingLeft: '5px', margin: '5px' }}>
-                <span style={{ ...handleStyle }} />
-                {this.props.list.title}
+                <i
+                  style={{ cursor: 'move' }}
+                  className="expand exchange alternate icon"
+                />
+                {this.props.container.title}
               </h4>
             )}
             {connectCardDropTarget(
@@ -51,8 +54,8 @@ class Container extends Component {
                     key={card.id}
                     position={card.position}
                     id={card.id}
-                    listId={this.props.list.id}
-                    listPosition={this.props.position}
+                    containerId={this.props.container.id}
+                    containerPosition={this.props.position}
                     card={card}
                   />
                 ))}
@@ -71,23 +74,14 @@ const style = {
   border: '1px solid black'
 }
 
-const handleStyle = {
-  backgroundColor: 'green',
-  width: '1rem',
-  height: '1rem',
-  display: 'inline-block',
-  marginRight: '0.75rem',
-  cursor: 'move'
-}
-
 const cardTarget = {
   drop(props, monitor, component) {
-    const { id } = props.list
+    const { id } = props.container
     const sourceObj = monitor.getItem()
-    if (id !== sourceObj.listId)
+    if (id !== sourceObj.containerId)
       props.requestMoveCardToOtherContainer(sourceObj.card, props.position, id)
     return {
-      listId: id
+      containerId: id
     }
   }
 }
@@ -96,8 +90,8 @@ const containerSource = {
   beginDrag(props) {
     return {
       position: props.position,
-      id: props.list.id,
-      list: props.list
+      id: props.container.id,
+      container: props.container
     }
   }
 }
@@ -120,7 +114,12 @@ const containerTarget = {
       return
     }
     const dragPosContainerId = props.containers[dragIndex].id
-    props.requestMoveContainer(dragIndex, hoverIndex, props.list.id, dragPosContainerId)
+    props.requestMoveContainer(
+      dragIndex,
+      hoverIndex,
+      props.container.id,
+      dragPosContainerId
+    )
     monitor.getItem().position = hoverIndex
   }
 }

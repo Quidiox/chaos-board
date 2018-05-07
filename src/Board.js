@@ -21,12 +21,12 @@ class Board extends Component {
         {board.containers && (
           <div style={{ ...style }}>
             <div style={{ float: 'left' }}>
-              {sortedContainers.map((list, i) => {
+              {sortedContainers.map((container, i) => {
                 return (
                   <Container
-                    key={list.id}
-                    list={list}
-                    position={list.position}
+                    key={container.id}
+                    container={container}
+                    position={container.position}
                   />
                 )
               })}

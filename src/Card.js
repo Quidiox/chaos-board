@@ -4,6 +4,7 @@ import { ItemTypes } from './constants'
 import flow from 'lodash/flow'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Card as CardComp } from 'semantic-ui-react'
 import {
   requestMoveCard,
   requestDeleteCardFromOldContainer
@@ -24,7 +25,14 @@ class Card extends Component {
           style={{ ...style, opacity }}
           ref={element => (this.cardRef = element)}
         >
-          {card.text}
+          <CardComp>
+            <CardComp.Content style={{ ...cardCompStyle }}>
+              <CardComp.Header style={{ fontSize: '1.2rem' }}>
+                {card.title}
+              </CardComp.Header>
+              <CardComp.Description>{card.text}</CardComp.Description>
+            </CardComp.Content>
+          </CardComp>
         </div>
       )
     )
@@ -33,25 +41,35 @@ class Card extends Component {
 
 const style = {
   border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  margin: '.5rem',
+  padding: '.1rem',
+  margin: '.1rem',
   backgroundColor: 'white',
   cursor: 'move'
+}
+
+const cardCompStyle = {
+  margin: '.1rem',
+  padding: '.1rem'
 }
 
 const cardSource = {
   beginDrag(props) {
     return {
       position: props.position,
-      listId: props.listId,
+      containerId: props.containerId,
       card: props.card
     }
   },
   endDrag(props, monitor) {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
-    if (dropResult && dropResult.listId !== item.listId) {
-      props.requestDeleteCardFromOldContainer(item.position, props.listPosition, item.listId, item.card.id)
+    if (dropResult && dropResult.containerId !== item.containerId) {
+      props.requestDeleteCardFromOldContainer(
+        item.position,
+        props.containerPosition,
+        item.containerId,
+        item.card.id
+      )
     }
   }
 }
@@ -60,7 +78,7 @@ const cardTarget = {
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().position
     const hoverIndex = props.position
-    const sourceListId = monitor.getItem().listId
+    const sourceContainerId = monitor.getItem().containerId
     if (dragIndex === hoverIndex) {
       return
     }
@@ -74,12 +92,12 @@ const cardTarget = {
     if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
       return
     }
-    if (props.listId === sourceListId) {
-      const dragPosCard = props.containers[props.listPosition].cards[dragIndex]
+    if (props.containerId === sourceContainerId) {
+      const dragPosCard = props.containers[props.containerPosition].cards[dragIndex]
       props.requestMoveCard(
         dragIndex,
         hoverIndex,
-        props.listPosition,
+        props.containerPosition,
         props.id,
         dragPosCard.id
       )

@@ -25,27 +25,27 @@ const boardReducer = (state = [], action) => {
     case BOARD_INITIALIZE:
       return action.payload
     case CARD_MOVE: {
-      const { dragIndex, hoverIndex, listIndex } = action.meta
+      const { dragIndex, hoverIndex, containerPosition } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      const list = [...stateCopy.containers[listIndex].cards]
-      list[dragIndex].position = hoverIndex
-      list[hoverIndex].position = dragIndex
+      const container = [...stateCopy.containers[containerPosition].cards]
+      container[dragIndex].position = hoverIndex
+      container[hoverIndex].position = dragIndex
       return stateCopy
     }
     case CARD_MOVE_TO_OTHER_CONTAINER: {
       const card = action.payload
-      const listIndex = action.meta
+      const containerPosition = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      card.position = stateCopy.containers[listIndex].cards.length
-      stateCopy.containers[listIndex].cards.push(card)
+      card.position = stateCopy.containers[containerPosition].cards.length
+      stateCopy.containers[containerPosition].cards.push(card)
       return stateCopy
     }
     case CARD_DELETE_FROM_OLD_CONTAINER: {
-      const { itemIndex, listIndex } = action.meta
+      const { itemIndex, containerPosition } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      stateCopy.containers[listIndex].cards.splice(itemIndex, 1)
-      for(let i = itemIndex; i<stateCopy.containers[listIndex].cards.length; ++i) {
-        stateCopy.containers[listIndex].cards[i].position-=1
+      stateCopy.containers[containerPosition].cards.splice(itemIndex, 1)
+      for(let i = itemIndex; i<stateCopy.containers[containerPosition].cards.length; ++i) {
+        stateCopy.containers[containerPosition].cards[i].position-=1
       }
       return stateCopy
     }
@@ -71,9 +71,9 @@ export const requestInitializeBoard = () => ({
   type: BOARD_INITIALIZE_REQUEST
 })
 
-export const requestMoveCard = (dragIndex, hoverIndex, listIndex, cardId, dragPosCardId) => ({
+export const requestMoveCard = (dragIndex, hoverIndex, containerPosition, cardId, dragPosCardId) => ({
   type: CARD_MOVE_REQUEST,
-  meta: { dragIndex, hoverIndex, listIndex, cardId, dragPosCardId }
+  meta: { dragIndex, hoverIndex, containerPosition, cardId, dragPosCardId }
 })
 
 export const requestMoveContainer = (dragIndex, hoverIndex, containerId, dragPosContainerId) => ({
@@ -81,14 +81,14 @@ export const requestMoveContainer = (dragIndex, hoverIndex, containerId, dragPos
   meta: { dragIndex, hoverIndex, containerId, dragPosContainerId }
 })
 
-export const requestMoveCardToOtherContainer = (card, listIndex, containerId) => ({
+export const requestMoveCardToOtherContainer = (card, containerPosition, containerId) => ({
   type: CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
-  meta: { card, listIndex, containerId }
+  meta: { card, containerPosition, containerId }
 })
 
-export const requestDeleteCardFromOldContainer = (itemIndex, listIndex, containerId, cardId) => ({
+export const requestDeleteCardFromOldContainer = (itemIndex, containerPosition, containerId, cardId) => ({
   type: CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
-  meta: { itemIndex, listIndex, containerId, cardId }
+  meta: { itemIndex, containerPosition, containerId, cardId }
 })
 
 export const genericActionCreater = (type, payload, error, meta) => ({
