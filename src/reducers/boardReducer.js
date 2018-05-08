@@ -14,7 +14,8 @@ import {
   CONTAINER_MOVE,
   CONTAINER_CREATE,
   CONTAINER_DELETE,
-  CONTAINER_EDIT
+  CONTAINER_EDIT,
+  CONTAINER_CREATE_REQUEST
 } from './actionTypes'
 
 const boardReducer = (state = [], action) => {
@@ -59,7 +60,12 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers[hoverIndex].position = dragIndex
       return stateCopy
     }
-    case CONTAINER_CREATE:
+    case CONTAINER_CREATE: {
+      console.log(action.payload)
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      stateCopy.containers.push(action.payload)
+      return stateCopy
+    }
     case CONTAINER_DELETE:
     case CONTAINER_EDIT:
     default:
@@ -89,6 +95,11 @@ export const requestMoveCardToOtherContainer = (card, containerPosition, contain
 export const requestDeleteCardFromOldContainer = (itemIndex, containerPosition, containerId, cardId) => ({
   type: CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
   meta: { itemIndex, containerPosition, containerId, cardId }
+})
+
+export const requestCreateContainer = payload => ({
+  type: CONTAINER_CREATE_REQUEST,
+  payload
 })
 
 export const genericActionCreater = (type, payload, error, meta) => ({

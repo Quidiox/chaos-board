@@ -70,11 +70,54 @@ const deleteCardFromOldContainer = async data => {
   }
 }
 
+const createContainer = async payload => {
+  try {
+    const response = await fetch(baseUrl + 'api/container/'+payload.boardId, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteContainer = async payload => {
+  try {
+    await fetch(
+      baseUrl + 'api/container/' + payload.boardId + '/' + payload.containerId,
+      {
+        method: 'DELETE'
+      }
+    )
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+const editContainer = async payload => {
+  try {
+    const response = await fetch('api/container/' + payload.containerId, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default {
   changeCardOrder,
   changeContainerOrder,
   moveCardToAnotherContainer,
   deleteCardFromOldContainer,
+  createContainer,
+  deleteContainer,
+  editContainer,
   fetchBoard,
   fetchAllBoards
 }

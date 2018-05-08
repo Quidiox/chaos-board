@@ -29,8 +29,7 @@ class Container extends Component {
       <div
         style={{
           float: 'left',
-          margin: '1px',
-          border: '1px solid gray'
+          padding: '1px'
         }}
       >
         {connectContainerDragPreview(
@@ -70,8 +69,9 @@ class Container extends Component {
 
 const style = {
   width: '200px',
-  height: '404px',
-  border: '1px solid black'
+  minHeight: '404px',
+  border: '1px solid black',
+  height: '100%'
 }
 
 const cardTarget = {

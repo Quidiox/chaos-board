@@ -9,7 +9,9 @@ import {
   CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
   CARD_DELETE_FROM_OLD_CONTAINER,
   CONTAINER_MOVE_REQUEST,
-  CONTAINER_MOVE
+  CONTAINER_MOVE,
+  CONTAINER_CREATE_REQUEST,
+  CONTAINER_CREATE
 } from '../reducers/actionTypes'
 import apiService from '../api/apiService'
 import { genericActionCreater } from '../reducers/boardReducer'
@@ -98,12 +100,27 @@ function* watchMoveContainer() {
   yield takeLatest(CONTAINER_MOVE_REQUEST, moveContainer)
 }
 
+function* createContainer(action) {
+  try {
+    const response = yield call(apiService.createContainer, action.payload)
+    console.log(response)
+    yield put(genericActionCreater(CONTAINER_CREATE, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchCreateContainer() {
+  yield takeLatest(CONTAINER_CREATE_REQUEST, createContainer)
+}
+
 export default function* rootSaga() {
   yield all([
     call(watchInitializeBoard),
     call(watchMoveCard),
     call(watchMoveCardToOtherContainer),
     call(watchDeleteCardFromOldContainer),
-    call(watchMoveContainer)
+    call(watchMoveContainer),
+    call(watchCreateContainer)
   ])
 }
