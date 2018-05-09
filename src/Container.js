@@ -59,7 +59,7 @@ class Container extends Component {
                     card={card}
                   />
                 ))}
-                <AddCard containerId={this.props.container.id}/>
+                <AddCard containerId={this.props.container.id} />
               </div>
             )}
           </div>

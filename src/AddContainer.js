@@ -16,7 +16,7 @@ class AddContainer extends Component {
         boardId: this.props.boardId,
         ...this.state
       })
-      this.setState({ title: '' })
+      this.setState({ title: {} })
     }
   }
   clearForm = e => {

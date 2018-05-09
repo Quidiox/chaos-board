@@ -27,10 +27,9 @@ class Card extends Component {
         >
           <CardComp>
             <CardComp.Content style={{ ...cardCompStyle }}>
-              <CardComp.Header style={{ fontSize: '1.2rem' }}>
+              <CardComp.Header style={{ fontSize: '1.1rem', fontWeight: 'normal' }}>
                 {card.title}
               </CardComp.Header>
-              <CardComp.Description>{card.text}</CardComp.Description>
             </CardComp.Content>
           </CardComp>
         </div>

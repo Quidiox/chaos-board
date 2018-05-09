@@ -5,7 +5,12 @@ import { Form, Button, TextArea } from 'semantic-ui-react'
 import { requestCreateCard } from './reducers/boardReducer'
 
 class AddCard extends Component {
-  state = {}
+  state = {
+    addVisible: false
+  }
+  addVisible = e => {
+    this.setState({ addVisible: true })
+  }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
@@ -15,31 +20,38 @@ class AddCard extends Component {
       containerId: this.props.containerId,
       ...this.state
     })
-    this.setState({ title: '' })
+    this.setState({ title: '', addVisible: false })
   }
-  clearForm = e => {
+  close = e => {
     e.preventDefault()
-    this.setState({ title: '' })
+    this.setState({ title: '', addVisible: false })
   }
   render() {
     return (
       <div>
-        <h4>Add card</h4>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Field
-            value={this.state.title || ''}
-            control={TextArea}
-            placeholder="Card title"
-            name="title"
-            onChange={this.handleChange}
-          />
-          <Form.Group>
-            <Form.Field control={Button}>Save</Form.Field>
-            <Form.Field control={Button} onClick={this.clearForm}>
-              Clear
-            </Form.Field>
-          </Form.Group>
-        </Form>
+        {this.state.addVisible ? (
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Field
+              value={this.state.title || ''}
+              control={TextArea}
+              placeholder="Card title"
+              name="title"
+              onChange={this.handleChange}
+            />
+            <Form.Group>
+              <Form.Field control={Button}>Save</Form.Field>
+              <Form.Field control={Button} onClick={this.close}>
+                Clear
+              </Form.Field>
+            </Form.Group>
+          </Form>
+        ) : (
+          <div className='addText'>
+            <h4 onClick={this.addVisible}>
+              Add card
+            </h4>
+          </div>
+        )}
       </div>
     )
   }
