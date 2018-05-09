@@ -5,8 +5,10 @@ import { bindActionCreators } from 'redux'
 import { requestInitializeBoard } from './reducers/boardReducer'
 import { sortByPosition } from './utils/helpers'
 import AddContainer from './AddContainer'
+import { Button } from 'semantic-ui-react'
 
 class Board extends Component {
+  state = {}
   componentDidMount() {
     this.props.requestInitializeBoard()
   }
@@ -17,9 +19,9 @@ class Board extends Component {
       ? sortByPosition(board.containers)
       : []
     return (
-      <div style={{ height: '100%', margin: '0px' }}>
+      <div style={{ height: '100%', marginLeft: '10px', marginRight: '10px' }}>
         <h1
-          style={{ position: 'fixed', top: '0', margin: '0px', height: '36px' }}
+          style={{ position: 'fixed', top: '0', height: '36px' }}
         >
           {board.title}
         </h1>
@@ -55,8 +57,8 @@ const scrollingWrapper = {
 }
 const containerStyle = {
   minWidth: '200px',
-  marginLeft: '1px',
-  marginRight: '1px'
+  marginLeft: '2px',
+  marginRight: '2px'
 }
 
 const mapStateToProps = state => ({ board: state.board })

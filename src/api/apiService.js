@@ -72,7 +72,7 @@ const deleteCardFromOldContainer = async data => {
 
 const createContainer = async payload => {
   try {
-    const response = await fetch(baseUrl + 'api/container/'+payload.boardId, {
+    const response = await fetch(baseUrl + 'api/container/' + payload.boardId, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -99,12 +99,54 @@ const deleteContainer = async payload => {
 
 const editContainer = async payload => {
   try {
-    const response = await fetch('api/container/' + payload.containerId, {
+    const response = await fetch(
+      baseUrl + 'api/container/' + payload.containerId,
+      {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+        headers: new Headers({ 'Content-Type': 'application/json' })
+      }
+    )
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const createCard = async payload => {
+  try {
+    const response = await fetch(baseUrl + 'api/card/' + payload.containerId, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const editCard = async payload => {
+  try {
+    const response = await fetch(baseUrl + 'api/card/' + payload.cardId, {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: new Headers({ 'Content-Type': 'application/json' })
     })
     return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteCard = async payload => {
+  try {
+    await fetch(
+      baseUrl + 'api/card' + payload.containerId + '/' + payload.cardId,
+      {
+        method: 'DELETE'
+      }
+    )
   } catch (error) {
     console.log(error)
   }
@@ -118,6 +160,9 @@ export default {
   createContainer,
   deleteContainer,
   editContainer,
+  createCard,
+  editCard,
+  deleteCard,
   fetchBoard,
   fetchAllBoards
 }

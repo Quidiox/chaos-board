@@ -10,8 +10,16 @@ import {
   CARD_DELETE_FROM_OLD_CONTAINER,
   CONTAINER_MOVE_REQUEST,
   CONTAINER_MOVE,
+  CARD_CREATE_REQUEST,
+  CARD_CREATE,
+  CARD_EDIT_REQUEST,
+  CARD_EDIT,
   CONTAINER_CREATE_REQUEST,
-  CONTAINER_CREATE
+  CONTAINER_CREATE,
+  CONTAINER_DELETE_REQUEST,
+  CONTAINER_DELETE,
+  CONTAINER_EDIT_REQUEST,
+  CONTAINER_EDIT
 } from '../reducers/actionTypes'
 import apiService from '../api/apiService'
 import { genericActionCreater } from '../reducers/boardReducer'
@@ -71,8 +79,7 @@ function* deleteCardFromOldContainer(action) {
     yield put(
       genericActionCreater(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
     )
-    const response = yield call(apiService.deleteCardFromOldContainer, meta)
-    console.log(response)
+    yield call(apiService.deleteCardFromOldContainer, meta)
   } catch (error) {
     console.log(error)
   }
@@ -88,8 +95,7 @@ function* watchDeleteCardFromOldContainer() {
 function* moveContainer(action) {
   try {
     const meta = { ...action.meta }
-    const response = yield call(apiService.changeContainerOrder, meta)
-    console.log(response)
+    yield call(apiService.changeContainerOrder, meta)
     yield put(genericActionCreater(CONTAINER_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)
@@ -103,7 +109,6 @@ function* watchMoveContainer() {
 function* createContainer(action) {
   try {
     const response = yield call(apiService.createContainer, action.payload)
-    console.log(response)
     yield put(genericActionCreater(CONTAINER_CREATE, response))
   } catch (error) {
     console.log(error)
@@ -114,6 +119,19 @@ function* watchCreateContainer() {
   yield takeLatest(CONTAINER_CREATE_REQUEST, createContainer)
 }
 
+function* createCard(action) {
+  try {
+    const response = yield call(apiService.createCard, action.payload)
+    yield put(genericActionCreater(CARD_CREATE, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchCreateCard() {
+  yield takeLatest(CARD_CREATE_REQUEST, createCard)
+}
+
 export default function* rootSaga() {
   yield all([
     call(watchInitializeBoard),
@@ -121,6 +139,7 @@ export default function* rootSaga() {
     call(watchMoveCardToOtherContainer),
     call(watchDeleteCardFromOldContainer),
     call(watchMoveContainer),
-    call(watchCreateContainer)
+    call(watchCreateContainer),
+    call(watchCreateCard)
   ])
 }

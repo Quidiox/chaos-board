@@ -10,6 +10,7 @@ import {
   requestMoveContainer,
   requestMoveCardToOtherContainer
 } from './reducers/boardReducer'
+import AddCard from './AddCard'
 
 class Container extends Component {
   render() {
@@ -58,6 +59,7 @@ class Container extends Component {
                     card={card}
                   />
                 ))}
+                <AddCard containerId={this.props.container.id}/>
               </div>
             )}
           </div>

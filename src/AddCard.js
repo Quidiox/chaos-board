@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
-import { Form, Button, TextArea } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { requestCreateContainer } from './reducers/boardReducer'
+import { Form, Button, TextArea } from 'semantic-ui-react'
+import { requestCreateCard } from './reducers/boardReducer'
 
-class AddContainer extends Component {
+class AddCard extends Component {
   state = {}
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = e => {
     e.preventDefault()
-    if (this.state.title && this.state.title.length > 3) {
-      this.props.requestCreateContainer({
-        boardId: this.props.boardId,
-        ...this.state
-      })
-      this.setState({ title: '' })
-    }
+    this.props.requestCreateCard({
+      containerId: this.props.containerId,
+      ...this.state
+    })
+    this.setState({ title: '' })
   }
   clearForm = e => {
     e.preventDefault()
@@ -25,15 +23,13 @@ class AddContainer extends Component {
   }
   render() {
     return (
-      <div style={{ minWidth: '200px' }}>
-        <h4>Add container</h4>
+      <div>
+        <h4>Add card</h4>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field
-            required
-            control={TextArea}
             value={this.state.title || ''}
-            label="Title"
-            placeholder="Container title"
+            control={TextArea}
+            placeholder="Card title"
             name="title"
             onChange={this.handleChange}
           />
@@ -50,6 +46,6 @@ class AddContainer extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestCreateContainer }, dispatch)
+  bindActionCreators({ requestCreateCard }, dispatch)
 
-export default connect(null, mapDispatchToProps)(AddContainer)
+export default connect(null, mapDispatchToProps)(AddCard)
