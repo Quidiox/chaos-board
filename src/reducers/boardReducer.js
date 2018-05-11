@@ -68,7 +68,9 @@ const boardReducer = (state = [], action) => {
       return stateCopy
     }
     case CARD_DELETE:
-    case CARD_EDIT:
+    case CARD_EDIT: {
+      return state
+    }
     case CONTAINER_MOVE: {
       const { dragIndex, hoverIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
@@ -139,6 +141,16 @@ export const requestCreateContainer = payload => ({
 
 export const requestCreateCard = payload => ({
   type: CARD_CREATE_REQUEST,
+  payload
+})
+
+export const requestEditCard = payload => ({
+  type: CARD_EDIT_REQUEST,
+  payload
+})
+
+export const requestEditContainer = payload => ({
+  type: CONTAINER_EDIT_REQUEST,
   payload
 })
 

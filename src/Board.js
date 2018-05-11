@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { requestInitializeBoard } from './reducers/boardReducer'
 import { sortByPosition } from './utils/helpers'
 import AddContainer from './AddContainer'
-import { Button } from 'semantic-ui-react'
 
 class Board extends Component {
   state = {}

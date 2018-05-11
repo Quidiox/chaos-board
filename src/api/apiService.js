@@ -128,7 +128,7 @@ const createCard = async payload => {
 
 const editCard = async payload => {
   try {
-    const response = await fetch(baseUrl + 'api/card/' + payload.cardId, {
+    const response = await fetch(baseUrl + 'api/card/edit/' + payload.cardId, {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: new Headers({ 'Content-Type': 'application/json' })

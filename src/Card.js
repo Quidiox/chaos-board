@@ -9,8 +9,24 @@ import {
   requestMoveCard,
   requestDeleteCardFromOldContainer
 } from './reducers/boardReducer'
+import EditCard from './EditCard'
+import CardDropdown from './CardDropdown'
 
 class Card extends Component {
+  state = {
+    isHovering: false,
+    isEditing: false
+  }
+  handleMouseHover = e => {
+    if (e.type === 'mouseenter') this.setState({ isHovering: true })
+    if (e.type === 'mouseleave') this.setState({ isHovering: false })
+  }
+  editCard = () => {
+    this.setState({ isEditing: true })
+  }
+  endEditCard = () => {
+    this.setState({ isEditing: false, isHovering: false })
+  }
   render() {
     const {
       card,
@@ -24,18 +40,37 @@ class Card extends Component {
         <div
           style={{ ...style, opacity }}
           ref={element => (this.cardRef = element)}
+          onMouseEnter={this.handleMouseHover}
+          onMouseLeave={this.handleMouseHover}
         >
-          <CardComp>
-            <CardComp.Content style={{ ...cardCompStyle }}>
-              <CardComp.Header style={{ fontSize: '1.1rem', fontWeight: 'normal' }}>
-                {card.title}
-              </CardComp.Header>
-            </CardComp.Content>
-          </CardComp>
+          {this.state.isEditing ? (
+            <EditCard title={card.title} endEditCard={this.endEditCard}/>
+          ) : (
+            <CardComp>
+              <CardComp.Content style={{ ...cardCompStyle }}>
+                <CardComp.Description>
+                  {card.title}{' '}
+                  {this.state.isHovering && (
+                    <div style={{ ...cardDropdownStyle }}>
+                      <CardDropdown editCard={this.editCard} deleteCard={this.deleteCard} />
+                    </div>
+                  )}
+                </CardComp.Description>
+              </CardComp.Content>
+            </CardComp>
+          )}
         </div>
       )
     )
   }
+}
+
+const cardDropdownStyle = {
+  position: 'absolute',
+  top: '2px',
+  right: '2px',
+  background: 'white',
+  cursor: 'pointer'
 }
 
 const style = {
@@ -92,7 +127,8 @@ const cardTarget = {
       return
     }
     if (props.containerId === sourceContainerId) {
-      const dragPosCard = props.containers[props.containerPosition].cards[dragIndex]
+      const dragPosCard =
+        props.containers[props.containerPosition].cards[dragIndex]
       props.requestMoveCard(
         dragIndex,
         hoverIndex,
