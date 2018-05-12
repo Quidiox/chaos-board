@@ -142,7 +142,7 @@ const editCard = async payload => {
 const deleteCard = async payload => {
   try {
     await fetch(
-      baseUrl + 'api/card' + payload.containerId + '/' + payload.cardId,
+      baseUrl + 'api/card/' + payload.containerId + '/' + payload.cardId,
       {
         method: 'DELETE'
       }

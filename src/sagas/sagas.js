@@ -19,7 +19,9 @@ import {
   CONTAINER_DELETE_REQUEST,
   CONTAINER_DELETE,
   CONTAINER_EDIT_REQUEST,
-  CONTAINER_EDIT
+  CONTAINER_EDIT,
+  CARD_DELETE_REQUEST,
+  CARD_DELETE
 } from '../reducers/actionTypes'
 import apiService from '../api/apiService'
 import { genericActionCreator } from '../reducers/boardReducer'
@@ -150,6 +152,19 @@ function* watchEditCard() {
   yield takeLatest(CARD_EDIT_REQUEST, editCard)
 }
 
+function* deleteCard(action) {
+  try {
+    yield call(apiService.deleteCard, action.payload)
+    yield put(genericActionCreator(CARD_DELETE, action.payload))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchDeleteCard() {
+  yield takeLatest(CARD_DELETE_REQUEST, deleteCard)
+}
+
 export default function* rootSaga() {
   yield all([
     call(watchInitializeBoard),
@@ -159,6 +174,7 @@ export default function* rootSaga() {
     call(watchMoveContainer),
     call(watchCreateContainer),
     call(watchCreateCard),
-    call(watchEditCard)
+    call(watchEditCard),
+    call(watchDeleteCard)
   ])
 }

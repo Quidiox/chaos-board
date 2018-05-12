@@ -79,7 +79,24 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers[container.position].cards = cards
       return stateCopy
     }
-    case CARD_DELETE:
+    case CARD_DELETE: {
+      const { containerId, cardId } = action.payload
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      const container = stateCopy.containers.find(
+        container => container.id === containerId
+      )
+      const card = container.cards.find(card => card.id === cardId)
+      const cards = container.cards
+        .filter(card => card.id !== cardId)
+        .map(c => {
+          if (c.position > card.position) {
+            c.position -= 1
+          }
+          return c
+        })
+      stateCopy.containers[container.position].cards = cards
+      return stateCopy
+    }
     case CONTAINER_MOVE: {
       const { dragIndex, hoverIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
@@ -168,7 +185,7 @@ export const requestEditCard = payload => ({
   payload
 })
 
-export const requestCardDelete = payload => ({
+export const requestDeleteCard = payload => ({
   type: CARD_DELETE_REQUEST,
   payload
 })

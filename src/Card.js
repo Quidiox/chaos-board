@@ -7,7 +7,8 @@ import { bindActionCreators } from 'redux'
 import { Card as CardComp } from 'semantic-ui-react'
 import {
   requestMoveCard,
-  requestDeleteCardFromOldContainer
+  requestDeleteCardFromOldContainer,
+  requestDeleteCard
 } from './reducers/boardReducer'
 import EditCard from './EditCard'
 import CardDropdown from './CardDropdown'
@@ -26,6 +27,10 @@ class Card extends Component {
   }
   endEditCard = () => {
     this.setState({ isEditing: false, isHovering: false })
+  }
+  deleteCard = () => {
+    this.props.requestDeleteCard({containerId: this.props.containerId, cardId: this.props.card.id})
+    this.setState({ isHovering: false })
   }
   render() {
     const {
@@ -156,7 +161,7 @@ const collectDropTarget = connect => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    { requestMoveCard, requestDeleteCardFromOldContainer },
+    { requestMoveCard, requestDeleteCardFromOldContainer, requestDeleteCard },
     dispatch
   )
 
