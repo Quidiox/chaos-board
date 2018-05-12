@@ -38,13 +38,13 @@ class Card extends Component {
     return connectDragSource(
       connectDropTarget(
         <div
-          style={{ ...style, opacity }}
+          style={{ ...mainDivStyle, opacity }}
           ref={element => (this.cardRef = element)}
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
         >
           {this.state.isEditing ? (
-            <EditCard title={card.title} endEditCard={this.endEditCard}/>
+            <EditCard card={card} containerId={this.props.containerId} endEditCard={this.endEditCard} />
           ) : (
             <CardComp>
               <CardComp.Content style={{ ...cardCompStyle }}>
@@ -52,7 +52,10 @@ class Card extends Component {
                   {card.title}{' '}
                   {this.state.isHovering && (
                     <div style={{ ...cardDropdownStyle }}>
-                      <CardDropdown editCard={this.editCard} deleteCard={this.deleteCard} />
+                      <CardDropdown
+                        editCard={this.editCard}
+                        deleteCard={this.deleteCard}
+                      />
                     </div>
                   )}
                 </CardComp.Description>
@@ -70,10 +73,11 @@ const cardDropdownStyle = {
   top: '2px',
   right: '2px',
   background: 'white',
+  color: 'black',
   cursor: 'pointer'
 }
 
-const style = {
+const mainDivStyle = {
   border: '1px dashed gray',
   padding: '.1rem',
   margin: '.1rem',

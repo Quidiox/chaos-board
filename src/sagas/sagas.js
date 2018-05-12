@@ -22,12 +22,12 @@ import {
   CONTAINER_EDIT
 } from '../reducers/actionTypes'
 import apiService from '../api/apiService'
-import { genericActionCreater } from '../reducers/boardReducer'
+import { genericActionCreator } from '../reducers/boardReducer'
 
 function* initializeBoard() {
   try {
     const board = yield call(apiService.fetchBoard)
-    yield put(genericActionCreater(BOARD_INITIALIZE, board))
+    yield put(genericActionCreator(BOARD_INITIALIZE, board))
   } catch (error) {
     console.log(error)
   }
@@ -42,7 +42,7 @@ function* moveCard(action) {
     const meta = { ...action.meta }
     const response = yield call(apiService.changeCardOrder, meta)
     console.log(response)
-    yield put(genericActionCreater(CARD_MOVE, null, null, meta))
+    yield put(genericActionCreator(CARD_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)
   }
@@ -57,7 +57,12 @@ function* moveCardToOtherContainer(action) {
     const { containerPosition, card, containerId } = action.meta
     const data = { cardId: card.id, containerId }
     yield put(
-      genericActionCreater(CARD_MOVE_TO_OTHER_CONTAINER, card, null, containerPosition)
+      genericActionCreator(
+        CARD_MOVE_TO_OTHER_CONTAINER,
+        card,
+        null,
+        containerPosition
+      )
     )
     const response = yield call(apiService.moveCardToAnotherContainer, data)
     console.log(response)
@@ -77,7 +82,7 @@ function* deleteCardFromOldContainer(action) {
   try {
     const meta = { ...action.meta }
     yield put(
-      genericActionCreater(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
+      genericActionCreator(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
     )
     yield call(apiService.deleteCardFromOldContainer, meta)
   } catch (error) {
@@ -96,7 +101,7 @@ function* moveContainer(action) {
   try {
     const meta = { ...action.meta }
     yield call(apiService.changeContainerOrder, meta)
-    yield put(genericActionCreater(CONTAINER_MOVE, null, null, meta))
+    yield put(genericActionCreator(CONTAINER_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)
   }
@@ -109,7 +114,7 @@ function* watchMoveContainer() {
 function* createContainer(action) {
   try {
     const response = yield call(apiService.createContainer, action.payload)
-    yield put(genericActionCreater(CONTAINER_CREATE, response))
+    yield put(genericActionCreator(CONTAINER_CREATE, response))
   } catch (error) {
     console.log(error)
   }
@@ -122,7 +127,7 @@ function* watchCreateContainer() {
 function* createCard(action) {
   try {
     const response = yield call(apiService.createCard, action.payload)
-    yield put(genericActionCreater(CARD_CREATE, response))
+    yield put(genericActionCreator(CARD_CREATE, response))
   } catch (error) {
     console.log(error)
   }
@@ -130,6 +135,19 @@ function* createCard(action) {
 
 function* watchCreateCard() {
   yield takeLatest(CARD_CREATE_REQUEST, createCard)
+}
+
+function* editCard(action) {
+  try {
+    const response = yield call(apiService.editCard, action.payload)
+    yield put(genericActionCreator(CARD_EDIT, response, null, { containerId: action.payload.containerId}))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchEditCard() {
+  yield takeLatest(CARD_EDIT_REQUEST, editCard)
 }
 
 export default function* rootSaga() {
@@ -140,6 +158,7 @@ export default function* rootSaga() {
     call(watchDeleteCardFromOldContainer),
     call(watchMoveContainer),
     call(watchCreateContainer),
-    call(watchCreateCard)
+    call(watchCreateCard),
+    call(watchEditCard)
   ])
 }

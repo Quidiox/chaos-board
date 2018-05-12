@@ -16,7 +16,7 @@ class AddContainer extends Component {
         boardId: this.props.boardId,
         ...this.state
       })
-      this.setState({ title: {} })
+      this.setState({ title: '' })
     }
   }
   clearForm = e => {
@@ -25,7 +25,7 @@ class AddContainer extends Component {
   }
   render() {
     return (
-      <div style={{ minWidth: '200px' }}>
+      <div style={{ minWidth: '250px' }}>
         <h4>Add container</h4>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field

@@ -70,7 +70,7 @@ class Container extends Component {
 }
 
 const style = {
-  width: '200px',
+  width: '250px',
   minHeight: '404px',
   border: '1px solid black',
   height: '100%'

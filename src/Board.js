@@ -55,7 +55,7 @@ const scrollingWrapper = {
   height: '100%'
 }
 const containerStyle = {
-  minWidth: '200px',
+  minWidth: '250px',
   marginLeft: '2px',
   marginRight: '2px'
 }

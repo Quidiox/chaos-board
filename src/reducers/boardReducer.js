@@ -67,10 +67,19 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers[container.position].cards.push(action.payload.card)
       return stateCopy
     }
-    case CARD_DELETE:
     case CARD_EDIT: {
-      return state
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      const container = stateCopy.containers.find(
+        container => container.id === action.meta.containerId
+      )
+      const cards = container.cards.filter(
+        card => card.id !== action.payload.id
+      )
+      cards.push(action.payload)
+      stateCopy.containers[container.position].cards = cards
+      return stateCopy
     }
+    case CARD_DELETE:
     case CONTAINER_MOVE: {
       const { dragIndex, hoverIndex } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
@@ -139,6 +148,16 @@ export const requestCreateContainer = payload => ({
   payload
 })
 
+export const requestEditContainer = payload => ({
+  type: CONTAINER_EDIT_REQUEST,
+  payload
+})
+
+export const requestDeleteContainer = payload => ({
+  type: CONTAINER_DELETE_REQUEST,
+  payload
+})
+
 export const requestCreateCard = payload => ({
   type: CARD_CREATE_REQUEST,
   payload
@@ -149,12 +168,12 @@ export const requestEditCard = payload => ({
   payload
 })
 
-export const requestEditContainer = payload => ({
-  type: CONTAINER_EDIT_REQUEST,
+export const requestCardDelete = payload => ({
+  type: CARD_DELETE_REQUEST,
   payload
 })
 
-export const genericActionCreater = (type, payload, error, meta) => ({
+export const genericActionCreator = (type, payload, error, meta) => ({
   type,
   payload,
   error,

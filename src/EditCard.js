@@ -7,14 +7,14 @@ import { requestEditCard } from './reducers/boardReducer'
 class EditCard extends Component {
   state = {
     addVisible: false,
-    title: this.props.title
+    title: this.props.card.title || ''
   }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = e => {
     e.preventDefault()
-    this.props.requestEditCard({ title: this.state.title })
+    this.props.requestEditCard({ title: this.state.title, cardId: this.props.card.id ,containerId: this.props.containerId })
     this.props.endEditCard()
     this.setState({ title: '', addVisible: false })
   }
@@ -28,7 +28,7 @@ class EditCard extends Component {
       <div>
         <Form onSubmit={this.handleSubmit}>
           <Form.Field
-            value={this.state.title || ''}
+            value={this.state.title}
             control={TextArea}
             placeholder="Card title"
             name="title"
