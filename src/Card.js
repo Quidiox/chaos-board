@@ -11,7 +11,7 @@ import {
   requestDeleteCard
 } from './reducers/boardReducer'
 import EditCard from './EditCard'
-import CardDropdown from './CardDropdown'
+import DropdownMenu from './DropdownMenu'
 
 class Card extends Component {
   state = {
@@ -29,7 +29,10 @@ class Card extends Component {
     this.setState({ isEditing: false, isHovering: false })
   }
   deleteCard = () => {
-    this.props.requestDeleteCard({containerId: this.props.containerId, cardId: this.props.card.id})
+    this.props.requestDeleteCard({
+      containerId: this.props.containerId,
+      cardId: this.props.card.id
+    })
     this.setState({ isHovering: false })
   }
   render() {
@@ -49,17 +52,22 @@ class Card extends Component {
           onMouseLeave={this.handleMouseHover}
         >
           {this.state.isEditing ? (
-            <EditCard card={card} containerId={this.props.containerId} endEditCard={this.endEditCard} />
+            <EditCard
+              card={card}
+              containerId={this.props.containerId}
+              endEditCard={this.endEditCard}
+            />
           ) : (
             <CardComp>
               <CardComp.Content style={{ ...cardCompStyle }}>
                 <CardComp.Description>
                   {card.title}{' '}
                   {this.state.isHovering && (
-                    <div style={{ ...cardDropdownStyle }}>
-                      <CardDropdown
-                        editCard={this.editCard}
-                        deleteCard={this.deleteCard}
+                    <div style={{ ...dropdownMenuStyle }}>
+                      <DropdownMenu
+                        handleEdit={this.editCard}
+                        handleDelete={this.deleteCard}
+                        type="card"
                       />
                     </div>
                   )}
@@ -73,7 +81,7 @@ class Card extends Component {
   }
 }
 
-const cardDropdownStyle = {
+const dropdownMenuStyle = {
   position: 'absolute',
   top: '2px',
   right: '2px',

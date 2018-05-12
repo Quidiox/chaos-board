@@ -11,8 +11,11 @@ import {
   requestMoveCardToOtherContainer
 } from './reducers/boardReducer'
 import AddCard from './AddCard'
+import DropdownMenu from './DropdownMenu'
 
 class Container extends Component {
+  editContainer = () => {}
+  deleteContainer = () => {}
   render() {
     const cards = this.props.container.cards
     const sortedCards = sortByPosition(cards)
@@ -34,20 +37,25 @@ class Container extends Component {
         }}
       >
         {connectContainerDragPreview(
-          <div>
+          <div style={{position: 'relative'}}>
             {connectContainerDragSource(
-              <h4 style={{ paddingLeft: '5px', margin: '5px' }}>
-                <i
-                  style={{ cursor: 'move' }}
-                  className="expand exchange alternate icon"
-                />
-                {this.props.container.title}
-              </h4>
+              <i
+                style={{ paddingLeft: '2px', margin: '5px', cursor: 'move' }}
+                className="expand exchange alternate icon"
+              />
             )}
+            <h4 style={{padding: '0px', margin: '0px', position: 'absolute', top:'4px', left: '30px' }}>{this.props.container.title}</h4>
+            <div style={{ ...dropdownMenuStyle}}>
+              <DropdownMenu
+                handleEdit={this.editContainer}
+                handleDelete={this.deleteContainer}
+                type="container"
+              />
+            </div>
             {connectCardDropTarget(
               <div
                 ref={element => (this.containerRef = element)}
-                style={{ ...style, backgroundColor, float: 'left' }}
+                style={{ ...containerStyle, backgroundColor, float: 'left' }}
               >
                 {sortedCards.map((card, i) => (
                   <Card
@@ -69,7 +77,16 @@ class Container extends Component {
   }
 }
 
-const style = {
+const dropdownMenuStyle = {
+  position: 'absolute',
+  top: '4px',
+  right: '2px',
+  background: 'white',
+  color: 'black',
+  cursor: 'pointer'
+}
+
+const containerStyle = {
   width: '250px',
   minHeight: '404px',
   border: '1px solid black',
