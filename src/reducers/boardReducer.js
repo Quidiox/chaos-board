@@ -109,15 +109,30 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers.push(action.payload)
       return stateCopy
     }
-    case CONTAINER_DELETE: {
-      return state
-    }
     case CONTAINER_EDIT: {
       const stateCopy = JSON.parse(JSON.stringify(state))
       const containers = stateCopy.containers.filter(
         container => container.id !== action.payload.id
       )
       containers.push(action.payload)
+      stateCopy.containers = containers
+      return stateCopy
+    }
+    case CONTAINER_DELETE: {
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      // only one board, I need to change this at some point to support many boards
+      const board = stateCopy
+      const container = board.containers.find(
+        container => container.id === action.payload.containerId
+      )
+      const containers = board.containers
+        .filter(container => container.id !== action.payload.containerId)
+        .map(c => {
+          if (c.position > container.position) {
+            c.position -= 1
+          }
+          return c
+        })
       stateCopy.containers = containers
       return stateCopy
     }
@@ -170,21 +185,6 @@ export const requestDeleteCardFromOldContainer = (
   meta: { itemIndex, containerPosition, containerId, cardId }
 })
 
-export const requestCreateContainer = payload => ({
-  type: CONTAINER_CREATE_REQUEST,
-  payload
-})
-
-export const requestEditContainer = payload => ({
-  type: CONTAINER_EDIT_REQUEST,
-  payload
-})
-
-export const requestDeleteContainer = payload => ({
-  type: CONTAINER_DELETE_REQUEST,
-  payload
-})
-
 export const requestCreateCard = payload => ({
   type: CARD_CREATE_REQUEST,
   payload
@@ -197,6 +197,21 @@ export const requestEditCard = payload => ({
 
 export const requestDeleteCard = payload => ({
   type: CARD_DELETE_REQUEST,
+  payload
+})
+
+export const requestCreateContainer = payload => ({
+  type: CONTAINER_CREATE_REQUEST,
+  payload
+})
+
+export const requestEditContainer = payload => ({
+  type: CONTAINER_EDIT_REQUEST,
+  payload
+})
+
+export const requestDeleteContainer = payload => ({
+  type: CONTAINER_DELETE_REQUEST,
   payload
 })
 

@@ -33,6 +33,7 @@ class Board extends Component {
                     <Container
                       key={container.id}
                       container={container}
+                      boardId={board.id}
                       position={container.position}
                     />
                   </div>

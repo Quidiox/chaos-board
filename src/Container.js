@@ -8,7 +8,8 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   requestMoveContainer,
-  requestMoveCardToOtherContainer
+  requestMoveCardToOtherContainer,
+  requestDeleteContainer
 } from './reducers/boardReducer'
 import AddCard from './AddCard'
 import Edit from './Edit'
@@ -24,7 +25,12 @@ class Container extends Component {
   endEdit = () => {
     this.setState({ isEditing: false })
   }
-  deleteContainer = () => {}
+  deleteContainer = () => {
+    this.props.requestDeleteContainer({
+      containerId: this.props.container.id,
+      boardId: this.props.boardId
+    })
+  }
   render() {
     const cards = this.props.container.cards
     const sortedCards = sortByPosition(cards)
@@ -191,7 +197,11 @@ const collectContainerDropTarget = connect => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    { requestMoveContainer, requestMoveCardToOtherContainer },
+    {
+      requestMoveContainer,
+      requestMoveCardToOtherContainer,
+      requestDeleteContainer
+    },
     dispatch
   )
 

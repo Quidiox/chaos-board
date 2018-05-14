@@ -11,7 +11,7 @@ class AddContainer extends Component {
   }
   handleSubmit = e => {
     e.preventDefault()
-    if (this.state.title && this.state.title.length > 3) {
+    if (this.state.title && this.state.title.length >= 3) {
       this.props.requestCreateContainer({
         boardId: this.props.boardId,
         ...this.state

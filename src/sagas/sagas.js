@@ -172,7 +172,7 @@ function* watchDeleteCard() {
 function* deleteContainer(action) {
   try {
     yield call(apiService.deleteContainer, action.payload)
-    yield put(CONTAINER_DELETE, action.payload)
+    yield put(genericActionCreator(CONTAINER_DELETE, action.payload))
   } catch (error) {
     console.log(error)
   }
