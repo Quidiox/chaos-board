@@ -109,8 +109,18 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers.push(action.payload)
       return stateCopy
     }
-    case CONTAINER_DELETE:
-    case CONTAINER_EDIT:
+    case CONTAINER_DELETE: {
+      return state
+    }
+    case CONTAINER_EDIT: {
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      const containers = stateCopy.containers.filter(
+        container => container.id !== action.payload.id
+      )
+      containers.push(action.payload)
+      stateCopy.containers = containers
+      return stateCopy
+    }
     default:
       return state
   }

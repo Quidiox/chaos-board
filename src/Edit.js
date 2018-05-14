@@ -2,26 +2,36 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Form, Button, TextArea } from 'semantic-ui-react'
-import { requestEditCard } from './reducers/boardReducer'
+import { requestEditCard, requestEditContainer } from './reducers/boardReducer'
 
-class EditCard extends Component {
+class Edit extends Component {
   state = {
-    addVisible: false,
-    title: this.props.card.title || ''
+    title: this.props.title || ''
   }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
   handleSubmit = e => {
     e.preventDefault()
-    this.props.requestEditCard({ title: this.state.title, cardId: this.props.card.id ,containerId: this.props.containerId })
-    this.props.endEditCard()
-    this.setState({ title: '', addVisible: false })
+    if (this.props.type === 'Card') {
+      this.props.requestEditCard({
+        title: this.state.title,
+        cardId: this.props.cardId,
+        containerId: this.props.containerId
+      })
+    } else if (this.props.type === 'Container') {
+      this.props.requestEditContainer({
+        title: this.state.title,
+        containerId: this.props.containerId
+      })
+    }
+    this.props.endEdit()
+    this.setState({ title: '' })
   }
   close = e => {
     e.preventDefault()
-    this.props.endEditCard()
-    this.setState({ title: '', addVisible: false })
+    this.props.endEdit()
+    this.setState({ title: '' })
   }
   render() {
     return (
@@ -30,7 +40,7 @@ class EditCard extends Component {
           <Form.Field
             value={this.state.title}
             control={TextArea}
-            placeholder="Card title"
+            placeholder={`${this.props.type} title`}
             name="title"
             onChange={this.handleChange}
           />
@@ -47,6 +57,6 @@ class EditCard extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestEditCard }, dispatch)
+  bindActionCreators({ requestEditCard, requestEditContainer }, dispatch)
 
-export default connect(null, mapDispatchToProps)(EditCard)
+export default connect(null, mapDispatchToProps)(Edit)

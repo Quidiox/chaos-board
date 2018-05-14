@@ -142,7 +142,11 @@ function* watchCreateCard() {
 function* editCard(action) {
   try {
     const response = yield call(apiService.editCard, action.payload)
-    yield put(genericActionCreator(CARD_EDIT, response, null, { containerId: action.payload.containerId}))
+    yield put(
+      genericActionCreator(CARD_EDIT, response, null, {
+        containerId: action.payload.containerId
+      })
+    )
   } catch (error) {
     console.log(error)
   }
@@ -165,6 +169,34 @@ function* watchDeleteCard() {
   yield takeLatest(CARD_DELETE_REQUEST, deleteCard)
 }
 
+function* deleteContainer(action) {
+  try {
+    yield call(apiService.deleteContainer, action.payload)
+    yield put(CONTAINER_DELETE, action.payload)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchDeleteContainer() {
+  yield takeLatest(CONTAINER_DELETE_REQUEST, deleteContainer)
+}
+
+function* editContainer(action) {
+  try {
+    const response = yield call(apiService.editContainer, action.payload)
+    yield put(
+      genericActionCreator(CONTAINER_EDIT, response)
+    )
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchEditContainer() {
+  yield takeLatest(CONTAINER_EDIT_REQUEST, editContainer)
+}
+
 export default function* rootSaga() {
   yield all([
     call(watchInitializeBoard),
@@ -175,6 +207,8 @@ export default function* rootSaga() {
     call(watchCreateContainer),
     call(watchCreateCard),
     call(watchEditCard),
-    call(watchDeleteCard)
+    call(watchDeleteCard),
+    call(watchEditContainer),
+    call(watchDeleteContainer)
   ])
 }

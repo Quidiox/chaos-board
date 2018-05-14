@@ -11,10 +11,19 @@ import {
   requestMoveCardToOtherContainer
 } from './reducers/boardReducer'
 import AddCard from './AddCard'
+import Edit from './Edit'
 import DropdownMenu from './DropdownMenu'
 
 class Container extends Component {
-  editContainer = () => {}
+  state = {
+    isEditing: false
+  }
+  editContainer = () => {
+    this.setState({ isEditing: true })
+  }
+  endEdit = () => {
+    this.setState({ isEditing: false })
+  }
   deleteContainer = () => {}
   render() {
     const cards = this.props.container.cards
@@ -37,21 +46,42 @@ class Container extends Component {
         }}
       >
         {connectContainerDragPreview(
-          <div style={{position: 'relative'}}>
+          <div style={{ position: 'relative' }}>
             {connectContainerDragSource(
               <i
                 style={{ paddingLeft: '2px', margin: '5px', cursor: 'move' }}
                 className="expand exchange alternate icon"
               />
             )}
-            <h4 style={{padding: '0px', margin: '0px', position: 'absolute', top:'4px', left: '30px' }}>{this.props.container.title}</h4>
-            <div style={{ ...dropdownMenuStyle}}>
-              <DropdownMenu
-                handleEdit={this.editContainer}
-                handleDelete={this.deleteContainer}
-                type="container"
+            {this.state.isEditing ? (
+              <Edit
+                title={this.props.container.title}
+                containerId={this.props.container.id}
+                endEdit={this.endEdit}
+                type="Container"
               />
-            </div>
+            ) : (
+              <div>
+                <h4
+                  style={{
+                    padding: '0px',
+                    margin: '0px',
+                    position: 'absolute',
+                    top: '4px',
+                    left: '30px'
+                  }}
+                >
+                  {this.props.container.title}
+                </h4>
+                <div style={{ ...dropdownMenuStyle }}>
+                  <DropdownMenu
+                    handleEdit={this.editContainer}
+                    handleDelete={this.deleteContainer}
+                    type="container"
+                  />
+                </div>
+              </div>
+            )}
             {connectCardDropTarget(
               <div
                 ref={element => (this.containerRef = element)}

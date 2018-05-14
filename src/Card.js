@@ -10,7 +10,7 @@ import {
   requestDeleteCardFromOldContainer,
   requestDeleteCard
 } from './reducers/boardReducer'
-import EditCard from './EditCard'
+import Edit from './Edit'
 import DropdownMenu from './DropdownMenu'
 
 class Card extends Component {
@@ -25,7 +25,7 @@ class Card extends Component {
   editCard = () => {
     this.setState({ isEditing: true })
   }
-  endEditCard = () => {
+  endEdit = () => {
     this.setState({ isEditing: false, isHovering: false })
   }
   deleteCard = () => {
@@ -52,10 +52,12 @@ class Card extends Component {
           onMouseLeave={this.handleMouseHover}
         >
           {this.state.isEditing ? (
-            <EditCard
-              card={card}
+            <Edit
+              type='Card'
+              title={card.title}
+              cardId={card.id}
               containerId={this.props.containerId}
-              endEditCard={this.endEditCard}
+              endEdit={this.endEdit}
             />
           ) : (
             <CardComp>

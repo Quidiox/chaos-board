@@ -100,7 +100,7 @@ const deleteContainer = async payload => {
 const editContainer = async payload => {
   try {
     const response = await fetch(
-      baseUrl + 'api/container/' + payload.containerId,
+      baseUrl + 'api/container/edit/' + payload.containerId,
       {
         method: 'PUT',
         body: JSON.stringify(payload),
