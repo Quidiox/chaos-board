@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery, all } from 'redux-saga/effects'
+import { call, put, takeLatest, takeEvery, all, actionChannel, take } from 'redux-saga/effects'
 import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
@@ -34,7 +34,6 @@ function* initializeBoard() {
     console.log(error)
   }
 }
-
 function* watchInitializeBoard() {
   yield takeLatest(BOARD_INITIALIZE_REQUEST, initializeBoard)
 }
@@ -42,22 +41,18 @@ function* watchInitializeBoard() {
 function* moveCard(action) {
   try {
     const meta = { ...action.meta }
-    const response = yield call(apiService.changeCardOrder, meta)
-    console.log(response)
+    yield call(apiService.changeCardOrder, meta)
     yield put(genericActionCreator(CARD_MOVE, null, null, meta))
   } catch (error) {
     console.log(error)
   }
 }
 
-function* watchMoveCard() {
-  yield takeLatest(CARD_MOVE_REQUEST, moveCard)
-}
-
 function* moveCardToOtherContainer(action) {
   try {
     const { containerPosition, card, containerId } = action.meta
     const data = { cardId: card.id, containerId }
+    yield call(apiService.moveCardToAnotherContainer, data)
     yield put(
       genericActionCreator(
         CARD_MOVE_TO_OTHER_CONTAINER,
@@ -66,37 +61,21 @@ function* moveCardToOtherContainer(action) {
         containerPosition
       )
     )
-    const response = yield call(apiService.moveCardToAnotherContainer, data)
-    console.log(response)
   } catch (error) {
     console.log(error)
   }
-}
-
-function* watchMoveCardToOtherContainer() {
-  yield takeEvery(
-    CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
-    moveCardToOtherContainer
-  )
 }
 
 function* deleteCardFromOldContainer(action) {
   try {
     const meta = { ...action.meta }
+    yield call(apiService.deleteCardFromOldContainer, meta)
     yield put(
       genericActionCreator(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
     )
-    yield call(apiService.deleteCardFromOldContainer, meta)
   } catch (error) {
     console.log(error)
   }
-}
-
-function* watchDeleteCardFromOldContainer() {
-  yield takeEvery(
-    CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
-    deleteCardFromOldContainer
-  )
 }
 
 function* moveContainer(action) {
@@ -109,10 +88,6 @@ function* moveContainer(action) {
   }
 }
 
-function* watchMoveContainer() {
-  yield takeLatest(CONTAINER_MOVE_REQUEST, moveContainer)
-}
-
 function* createContainer(action) {
   try {
     const response = yield call(apiService.createContainer, action.payload)
@@ -121,7 +96,6 @@ function* createContainer(action) {
     console.log(error)
   }
 }
-
 function* watchCreateContainer() {
   yield takeLatest(CONTAINER_CREATE_REQUEST, createContainer)
 }
@@ -197,13 +171,40 @@ function* watchEditContainer() {
   yield takeLatest(CONTAINER_EDIT_REQUEST, editContainer)
 }
 
+function* watchDragAndDrop() {
+  const requestChannel = yield actionChannel('*')
+  while(true) {
+    const action = yield take(requestChannel)
+    console.log('action type: ', action.type)
+    // console.log('action payload: ', action.payload)
+    // console.log('action meta: ', action.meta)
+    switch (action.type) {
+      case CARD_MOVE_REQUEST: {
+        yield call(moveCard, action)
+        break
+      }
+      case CONTAINER_MOVE_REQUEST: {
+        yield call(moveContainer, action)
+        break
+      }
+      case CARD_MOVE_TO_OTHER_CONTAINER_REQUEST: {
+        yield call(moveCardToOtherContainer, action)
+        break
+      }
+      case CARD_DELETE_FROM_OLD_CONTAINER_REQUEST: {
+        yield call(deleteCardFromOldContainer, action)
+        break
+      }
+    default:
+      break
+    }
+  }
+}
+
 export default function* rootSaga() {
   yield all([
+    call(watchDragAndDrop),
     call(watchInitializeBoard),
-    call(watchMoveCard),
-    call(watchMoveCardToOtherContainer),
-    call(watchDeleteCardFromOldContainer),
-    call(watchMoveContainer),
     call(watchCreateContainer),
     call(watchCreateCard),
     call(watchEditCard),
