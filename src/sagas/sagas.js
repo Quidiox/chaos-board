@@ -1,4 +1,4 @@
-import { call, put, takeLatest, takeEvery, all, actionChannel, take } from 'redux-saga/effects'
+import { call, put, takeLatest, all, actionChannel, take } from 'redux-saga/effects'
 import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
