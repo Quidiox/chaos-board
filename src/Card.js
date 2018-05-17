@@ -8,6 +8,7 @@ import { Card as CardComp } from 'semantic-ui-react'
 import {
   requestMoveCard,
   requestDeleteCardFromOldContainer,
+  requestMoveCardToOtherContainer,
   requestDeleteCard
 } from './reducers/boardReducer'
 import Edit from './Edit'
@@ -16,7 +17,8 @@ import DropdownMenu from './DropdownMenu'
 class Card extends Component {
   state = {
     isHovering: false,
-    isEditing: false
+    isEditing: false,
+    startPosition: null
   }
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ isHovering: true })
@@ -53,7 +55,7 @@ class Card extends Component {
         >
           {this.state.isEditing ? (
             <Edit
-              type='Card'
+              type="Card"
               title={card.title}
               cardId={card.id}
               containerId={this.props.containerId}
@@ -107,21 +109,40 @@ const cardCompStyle = {
 
 const cardSource = {
   beginDrag(props) {
+    console.log('beginDragCard: ', props)
     return {
       position: props.position,
       containerId: props.containerId,
       card: props.card
     }
   },
-  endDrag(props, monitor) {
+  endDrag(props, monitor, component) {
+    // I should call the request to move card here when drag ends not in hover.
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.containerId !== item.containerId) {
+      console.log('this does call', item.position, item.card)
+      props.requestMoveCardToOtherContainer(
+        item.card,
+        dropResult.containerPosition,
+        dropResult.containerId
+      )
       props.requestDeleteCardFromOldContainer(
-        item.position,
+        item.card.position,
         props.containerPosition,
         item.containerId,
         item.card.id
+      )
+    } else if (dropResult && dropResult.containerId === item.containerId) {
+      console.log('this does not call')
+      const dragPosCard =
+        props.containers[props.containerPosition].cards[item.card.position]
+      props.requestMoveCard(
+        item.card.position,
+        item.position,
+        props.containerPosition,
+        props.id,
+        dragPosCard.id
       )
     }
   }
@@ -146,15 +167,7 @@ const cardTarget = {
       return
     }
     if (props.containerId === sourceContainerId) {
-      const dragPosCard =
-        props.containers[props.containerPosition].cards[dragIndex]
-      props.requestMoveCard(
-        dragIndex,
-        hoverIndex,
-        props.containerPosition,
-        props.id,
-        dragPosCard.id
-      )
+      // console.log('that: ', monitor.getItem(), '\n', dragIndex, hoverIndex)
       monitor.getItem().position = hoverIndex
     }
   }
@@ -171,7 +184,12 @@ const collectDropTarget = connect => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    { requestMoveCard, requestDeleteCardFromOldContainer, requestDeleteCard },
+    {
+      requestMoveCard,
+      requestDeleteCardFromOldContainer,
+      requestMoveCardToOtherContainer,
+      requestDeleteCard
+    },
     dispatch
   )
 

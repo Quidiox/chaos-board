@@ -31,14 +31,17 @@ const boardReducer = (state = [], action) => {
     case BOARD_INITIALIZE:
       return action.payload
     case CARD_MOVE: {
+      // there is some problem with this
       const { dragIndex, hoverIndex, containerPosition } = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
-      const container = [...stateCopy.containers[containerPosition].cards]
-      container[dragIndex].position = hoverIndex
-      container[hoverIndex].position = dragIndex
+      const cards = [...stateCopy.containers[containerPosition].cards]
+      cards[dragIndex].position = hoverIndex
+      cards[hoverIndex].position = dragIndex
+      stateCopy.containers[containerPosition].cards = cards
       return stateCopy
     }
     case CARD_MOVE_TO_OTHER_CONTAINER: {
+      // console.log('action stuff: ', action)
       const card = action.payload
       const containerPosition = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
@@ -47,15 +50,34 @@ const boardReducer = (state = [], action) => {
       return stateCopy
     }
     case CARD_DELETE_FROM_OLD_CONTAINER: {
+      // need to get container id and card id here instead of index
+      // hopefully this is fixed now
       const { itemIndex, containerPosition } = action.meta
+      // console.log('zzz: ', itemIndex, containerPosition)
       const stateCopy = JSON.parse(JSON.stringify(state))
       stateCopy.containers[containerPosition].cards.splice(itemIndex, 1)
       for (
-        let i = itemIndex;
+        let i = 0;
         i < stateCopy.containers[containerPosition].cards.length;
         ++i
       ) {
-        stateCopy.containers[containerPosition].cards[i].position -= 1
+        console.log(
+          'hi: ',
+          i,
+          stateCopy.containers[containerPosition].cards[i].position
+        )
+        if (
+          stateCopy.containers[containerPosition].cards[i].position >
+            itemIndex &&
+          stateCopy.containers[containerPosition].cards[i].position > 0
+        ) {
+          // console.log(
+          //   'ih: ',
+          //   i,
+          //   stateCopy.containers[containerPosition].cards[i].position
+          // )
+          stateCopy.containers[containerPosition].cards[i].position -= 1
+        }
       }
       return stateCopy
     }

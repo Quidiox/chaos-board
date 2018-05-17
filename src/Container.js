@@ -131,13 +131,15 @@ const containerStyle = {
 
 const cardTarget = {
   drop(props, monitor, component) {
-    const { id } = props.container
-    const sourceObj = monitor.getItem()
-    if (id !== sourceObj.containerId)
-      props.requestMoveCardToOtherContainer(sourceObj.card, props.position, id)
+    const { id, position } = props.container
+    // const sourceObj = monitor.getItem()
+    // console.log('drop: ', monitor.getItem(), props.container)
     return {
-      containerId: id
+      containerId: id,
+      containerPosition: position
     }
+
+    // props.requestMoveCardToOtherContainer(sourceObj.card, props.position, id)
   }
 }
 
@@ -148,7 +150,10 @@ const containerSource = {
       id: props.container.id,
       container: props.container
     }
-  }
+  } /*, implement requestMoveContainer here
+  endDrag(props, monitor) {
+
+  }*/
 }
 
 const containerTarget = {
