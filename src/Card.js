@@ -121,7 +121,6 @@ const cardSource = {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.containerId !== item.containerId) {
-      console.log('this does call', item.position, item.card)
       props.requestMoveCardToOtherContainer(
         item.card,
         dropResult.containerPosition,
@@ -134,16 +133,13 @@ const cardSource = {
         item.card.id
       )
     } else if (dropResult && dropResult.containerId === item.containerId) {
-      console.log('this does not call')
-      const dragPosCard =
-        props.containers[props.containerPosition].cards[item.card.position]
-      props.requestMoveCard(
-        item.card.position,
-        item.position,
-        props.containerPosition,
-        props.id,
-        dragPosCard.id
-      )
+      props.requestMoveCard({
+        dragIndex: item.card.position,
+        hoverIndex: item.position,
+        containerPosition: props.containerPosition,
+        cardId: props.id,
+        containerId: item.containerId
+      })
     }
   }
 }

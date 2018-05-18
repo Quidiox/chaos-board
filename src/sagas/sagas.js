@@ -40,9 +40,9 @@ function* watchInitializeBoard() {
 
 function* moveCard(action) {
   try {
-    const meta = { ...action.meta }
-    yield call(apiService.changeCardOrder, meta)
-    yield put(genericActionCreator(CARD_MOVE, null, null, meta))
+    console.log(action)
+    yield call(apiService.changeCardOrder, action.payload)
+    yield put(genericActionCreator(CARD_MOVE, action.payload))
   } catch (error) {
     console.log(error)
   }

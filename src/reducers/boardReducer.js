@@ -32,7 +32,8 @@ const boardReducer = (state = [], action) => {
       return action.payload
     case CARD_MOVE: {
       // there is some problem with this
-      const { dragIndex, hoverIndex, containerPosition } = action.meta
+      console.log(action.payload)
+      const { dragIndex, hoverIndex, containerPosition } = action.payload
       const stateCopy = JSON.parse(JSON.stringify(state))
       const cards = [...stateCopy.containers[containerPosition].cards]
       cards[dragIndex].position = hoverIndex
@@ -167,15 +168,9 @@ export const requestInitializeBoard = () => ({
   type: BOARD_INITIALIZE_REQUEST
 })
 
-export const requestMoveCard = (
-  dragIndex,
-  hoverIndex,
-  containerPosition,
-  cardId,
-  dragPosCardId
-) => ({
+export const requestMoveCard = payload => ({
   type: CARD_MOVE_REQUEST,
-  meta: { dragIndex, hoverIndex, containerPosition, cardId, dragPosCardId }
+  payload
 })
 
 export const requestMoveContainer = (
