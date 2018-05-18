@@ -31,13 +31,23 @@ const boardReducer = (state = [], action) => {
     case BOARD_INITIALIZE:
       return action.payload
     case CARD_MOVE: {
-      // there is some problem with this
-      console.log(action.payload)
       const { dragIndex, hoverIndex, containerPosition } = action.payload
       const stateCopy = JSON.parse(JSON.stringify(state))
       const cards = [...stateCopy.containers[containerPosition].cards]
+      if (hoverIndex < dragIndex) {
+        cards.forEach(async card => {
+          if (card.position < dragIndex && card.position >= hoverIndex) {
+            card.position += 1
+          }
+        })
+      } else {
+        cards.forEach(async card => {
+          if (card.position > dragIndex && card.position <= hoverIndex) {
+            card.position -= 1
+          }
+        })
+      }
       cards[dragIndex].position = hoverIndex
-      cards[hoverIndex].position = dragIndex
       stateCopy.containers[containerPosition].cards = cards
       return stateCopy
     }
