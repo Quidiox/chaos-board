@@ -9,7 +9,8 @@ import {
   requestMoveCard,
   requestDeleteCardFromOldContainer,
   requestMoveCardToOtherContainer,
-  requestDeleteCard
+  requestDeleteCard,
+  hoverCard
 } from './reducers/boardReducer'
 import Edit from './Edit'
 import DropdownMenu from './DropdownMenu'
@@ -17,8 +18,7 @@ import DropdownMenu from './DropdownMenu'
 class Card extends Component {
   state = {
     isHovering: false,
-    isEditing: false,
-    startPosition: null
+    isEditing: false
   }
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ isHovering: true })
@@ -108,16 +108,23 @@ const cardCompStyle = {
 }
 
 const cardSource = {
+  canDrag(props) {
+    console.log('canDrag: ', props)
+    return !props.isEditing
+  },
+  isDragging(props, monitor) {
+    // console.log('isDragging item: ',monitor.getItem().card,'\n props: ', props.card)
+    return monitor.getItem().card.id === props.card.id
+  },
   beginDrag(props) {
-    console.log('beginDragCard: ', props)
+    console.log(props)
     return {
-      position: props.position,
       containerId: props.containerId,
-      card: props.card
+      card: props.card,
+      position: props.position
     }
   },
   endDrag(props, monitor, component) {
-    // I should call the request to move card here when drag ends not in hover.
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.containerId !== item.containerId) {
@@ -132,7 +139,11 @@ const cardSource = {
         item.containerId,
         item.card.id
       )
-    } else if (dropResult && dropResult.containerId === item.containerId) {
+    } else if (
+      dropResult &&
+      dropResult.containerId === item.containerId &&
+      item.card.position !== item.position
+    ) {
       props.requestMoveCard({
         dragIndex: item.card.position,
         hoverIndex: item.position,
@@ -163,7 +174,11 @@ const cardTarget = {
       return
     }
     if (props.containerId === sourceContainerId) {
-      // console.log('that: ', monitor.getItem(), '\n', dragIndex, hoverIndex)
+      props.hoverCard({
+        dragIndex,
+        hoverIndex,
+        containerPosition: props.containerPosition
+      })
       monitor.getItem().position = hoverIndex
     }
   }
@@ -184,7 +199,8 @@ const mapDispatchToProps = dispatch =>
       requestMoveCard,
       requestDeleteCardFromOldContainer,
       requestMoveCardToOtherContainer,
-      requestDeleteCard
+      requestDeleteCard,
+      hoverCard
     },
     dispatch
   )

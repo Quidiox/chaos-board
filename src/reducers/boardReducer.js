@@ -13,6 +13,7 @@ import {
   CARD_DELETE,
   CARD_EDIT_REQUEST,
   CARD_EDIT,
+  CARD_HOVER,
   CONTAINER_MOVE_REQUEST,
   CONTAINER_MOVE,
   CONTAINER_CREATE_REQUEST,
@@ -30,29 +31,47 @@ const boardReducer = (state = [], action) => {
   switch (action.type) {
     case BOARD_INITIALIZE:
       return action.payload
-    case CARD_MOVE: {
+    case CARD_HOVER: {
       const { dragIndex, hoverIndex, containerPosition } = action.payload
       const stateCopy = JSON.parse(JSON.stringify(state))
+      console.log(action.payload)
       const cards = [...stateCopy.containers[containerPosition].cards]
-      if (hoverIndex < dragIndex) {
-        cards.forEach(async card => {
+      cards.forEach(async card => {
+        if (hoverIndex < dragIndex) {
           if (card.position < dragIndex && card.position >= hoverIndex) {
             card.position += 1
           }
-        })
-      } else {
-        cards.forEach(async card => {
+        } else if (hoverIndex > dragIndex) {
           if (card.position > dragIndex && card.position <= hoverIndex) {
             card.position -= 1
           }
-        })
-      }
+        }
+      })
       cards[dragIndex].position = hoverIndex
       stateCopy.containers[containerPosition].cards = cards
       return stateCopy
     }
+    case CARD_MOVE: {
+      /*const { dragIndex, hoverIndex, containerPosition } = action.payload
+      const stateCopy = JSON.parse(JSON.stringify(state))
+      const cards = [...stateCopy.containers[containerPosition].cards]
+      cards.forEach(async card => {
+        if (hoverIndex < dragIndex) {
+          if (card.position < dragIndex && card.position >= hoverIndex) {
+            card.position += 1
+          }
+        } else if (hoverIndex > dragIndex) {
+          if (card.position > dragIndex && card.position <= hoverIndex) {
+            card.position -= 1
+          }
+        }
+      })
+      cards[dragIndex].position = hoverIndex
+      stateCopy.containers[containerPosition].cards = cards
+      return stateCopy*/
+      return state
+    }
     case CARD_MOVE_TO_OTHER_CONTAINER: {
-      // console.log('action stuff: ', action)
       const card = action.payload
       const containerPosition = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))
@@ -62,9 +81,8 @@ const boardReducer = (state = [], action) => {
     }
     case CARD_DELETE_FROM_OLD_CONTAINER: {
       // need to get container id and card id here instead of index
-      // hopefully this is fixed now
+      console.log(action)
       const { itemIndex, containerPosition } = action.meta
-      // console.log('zzz: ', itemIndex, containerPosition)
       const stateCopy = JSON.parse(JSON.stringify(state))
       stateCopy.containers[containerPosition].cards.splice(itemIndex, 1)
       for (
@@ -72,21 +90,11 @@ const boardReducer = (state = [], action) => {
         i < stateCopy.containers[containerPosition].cards.length;
         ++i
       ) {
-        console.log(
-          'hi: ',
-          i,
-          stateCopy.containers[containerPosition].cards[i].position
-        )
         if (
           stateCopy.containers[containerPosition].cards[i].position >
             itemIndex &&
           stateCopy.containers[containerPosition].cards[i].position > 0
         ) {
-          // console.log(
-          //   'ih: ',
-          //   i,
-          //   stateCopy.containers[containerPosition].cards[i].position
-          // )
           stateCopy.containers[containerPosition].cards[i].position -= 1
         }
       }
@@ -176,6 +184,11 @@ const boardReducer = (state = [], action) => {
 
 export const requestInitializeBoard = () => ({
   type: BOARD_INITIALIZE_REQUEST
+})
+
+export const hoverCard = payload => ({
+  type: CARD_HOVER,
+  payload
 })
 
 export const requestMoveCard = payload => ({

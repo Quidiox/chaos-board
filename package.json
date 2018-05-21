@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "history": "4.7.2",
+    "immutability-helper": "2.7.0",
     "lodash.flow": "3.5.0",
     "react": "16.3.1",
     "react-dnd": "2.6.0",

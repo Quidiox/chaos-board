@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
 import flow from 'lodash/flow'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 import Card from './Card'
 import { ItemTypes } from './constants'
 import { sortByPosition } from './utils/helpers'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import {
   requestMoveContainer,
   requestMoveCardToOtherContainer,
@@ -32,8 +32,7 @@ class Container extends Component {
     })
   }
   render() {
-    const cards = this.props.container.cards
-    const sortedCards = sortByPosition(cards)
+    const sortedCards = sortByPosition(this.props.container.cards)
     const {
       canDrop,
       isOver,
@@ -96,11 +95,11 @@ class Container extends Component {
                 {sortedCards.map((card, i) => (
                   <Card
                     key={card.id}
-                    position={card.position}
                     id={card.id}
+                    card={card}
+                    position={card.position}
                     containerId={this.props.container.id}
                     containerPosition={this.props.position}
-                    card={card}
                   />
                 ))}
                 <AddCard containerId={this.props.container.id} />
@@ -131,15 +130,11 @@ const containerStyle = {
 
 const cardTarget = {
   drop(props, monitor, component) {
-    const { id, position } = props.container
-    // const sourceObj = monitor.getItem()
-    // console.log('drop: ', monitor.getItem(), props.container)
+    const { position, id } = props.container
     return {
       containerId: id,
       containerPosition: position
     }
-
-    // props.requestMoveCardToOtherContainer(sourceObj.card, props.position, id)
   }
 }
 
@@ -159,7 +154,7 @@ const containerSource = {
 const containerTarget = {
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().position
-    const hoverIndex = props.position
+    const hoverIndex = props.container.position
     if (dragIndex === hoverIndex) {
       return
     }
