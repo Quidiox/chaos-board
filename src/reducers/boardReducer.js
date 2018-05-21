@@ -72,6 +72,7 @@ const boardReducer = (state = [], action) => {
       return state
     }
     case CARD_MOVE_TO_OTHER_CONTAINER: {
+      console.log(action)
       const card = action.payload
       const containerPosition = action.meta
       const stateCopy = JSON.parse(JSON.stringify(state))

@@ -20,9 +20,11 @@ class Container extends Component {
     isEditing: false
   }
   editContainer = () => {
+    this.props.disableDragging('editingContainer')
     this.setState({ isEditing: true })
   }
   endEdit = () => {
+    this.props.allowDragging('editingContainer')
     this.setState({ isEditing: false })
   }
   deleteContainer = () => {
@@ -43,6 +45,7 @@ class Container extends Component {
     } = this.props
     const isActive = canDrop && isOver
     const backgroundColor = isActive ? 'lightgreen' : '#FFF'
+    const cursor = this.props.draggingAllowed ? 'move' : 'not-allowed'
     return connectContainerDropTarget(
       <div
         style={{
@@ -54,7 +57,7 @@ class Container extends Component {
           <div style={{ position: 'relative' }}>
             {connectContainerDragSource(
               <i
-                style={{ paddingLeft: '2px', margin: '5px', cursor: 'move' }}
+                style={{ paddingLeft: '2px', margin: '5px', cursor }}
                 className="expand exchange alternate icon"
               />
             )}
@@ -100,6 +103,9 @@ class Container extends Component {
                     position={card.position}
                     containerId={this.props.container.id}
                     containerPosition={this.props.position}
+                    draggingAllowed={this.props.draggingAllowed}
+                    allowDragging={this.props.allowDragging}
+                    disableDragging={this.props.disableDragging}
                   />
                 ))}
                 <AddCard containerId={this.props.container.id} />
@@ -129,7 +135,7 @@ const containerStyle = {
 }
 
 const cardTarget = {
-  drop(props, monitor, component) {
+  drop(props) {
     const { position, id } = props.container
     return {
       containerId: id,
@@ -139,6 +145,12 @@ const cardTarget = {
 }
 
 const containerSource = {
+  canDrag(props) {
+    console.log('canDrag: ', props)
+    // check here if editing is on going and prevent dragging if that is the case
+    // isEditing should come from props
+    return !props.isEditing
+  },
   beginDrag(props) {
     return {
       position: props.position,

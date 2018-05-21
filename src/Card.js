@@ -25,9 +25,11 @@ class Card extends Component {
     if (e.type === 'mouseleave') this.setState({ isHovering: false })
   }
   editCard = () => {
+    this.props.disableDragging('editingCard')
     this.setState({ isEditing: true })
   }
   endEdit = () => {
+    this.props.allowDragging('editingCard')
     this.setState({ isEditing: false, isHovering: false })
   }
   deleteCard = () => {
@@ -45,10 +47,11 @@ class Card extends Component {
       connectDropTarget
     } = this.props
     const opacity = isDragging ? 0 : 1
+    const cursor = this.props.draggingAllowed ? 'move' : 'not-allowed'
     return connectDragSource(
       connectDropTarget(
         <div
-          style={{ ...mainDivStyle, opacity }}
+          style={{ ...mainDivStyle, cursor, opacity }}
           ref={element => (this.cardRef = element)}
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
@@ -98,8 +101,7 @@ const mainDivStyle = {
   border: '1px dashed gray',
   padding: '.1rem',
   margin: '.1rem',
-  backgroundColor: 'white',
-  cursor: 'move'
+  backgroundColor: 'white'
 }
 
 const cardCompStyle = {
@@ -110,14 +112,17 @@ const cardCompStyle = {
 const cardSource = {
   canDrag(props) {
     console.log('canDrag: ', props)
+    // check here if editing is on going and prevent dragging if that is the case
+    // isEditing should come from props
     return !props.isEditing
   },
   isDragging(props, monitor) {
     // console.log('isDragging item: ',monitor.getItem().card,'\n props: ', props.card)
+    // console.log(monitor.getItem().card.id === props.card.id)
     return monitor.getItem().card.id === props.card.id
   },
   beginDrag(props) {
-    console.log(props)
+    // console.log(props)
     return {
       containerId: props.containerId,
       card: props.card,
@@ -128,6 +133,7 @@ const cardSource = {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.containerId !== item.containerId) {
+      console.log('dropResult: ', dropResult, ' item: ', item)
       props.requestMoveCardToOtherContainer(
         item.card,
         dropResult.containerPosition,
@@ -144,6 +150,7 @@ const cardSource = {
       dropResult.containerId === item.containerId &&
       item.card.position !== item.position
     ) {
+      console.log('dropResult: ', dropResult)
       props.requestMoveCard({
         dragIndex: item.card.position,
         hoverIndex: item.position,
@@ -180,6 +187,11 @@ const cardTarget = {
         containerPosition: props.containerPosition
       })
       monitor.getItem().position = hoverIndex
+    } else {
+      // TODO hover to work when dragging card to other container
+      // There seems to be something odd with hover when card is moved to other container
+      // hover will fire off all the time not just once
+      console.log(dragIndex, hoverIndex)
     }
   }
 }

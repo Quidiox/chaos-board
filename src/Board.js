@@ -1,17 +1,25 @@
 import React, { Component } from 'react'
-import Container from './Container'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Container from './Container'
 import { requestInitializeBoard } from './reducers/boardReducer'
 import { sortByPosition } from './utils/helpers'
 import AddContainer from './AddContainer'
 
 class Board extends Component {
-  state = {}
+  state = { draggingAllowed: true, editingCard: false, editingContainer: false }
   componentDidMount() {
     this.props.requestInitializeBoard()
   }
-
+  disableDragging = editingType => {
+    this.setState({ draggingAllowed: false, [editingType]: true })
+  }
+  allowDragging = async editingType => {
+    await this.setState({ [editingType]: false })
+    if (!this.state.editingCard && !this.state.editingContainer) {
+      this.setState({ draggingAllowed: true })
+    }
+  }
   render() {
     const board = this.props.board
     const sortedContainers = board.containers
@@ -19,9 +27,7 @@ class Board extends Component {
       : []
     return (
       <div style={{ height: '100%', marginLeft: '10px', marginRight: '10px' }}>
-        <h1
-          style={{ position: 'fixed', top: '0', height: '36px' }}
-        >
+        <h1 style={{ position: 'fixed', top: '0', height: '36px' }}>
           {board.title}
         </h1>
         <div style={{ height: '100%', paddingTop: '36px' }}>
@@ -35,11 +41,14 @@ class Board extends Component {
                       container={container}
                       boardId={board.id}
                       position={container.position}
+                      draggingAllowed={this.state.draggingAllowed}
+                      allowDragging={this.allowDragging}
+                      disableDragging={this.disableDragging}
                     />
                   </div>
                 )
               })}
-              <AddContainer style={{...containerStyle}} boardId={board.id} />
+              <AddContainer style={{ ...containerStyle }} boardId={board.id} />
             </div>
           )}
         </div>
