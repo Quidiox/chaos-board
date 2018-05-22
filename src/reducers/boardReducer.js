@@ -70,7 +70,6 @@ const boardReducer = (state = [], action) => {
       return state
     }
     case CARD_MOVE_BETWEEN_CONTAINERS: {
-      console.log(action)
       const card = action.payload.card
       const sourceContainerPosition = action.payload.sourceContainerPosition
       const targetContainerPosition = action.payload.targetContainerPosition
@@ -78,20 +77,14 @@ const boardReducer = (state = [], action) => {
       const oldCardPosition = card.position
       card.position = stateCopy.containers[targetContainerPosition].cards.length
       stateCopy.containers[targetContainerPosition].cards.push(card)
-      stateCopy.containers[sourceContainerPosition].cards.splice(oldCardPosition, 1)
-      for (
-        let i = 0;
-        i < stateCopy.containers[sourceContainerPosition].cards.length;
-        ++i
-      ) {
-        if (
-          stateCopy.containers[sourceContainerPosition].cards[i].position >
-            oldCardPosition &&
-          stateCopy.containers[sourceContainerPosition].cards[i].position > 0
-        ) {
-          stateCopy.containers[sourceContainerPosition].cards[i].position -= 1
-        }
-      }
+      let cards = stateCopy.containers[sourceContainerPosition].cards.filter(
+        c => c.id !== card.id
+      )
+      cards = cards.map((c, i) => {
+        c.position = i
+        return c
+      })
+      stateCopy.containers[sourceContainerPosition].cards = cards
       return stateCopy
     }
     case CARD_CREATE: {
@@ -200,7 +193,7 @@ export const requestMoveContainer = (
   meta: { dragIndex, hoverIndex, containerId, dragPosContainerId }
 })
 
-export const requestMoveCardBetweenContainers = payload=> ({
+export const requestMoveCardBetweenContainers = payload => ({
   type: CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
   payload
 })
