@@ -32,7 +32,6 @@ const boardReducer = (state = [], action) => {
     case CARD_HOVER: {
       const { dragIndex, hoverIndex, containerPosition } = action.payload
       const stateCopy = JSON.parse(JSON.stringify(state))
-      console.log(action.payload)
       const cards = [...stateCopy.containers[containerPosition].cards]
       cards.forEach(async card => {
         if (hoverIndex < dragIndex) {
@@ -74,7 +73,6 @@ const boardReducer = (state = [], action) => {
       const sourceContainerPosition = action.payload.sourceContainerPosition
       const targetContainerPosition = action.payload.targetContainerPosition
       const stateCopy = JSON.parse(JSON.stringify(state))
-      const oldCardPosition = card.position
       card.position = stateCopy.containers[targetContainerPosition].cards.length
       stateCopy.containers[targetContainerPosition].cards.push(card)
       let cards = stateCopy.containers[sourceContainerPosition].cards.filter(
@@ -126,7 +124,7 @@ const boardReducer = (state = [], action) => {
       return stateCopy
     }
     case CONTAINER_MOVE: {
-      const { dragIndex, hoverIndex } = action.meta
+      const { dragIndex, hoverIndex } = action.payload
       const stateCopy = JSON.parse(JSON.stringify(state))
       stateCopy.containers[dragIndex].position = hoverIndex
       stateCopy.containers[hoverIndex].position = dragIndex
@@ -183,14 +181,9 @@ export const requestMoveCard = payload => ({
   payload
 })
 
-export const requestMoveContainer = (
-  dragIndex,
-  hoverIndex,
-  containerId,
-  dragPosContainerId
-) => ({
+export const requestMoveContainer = payload => ({
   type: CONTAINER_MOVE_REQUEST,
-  meta: { dragIndex, hoverIndex, containerId, dragPosContainerId }
+  payload
 })
 
 export const requestMoveCardBetweenContainers = payload => ({

@@ -39,7 +39,7 @@ function* watchInitializeBoard() {
 function* moveCard(action) {
   try {
     console.log(action)
-    yield call(apiService.changeCardOrder, action.payload)
+    yield call(apiService.moveCard, action.payload)
     yield put(genericActionCreator(CARD_MOVE, action.payload))
   } catch (error) {
     console.log(error)
@@ -58,9 +58,8 @@ function* moveCardBetweenContainers(action) {
 
 function* moveContainer(action) {
   try {
-    const meta = { ...action.meta }
-    yield call(apiService.changeContainerOrder, meta)
-    yield put(genericActionCreator(CONTAINER_MOVE, null, null, meta))
+    yield call(apiService.moveContainer, action.payload)
+    yield put(genericActionCreator(CONTAINER_MOVE, action.payload))
   } catch (error) {
     console.log(error)
   }

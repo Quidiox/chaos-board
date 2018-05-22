@@ -18,7 +18,7 @@ const fetchAllBoards = async () => {
   }
 }
 
-const changeCardOrder = async data => {
+const moveCard = async data => {
   try {
     const response = await fetch(baseUrl + 'api/card/move', {
       method: 'PUT',
@@ -31,7 +31,7 @@ const changeCardOrder = async data => {
   }
 }
 
-const changeContainerOrder = async data => {
+const moveContainer = async data => {
   try {
     const response = await fetch(baseUrl + 'api/container/move', {
       method: 'PUT',
@@ -140,8 +140,8 @@ const deleteCard = async payload => {
 }
 
 export default {
-  changeCardOrder,
-  changeContainerOrder,
+  moveCard,
+  moveContainer,
   createContainer,
   deleteContainer,
   editContainer,

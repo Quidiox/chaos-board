@@ -183,12 +183,12 @@ const containerTarget = {
       return
     }
     const dragPosContainerId = props.containers[dragIndex].id
-    props.requestMoveContainer(
+    props.requestMoveContainer({
       dragIndex,
       hoverIndex,
-      props.container.id,
+      containerId: props.container.id,
       dragPosContainerId
-    )
+    })
     monitor.getItem().position = hoverIndex
   }
 }
