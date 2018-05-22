@@ -7,8 +7,7 @@ import { bindActionCreators } from 'redux'
 import { Card as CardComp } from 'semantic-ui-react'
 import {
   requestMoveCard,
-  requestDeleteCardFromOldContainer,
-  requestMoveCardToOtherContainer,
+  requestMoveCardBetweenContainers,
   requestDeleteCard,
   hoverCard
 } from './reducers/boardReducer'
@@ -111,18 +110,13 @@ const cardCompStyle = {
 
 const cardSource = {
   canDrag(props) {
-    console.log('canDrag: ', props)
-    // check here if editing is on going and prevent dragging if that is the case
-    // isEditing should come from props
     return !props.isEditing
   },
   isDragging(props, monitor) {
-    // console.log('isDragging item: ',monitor.getItem().card,'\n props: ', props.card)
-    // console.log(monitor.getItem().card.id === props.card.id)
+    // Not sure if this is doing anything, might be ok to remove
     return monitor.getItem().card.id === props.card.id
   },
   beginDrag(props) {
-    // console.log(props)
     return {
       containerId: props.containerId,
       card: props.card,
@@ -133,24 +127,18 @@ const cardSource = {
     const item = monitor.getItem()
     const dropResult = monitor.getDropResult()
     if (dropResult && dropResult.containerId !== item.containerId) {
-      console.log('dropResult: ', dropResult, ' item: ', item)
-      props.requestMoveCardToOtherContainer(
-        item.card,
-        dropResult.containerPosition,
-        dropResult.containerId
-      )
-      props.requestDeleteCardFromOldContainer(
-        item.card.position,
-        props.containerPosition,
-        item.containerId,
-        item.card.id
-      )
+      props.requestMoveCardBetweenContainers({
+        card: item.card,
+        targetContainerId: dropResult.containerId,
+        targetContainerPosition: dropResult.containerPosition,
+        sourceContainerId: item.containerId,
+        sourceContainerPosition: props.containerPosition
+      })
     } else if (
       dropResult &&
       dropResult.containerId === item.containerId &&
       item.card.position !== item.position
     ) {
-      console.log('dropResult: ', dropResult)
       props.requestMoveCard({
         dragIndex: item.card.position,
         hoverIndex: item.position,
@@ -190,7 +178,8 @@ const cardTarget = {
     } else {
       // TODO hover to work when dragging card to other container
       // There seems to be something odd with hover when card is moved to other container
-      // hover will fire off all the time not just once
+      // hover will fire off all the time not just once maybe need some set of rules to compare
+      // dragindex and hoverindex to get rid of extra hover calls
       console.log(dragIndex, hoverIndex)
     }
   }
@@ -202,15 +191,15 @@ const collectDragSource = (connect, monitor) => ({
 })
 
 const collectDropTarget = connect => ({
-  connectDropTarget: connect.dropTarget()
+  connectDropTarget: connect.dropTarget(),
+  awesome: 'hello'
 })
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       requestMoveCard,
-      requestDeleteCardFromOldContainer,
-      requestMoveCardToOtherContainer,
+      requestMoveCardBetweenContainers,
       requestDeleteCard,
       hoverCard
     },

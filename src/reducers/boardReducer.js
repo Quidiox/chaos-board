@@ -3,10 +3,6 @@ import {
   BOARD_INITIALIZE,
   CARD_MOVE_REQUEST,
   CARD_MOVE,
-  CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
-  CARD_MOVE_TO_OTHER_CONTAINER,
-  CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
-  CARD_DELETE_FROM_OLD_CONTAINER,
   CARD_CREATE_REQUEST,
   CARD_CREATE,
   CARD_DELETE_REQUEST,
@@ -21,7 +17,9 @@ import {
   CONTAINER_DELETE_REQUEST,
   CONTAINER_DELETE,
   CONTAINER_EDIT_REQUEST,
-  CONTAINER_EDIT
+  CONTAINER_EDIT,
+  CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
+  CARD_MOVE_BETWEEN_CONTAINERS
 } from './actionTypes'
 
 const boardReducer = (state = [], action) => {
@@ -71,32 +69,27 @@ const boardReducer = (state = [], action) => {
       return stateCopy*/
       return state
     }
-    case CARD_MOVE_TO_OTHER_CONTAINER: {
+    case CARD_MOVE_BETWEEN_CONTAINERS: {
       console.log(action)
-      const card = action.payload
-      const containerPosition = action.meta
+      const card = action.payload.card
+      const sourceContainerPosition = action.payload.sourceContainerPosition
+      const targetContainerPosition = action.payload.targetContainerPosition
       const stateCopy = JSON.parse(JSON.stringify(state))
-      card.position = stateCopy.containers[containerPosition].cards.length
-      stateCopy.containers[containerPosition].cards.push(card)
-      return stateCopy
-    }
-    case CARD_DELETE_FROM_OLD_CONTAINER: {
-      // need to get container id and card id here instead of index
-      console.log(action)
-      const { itemIndex, containerPosition } = action.meta
-      const stateCopy = JSON.parse(JSON.stringify(state))
-      stateCopy.containers[containerPosition].cards.splice(itemIndex, 1)
+      const oldCardPosition = card.position
+      card.position = stateCopy.containers[targetContainerPosition].cards.length
+      stateCopy.containers[targetContainerPosition].cards.push(card)
+      stateCopy.containers[sourceContainerPosition].cards.splice(oldCardPosition, 1)
       for (
         let i = 0;
-        i < stateCopy.containers[containerPosition].cards.length;
+        i < stateCopy.containers[sourceContainerPosition].cards.length;
         ++i
       ) {
         if (
-          stateCopy.containers[containerPosition].cards[i].position >
-            itemIndex &&
-          stateCopy.containers[containerPosition].cards[i].position > 0
+          stateCopy.containers[sourceContainerPosition].cards[i].position >
+            oldCardPosition &&
+          stateCopy.containers[sourceContainerPosition].cards[i].position > 0
         ) {
-          stateCopy.containers[containerPosition].cards[i].position -= 1
+          stateCopy.containers[sourceContainerPosition].cards[i].position -= 1
         }
       }
       return stateCopy
@@ -207,23 +200,9 @@ export const requestMoveContainer = (
   meta: { dragIndex, hoverIndex, containerId, dragPosContainerId }
 })
 
-export const requestMoveCardToOtherContainer = (
-  card,
-  containerPosition,
-  containerId
-) => ({
-  type: CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
-  meta: { card, containerPosition, containerId }
-})
-
-export const requestDeleteCardFromOldContainer = (
-  itemIndex,
-  containerPosition,
-  containerId,
-  cardId
-) => ({
-  type: CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
-  meta: { itemIndex, containerPosition, containerId, cardId }
+export const requestMoveCardBetweenContainers = payload=> ({
+  type: CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
+  payload
 })
 
 export const requestCreateCard = payload => ({

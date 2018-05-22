@@ -4,10 +4,6 @@ import {
   BOARD_INITIALIZE,
   CARD_MOVE_REQUEST,
   CARD_MOVE,
-  CARD_MOVE_TO_OTHER_CONTAINER_REQUEST,
-  CARD_MOVE_TO_OTHER_CONTAINER,
-  CARD_DELETE_FROM_OLD_CONTAINER_REQUEST,
-  CARD_DELETE_FROM_OLD_CONTAINER,
   CONTAINER_MOVE_REQUEST,
   CONTAINER_MOVE,
   CARD_CREATE_REQUEST,
@@ -21,7 +17,9 @@ import {
   CONTAINER_EDIT_REQUEST,
   CONTAINER_EDIT,
   CARD_DELETE_REQUEST,
-  CARD_DELETE
+  CARD_DELETE,
+  CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
+  CARD_MOVE_BETWEEN_CONTAINERS
 } from '../reducers/actionTypes'
 import apiService from '../api/apiService'
 import { genericActionCreator } from '../reducers/boardReducer'
@@ -48,31 +46,11 @@ function* moveCard(action) {
   }
 }
 
-function* moveCardToOtherContainer(action) {
+function* moveCardBetweenContainers(action) {
   try {
-    const { containerPosition, card, containerId } = action.meta
-    const data = { cardId: card.id, containerId }
-    yield call(apiService.moveCardToAnotherContainer, data)
-    yield put(
-      genericActionCreator(
-        CARD_MOVE_TO_OTHER_CONTAINER,
-        card,
-        null,
-        containerPosition
-      )
-    )
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-function* deleteCardFromOldContainer(action) {
-  try {
-    const meta = { ...action.meta }
-    yield call(apiService.deleteCardFromOldContainer, meta)
-    yield put(
-      genericActionCreator(CARD_DELETE_FROM_OLD_CONTAINER, null, null, meta)
-    )
+    const response = yield call(apiService.moveCardBetweenContainers, action.payload)
+    yield put(genericActionCreator(CARD_MOVE_BETWEEN_CONTAINERS, action.payload))
+    console.log(response)
   } catch (error) {
     console.log(error)
   }
@@ -187,12 +165,8 @@ function* watchDragAndDrop() {
         yield call(moveContainer, action)
         break
       }
-      case CARD_MOVE_TO_OTHER_CONTAINER_REQUEST: {
-        yield call(moveCardToOtherContainer, action)
-        break
-      }
-      case CARD_DELETE_FROM_OLD_CONTAINER_REQUEST: {
-        yield call(deleteCardFromOldContainer, action)
+      case CARD_MOVE_BETWEEN_CONTAINERS_REQUEST: {
+        yield call(moveCardBetweenContainers, action)
         break
       }
     default:
