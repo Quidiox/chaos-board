@@ -3,7 +3,6 @@ import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
   CARD_MOVE_REQUEST,
-  CARD_MOVE,
   CONTAINER_MOVE_REQUEST,
   CONTAINER_MOVE,
   CARD_CREATE_REQUEST,
@@ -38,9 +37,7 @@ function* watchInitializeBoard() {
 
 function* moveCard(action) {
   try {
-    console.log(action)
     yield call(apiService.moveCard, action.payload)
-    yield put(genericActionCreator(CARD_MOVE, action.payload))
   } catch (error) {
     console.log(error)
   }
@@ -152,9 +149,6 @@ function* watchDragAndDrop() {
   const requestChannel = yield actionChannel('*')
   while(true) {
     const action = yield take(requestChannel)
-    console.log('action type: ', action.type)
-    // console.log('action payload: ', action.payload)
-    // console.log('action meta: ', action.meta)
     switch (action.type) {
       case CARD_MOVE_REQUEST: {
         yield call(moveCard, action)

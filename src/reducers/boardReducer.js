@@ -2,7 +2,6 @@ import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
   CARD_MOVE_REQUEST,
-  CARD_MOVE,
   CARD_CREATE_REQUEST,
   CARD_CREATE,
   CARD_DELETE_REQUEST,
@@ -47,26 +46,6 @@ const boardReducer = (state = [], action) => {
       cards[dragIndex].position = hoverIndex
       stateCopy.containers[containerPosition].cards = cards
       return stateCopy
-    }
-    case CARD_MOVE: {
-      /*const { dragIndex, hoverIndex, containerPosition } = action.payload
-      const stateCopy = JSON.parse(JSON.stringify(state))
-      const cards = [...stateCopy.containers[containerPosition].cards]
-      cards.forEach(async card => {
-        if (hoverIndex < dragIndex) {
-          if (card.position < dragIndex && card.position >= hoverIndex) {
-            card.position += 1
-          }
-        } else if (hoverIndex > dragIndex) {
-          if (card.position > dragIndex && card.position <= hoverIndex) {
-            card.position -= 1
-          }
-        }
-      })
-      cards[dragIndex].position = hoverIndex
-      stateCopy.containers[containerPosition].cards = cards
-      return stateCopy*/
-      return state
     }
     case CARD_MOVE_BETWEEN_CONTAINERS: {
       const card = action.payload.card
