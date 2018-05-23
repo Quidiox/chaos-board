@@ -145,7 +145,7 @@ const cardTarget = {
 
 const containerSource = {
   canDrag(props) {
-    return !props.isEditing
+    return props.draggingAllowed
   },
   beginDrag(props) {
     return {

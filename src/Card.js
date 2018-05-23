@@ -110,7 +110,7 @@ const cardCompStyle = {
 
 const cardSource = {
   canDrag(props) {
-    return !props.isEditing
+    return props.draggingAllowed
   },
   isDragging(props, monitor) {
     // Not sure if this is doing anything, might be ok to remove
