@@ -140,12 +140,6 @@ const cardTarget = {
       containerId: id,
       containerPosition: position
     }
-  },
-  // this might be the right place to handle card hover in new container when moving card to an other container
-  hover(props, monitor) {
-    if(props.container.id!==monitor.getItem().containerId) {
-      // console.log('this line: ',monitor.getItem(), props.container.id)
-    }
   }
 }
 
@@ -159,10 +153,7 @@ const containerSource = {
       id: props.container.id,
       container: props.container
     }
-  } /*, implement requestMoveContainer here
-  endDrag(props, monitor) {
-
-  }*/
+  }
 }
 
 const containerTarget = {

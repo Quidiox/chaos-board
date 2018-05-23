@@ -45,9 +45,8 @@ function* moveCard(action) {
 
 function* moveCardBetweenContainers(action) {
   try {
-    const response = yield call(apiService.moveCardBetweenContainers, action.payload)
+    yield call(apiService.moveCardBetweenContainers, action.payload)
     yield put(genericActionCreator(CARD_MOVE_BETWEEN_CONTAINERS, action.payload))
-    console.log(response)
   } catch (error) {
     console.log(error)
   }

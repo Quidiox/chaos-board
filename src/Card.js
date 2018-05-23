@@ -175,12 +175,6 @@ const cardTarget = {
         containerPosition: props.containerPosition
       })
       monitor.getItem().position = hoverIndex
-    } else {
-      // TODO hover to work when dragging card to other container
-      // There seems to be something odd with hover when card is moved to other container
-      // hover will fire off all the time not just once maybe need some set of rules to compare
-      // dragindex and hoverindex to get rid of extra hover calls
-      console.log(dragIndex, hoverIndex)
     }
   }
 }
