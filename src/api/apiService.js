@@ -1,6 +1,9 @@
-const baseUrl = 'https://chaos-board-backend.herokuapp.com/'//'http://localhost:3005/'
+// const baseUrl = 'http://localhost:3005/' 
+const baseUrl = 'https://chaos-board-backend.herokuapp.com/'
+const herokuBoardId='5b054242cbe9c7000469e95a'
+const boardId='5ae9d453b0f47c69442dd3b9'
 
-const fetchBoard = async (boardId = '5ae9d453b0f47c69442dd3b9') => {
+const fetchBoard = async (boardId = herokuBoardId) => {
   try {
     const response = await fetch(baseUrl + 'api/board/' + boardId)
     return await response.json()
