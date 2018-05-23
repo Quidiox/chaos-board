@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3005/'
+const baseUrl = 'https://chaos-board-backend.herokuapp.com/'//'http://localhost:3005/'
 
 const fetchBoard = async (boardId = '5ae9d453b0f47c69442dd3b9') => {
   try {
