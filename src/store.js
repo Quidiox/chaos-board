@@ -1,9 +1,9 @@
-import { createStore, combineReducers, applyMiddleware /*, combose*/ } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import rootSaga from './sagas/sagas'
 import createHistory from 'history/createBrowserHistory'
 import { routerMiddleware, routerReducer } from 'react-router-redux'
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
+import rootSaga from './sagas/sagas'
 import boardRecuder from './reducers/boardReducer'
 
 const sagaMiddleware = createSagaMiddleware()

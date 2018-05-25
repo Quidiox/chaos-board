@@ -21,8 +21,8 @@ class Board extends Component {
     }
   }
   render() {
-    const board = this.props.board 
-    const sortedContainers = board.containers
+    const board = this.props.board
+    const sortedContainers = board && board.containers
       ? sortByPosition(board.containers)
       : []
     return (

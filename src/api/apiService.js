@@ -1,7 +1,7 @@
-const baseUrl = 'https://chaos-board-backend.herokuapp.com/'
-const initialBoardId='5b054242cbe9c7000469e95a' //heroku
-// const baseUrl = 'http://localhost:3005/'
-// const initialBoardId='5ae9d453b0f47c69442dd3b9'
+// const baseUrl = 'https://chaos-board-backend.herokuapp.com/'
+// const initialBoardId='5b054242cbe9c7000469e95a' //heroku
+const baseUrl = 'http://localhost:3005/'
+const initialBoardId='5ae9d453b0f47c69442dd3b9'
 
 const fetchBoard = async (boardId = initialBoardId) => {
   try {
