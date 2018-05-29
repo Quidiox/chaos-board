@@ -26,11 +26,11 @@ class Board extends Component {
       ? sortByPosition(board.containers)
       : []
     return (
-      <div style={{ height: '100%', marginLeft: '10px', marginRight: '10px' }}>
+      <div style={{ marginLeft: '10px', marginRight: '10px' }}>
         <h3>
           {board.title}
         </h3>
-        <div style={{ height: '100%' }}>
+        <div>
           {sortedContainers && (
             <div style={{ ...scrollingWrapper }}>
               {sortedContainers.map((container, i) => {

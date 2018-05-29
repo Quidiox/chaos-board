@@ -10,9 +10,20 @@ import MenuIcon from '@material-ui/icons/Menu'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
 import Board from './Board'
 import Frontpage from './Frontpage'
 import Home from './Home'
+
+const styles = {
+  nav: {
+    minHeight: '25px'
+  },
+  title: {
+    flex: 1,
+    textAlign: 'center'
+  }
+}
 
 class App extends Component {
   state = {
@@ -27,11 +38,12 @@ class App extends Component {
   }
   render() {
     const { anchorEl } = this.state
+    const { classes } = this.props
     return (
       <Fragment>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton style={{left: '-20px'}}>
+          <Toolbar className={classes.nav}>
+            <IconButton style={{ left: '-20px' }}>
               <MenuIcon
                 aria-owns={anchorEl ? 'simple-menu' : null}
                 aria-haspopup="true"
@@ -51,18 +63,18 @@ class App extends Component {
                 <Link to="/board">Board</Link>
               </MenuItem>
             </Menu>
-            <Typography variant="title" color="inherit" style={{flex: 1}}>
+            <Typography variant="title" color="inherit" className={classes.title}>
               Chaos board
             </Typography>
-            <Button color="inherit" style={{right: '-20px'}}>Login</Button>
+            <Button color="inherit" style={{ right: '-20px' }}>
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
         <Switch>
-          <div>
-            <Route exact path="/" component={Frontpage} />
-            <Route path="/home" component={Home} />
-            <Route path="/board" component={Board} />
-          </div>
+          <Route exact path="/" component={Frontpage} />
+          <Route path="/home" component={Home} />
+          <Route path="/board" component={Board} />
         </Switch>
       </Fragment>
     )
@@ -71,4 +83,4 @@ class App extends Component {
 
 App = DragDropContext(HTML5Backend)(App)
 
-export default App
+export default withStyles(styles)(App)

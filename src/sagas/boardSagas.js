@@ -1,4 +1,4 @@
-import { call, put, takeLatest, all, actionChannel, take } from 'redux-saga/effects'
+import { call, put, takeLatest, actionChannel, take } from 'redux-saga/effects'
 import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
@@ -46,7 +46,9 @@ function* moveCard(action) {
 function* moveCardBetweenContainers(action) {
   try {
     yield call(apiService.moveCardBetweenContainers, action.payload)
-    yield put(genericActionCreator(CARD_MOVE_BETWEEN_CONTAINERS, action.payload))
+    yield put(
+      genericActionCreator(CARD_MOVE_BETWEEN_CONTAINERS, action.payload)
+    )
   } catch (error) {
     console.log(error)
   }
@@ -132,9 +134,7 @@ function* watchDeleteContainer() {
 function* editContainer(action) {
   try {
     const response = yield call(apiService.editContainer, action.payload)
-    yield put(
-      genericActionCreator(CONTAINER_EDIT, response)
-    )
+    yield put(genericActionCreator(CONTAINER_EDIT, response))
   } catch (error) {
     console.log(error)
   }
@@ -146,7 +146,7 @@ function* watchEditContainer() {
 
 function* watchDragAndDrop() {
   const requestChannel = yield actionChannel('*')
-  while(true) {
+  while (true) {
     const action = yield take(requestChannel)
     switch (action.type) {
       case CARD_MOVE_REQUEST: {
@@ -161,21 +161,19 @@ function* watchDragAndDrop() {
         yield call(moveCardBetweenContainers, action)
         break
       }
-    default:
-      break
+      default:
+        break
     }
   }
 }
 
-export default function* rootSaga() {
-  yield all([
-    call(watchDragAndDrop),
-    call(watchInitializeBoard),
-    call(watchCreateContainer),
-    call(watchCreateCard),
-    call(watchEditCard),
-    call(watchDeleteCard),
-    call(watchEditContainer),
-    call(watchDeleteContainer)
-  ])
-}
+export const boardSagas = [
+  call(watchDragAndDrop),
+  call(watchInitializeBoard),
+  call(watchCreateContainer),
+  call(watchCreateCard),
+  call(watchEditCard),
+  call(watchDeleteCard),
+  call(watchEditContainer),
+  call(watchDeleteContainer)
+]
