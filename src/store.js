@@ -6,15 +6,13 @@ import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProductio
 import rootSaga from './sagas/sagas'
 import boardRecuder from './reducers/boardReducer'
 
+export const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
-const history = createHistory()
 const middleware = [routerMiddleware(history), sagaMiddleware]
-
 const store = createStore(
-  combineReducers({ board: boardRecuder, router: routerReducer }),
+  combineReducers({ board: boardRecuder, routing: routerReducer }),
   composeWithDevTools(applyMiddleware(...middleware))
 )
-
 sagaMiddleware.run(rootSaga)
 
 export default store
