@@ -20,8 +20,8 @@ import {
   CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
   CARD_MOVE_BETWEEN_CONTAINERS
 } from '../reducers/actionTypes'
-import apiService from '../api/apiService'
-import { genericActionCreator } from '../reducers/boardReducer'
+import apiService from '../api/boardApiService'
+import { genericActionCreator } from '../reducers/rootReducer'
 
 function* initializeBoard() {
   try {

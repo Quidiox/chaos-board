@@ -1,4 +1,5 @@
 import { call, put, takeLatest, actionChannel, take } from 'redux-saga/effects'
+import { genericActionCreator } from '../reducers/rootReducer'
 import {
   USER_LOGIN_REQUEST,
   USER_LOGIN,
@@ -13,8 +14,23 @@ import {
   USER_EDIT_REQUEST,
   USER_EDIT
 } from '../reducers/actionTypes'
+import apiService from '../api/userApiService'
 
+function* login(action) {
+  try {
+    const token = yield call(apiService.login, action.payload)
+    yield put(genericActionCreator(USER_LOGIN, token))
+  } catch (error) {
+    console.log(error)
+  }
+}
 
+function* watchLogin() {
+  yield takeLatest(USER_LOGIN_REQUEST, login)
+}
 
+function* watchLogout() {
+  yield
+}
 
-export const userSagas = []
+export const userSagas = [call(watchLogin)]

@@ -16,6 +16,7 @@ import {
 const userReducer = (state = [], action) => {
   switch (action.type) {
     case USER_LOGIN: {
+      console.log('hello!!!', action)
       return state
     }
     case USER_LOGOUT: {
@@ -38,13 +39,18 @@ const userReducer = (state = [], action) => {
   }
 }
 
-export const requestUserLogin = payload => ({
+export const requestLoginUser = payload => ({
   type: USER_LOGIN_REQUEST,
   payload
 })
 
-export const requestUserLogout = payload => ({
+export const requestLogoutUser = payload => ({
   type: USER_LOGOUT_REQUEST,
+  payload
+})
+
+export const requestVerifyUserToken = payload => ({
+  type: USER_VERIFY_TOKEN_REQUEST,
   payload
 })
 
@@ -53,11 +59,14 @@ export const requestCreateUser = payload => ({
   payload
 })
 
-export const genericActionCreator = (type, payload, error, meta) => ({
-  type,
-  payload,
-  error,
-  meta
+export const requestDeleteUser = payload => ({
+  type: USER_DELETE_REQUEST,
+  payload
+})
+
+export const requestEditUser = payload => ({
+  type: USER_EDIT_REQUEST,
+  payload
 })
 
 export default userReducer

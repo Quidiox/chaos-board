@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
-import UserForm from './UserForm'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Button } from 'semantic-ui-react'
+import UserForm from './UserForm'
+import { requestLoginUser } from './reducers/userReducer'
 
 class Frontpage extends Component {
   state = { username: '', password: '', type: 'Login' }
@@ -11,6 +14,9 @@ class Frontpage extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
+    const { username, password } = this.state
+    this.props.requestLoginUser({ username, password })
+    this.setState({ username: '', password: '' })
   }
 
   changeType = type => {
@@ -43,4 +49,7 @@ class Frontpage extends Component {
   }
 }
 
-export default Frontpage
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ requestLoginUser }, dispatch)
+
+export default connect(null, mapDispatchToProps)(Frontpage)

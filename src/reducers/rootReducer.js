@@ -8,3 +8,10 @@ export const rootReducer = combineReducers({
   user: userReducer,
   routing: routerReducer
 })
+
+export const genericActionCreator = (type, payload, error, meta) => ({
+  type,
+  payload,
+  error,
+  meta
+})

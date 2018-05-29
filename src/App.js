@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { DragDropContext } from 'react-dnd'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Route, Link, Switch } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
@@ -14,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Board from './Board'
 import Frontpage from './Frontpage'
 import Home from './Home'
+import { requestLogoutUser } from './reducers/userReducer'
 
 const styles = {
   nav: {
@@ -36,6 +39,7 @@ class App extends Component {
   handleClose = () => {
     this.setState({ anchorEl: null })
   }
+  handleLogout = () => {}
   render() {
     const { anchorEl } = this.state
     const { classes } = this.props
@@ -63,7 +67,11 @@ class App extends Component {
                 <Link to="/board">Board</Link>
               </MenuItem>
             </Menu>
-            <Typography variant="title" color="inherit" className={classes.title}>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.title}
+            >
               Chaos board
             </Typography>
             <Button color="inherit" style={{ right: '-20px' }}>
@@ -81,6 +89,10 @@ class App extends Component {
   }
 }
 
-App = DragDropContext(HTML5Backend)(App)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ requestLogoutUser }, dispatch)
 
-export default withStyles(styles)(App)
+App = DragDropContext(HTML5Backend)(App)
+App = withStyles(styles)(App)
+
+export default connect(null, mapDispatchToProps)(App)

@@ -1,11 +1,11 @@
-// const baseUrl = 'https://chaos-board-backend.herokuapp.com/'
+// const baseUrl = 'https://chaos-board-backend.herokuapp.com/api/'
 // const initialBoardId='5b054242cbe9c7000469e95a' //heroku
-const baseUrl = 'http://localhost:3005/'
-const initialBoardId='5ae9d453b0f47c69442dd3b9'
+const baseUrl = 'http://localhost:3005/api/'
+const initialBoardId = '5ae9d453b0f47c69442dd3b9'
 
 const fetchBoard = async (boardId = initialBoardId) => {
   try {
-    const response = await fetch(baseUrl + 'api/board/' + boardId)
+    const response = await fetch(baseUrl + 'board/' + boardId)
     return await response.json()
   } catch (error) {
     console.log(error)
@@ -14,7 +14,7 @@ const fetchBoard = async (boardId = initialBoardId) => {
 
 const fetchAllBoards = async () => {
   try {
-    const response = await fetch(baseUrl + 'api/board')
+    const response = await fetch(baseUrl + 'board')
     return await response.json()
   } catch (error) {
     console.log(error)
@@ -23,7 +23,7 @@ const fetchAllBoards = async () => {
 
 const moveCard = async data => {
   try {
-    const response = await fetch(baseUrl + 'api/card/move', {
+    const response = await fetch(baseUrl + 'card/move', {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -36,7 +36,7 @@ const moveCard = async data => {
 
 const moveContainer = async data => {
   try {
-    const response = await fetch(baseUrl + 'api/container/move', {
+    const response = await fetch(baseUrl + 'container/move', {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -49,7 +49,7 @@ const moveContainer = async data => {
 
 const moveCardBetweenContainers = async data => {
   try {
-    const response = await fetch(baseUrl + 'api/card/betweencontainers', {
+    const response = await fetch(baseUrl + 'card/betweencontainers', {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -62,7 +62,7 @@ const moveCardBetweenContainers = async data => {
 
 const createContainer = async payload => {
   try {
-    const response = await fetch(baseUrl + 'api/container/' + payload.boardId, {
+    const response = await fetch(baseUrl + 'container/' + payload.boardId, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -76,7 +76,7 @@ const createContainer = async payload => {
 const deleteContainer = async payload => {
   try {
     await fetch(
-      baseUrl + 'api/container/' + payload.boardId + '/' + payload.containerId,
+      baseUrl + 'container/' + payload.boardId + '/' + payload.containerId,
       {
         method: 'DELETE'
       }
@@ -90,7 +90,7 @@ const deleteContainer = async payload => {
 const editContainer = async payload => {
   try {
     const response = await fetch(
-      baseUrl + 'api/container/edit/' + payload.containerId,
+      baseUrl + 'container/edit/' + payload.containerId,
       {
         method: 'PUT',
         body: JSON.stringify(payload),
@@ -105,7 +105,7 @@ const editContainer = async payload => {
 
 const createCard = async payload => {
   try {
-    const response = await fetch(baseUrl + 'api/card/' + payload.containerId, {
+    const response = await fetch(baseUrl + 'card/' + payload.containerId, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -118,7 +118,7 @@ const createCard = async payload => {
 
 const editCard = async payload => {
   try {
-    const response = await fetch(baseUrl + 'api/card/edit/' + payload.cardId, {
+    const response = await fetch(baseUrl + 'card/edit/' + payload.cardId, {
       method: 'PUT',
       body: JSON.stringify(payload),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -132,7 +132,7 @@ const editCard = async payload => {
 const deleteCard = async payload => {
   try {
     await fetch(
-      baseUrl + 'api/card/' + payload.containerId + '/' + payload.cardId,
+      baseUrl + 'card/' + payload.containerId + '/' + payload.cardId,
       {
         method: 'DELETE'
       }

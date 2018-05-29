@@ -22,9 +22,6 @@ import {
 } from './actionTypes'
 
 const boardReducer = (state = [], action) => {
-  // console.log('ACTION TYPE: ', action.type)
-  // console.log('ACTION PAYLOAD', action.payload)
-  // console.log('ACTION META', action.meta)
   switch (action.type) {
     case BOARD_INITIALIZE:
       return action.payload
@@ -198,13 +195,6 @@ export const requestEditContainer = payload => ({
 export const requestDeleteContainer = payload => ({
   type: CONTAINER_DELETE_REQUEST,
   payload
-})
-
-export const genericActionCreator = (type, payload, error, meta) => ({
-  type,
-  payload,
-  error,
-  meta
 })
 
 export default boardReducer
