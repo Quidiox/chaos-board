@@ -18,8 +18,8 @@ import apiService from '../api/userApiService'
 
 function* login(action) {
   try {
-    const token = yield call(apiService.login, action.payload)
-    yield put(genericActionCreator(USER_LOGIN, token))
+    const user = yield call(apiService.login, action.payload)
+    yield put(genericActionCreator(USER_LOGIN, user))
   } catch (error) {
     console.log(error)
   }
@@ -41,4 +41,19 @@ function* watchLogout() {
   yield takeLatest(USER_LOGOUT_REQUEST, logout)
 }
 
-export const userSagas = [call(watchLogin), call(watchLogout)]
+function* verifyToken(action) {
+  try {
+    const response = yield call(apiService.verifyToken, action.payload)
+    if (response && response.success) {
+      yield put(genericActionCreator(USER_VERIFY_TOKEN, action.payload))
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchVerifyToken() {
+  yield takeLatest(USER_VERIFY_TOKEN_REQUEST, verifyToken)
+}
+
+export const userSagas = [call(watchLogin), call(watchLogout), call(watchVerifyToken)]

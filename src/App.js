@@ -3,7 +3,7 @@ import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { Route, Link, Switch } from 'react-router-dom'
+import { Route, Link, Switch, Redirect, withRouter } from 'react-router-dom'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
@@ -16,7 +16,10 @@ import { withStyles } from '@material-ui/core/styles'
 import Board from './Board'
 import Frontpage from './Frontpage'
 import Home from './Home'
-import { requestLogoutUser } from './reducers/userReducer'
+import {
+  requestLogoutUser,
+  requestVerifyUserToken
+} from './reducers/userReducer'
 
 const styles = {
   nav: {
@@ -41,6 +44,17 @@ const styles = {
 class App extends Component {
   state = {
     anchorEl: null
+  }
+  componentDidMount() {
+    const user = window.localStorage.getItem('loggedChaosBoardUser')
+    const parsedUser = JSON.parse(user)
+    if (parsedUser) {
+      try {
+        this.props.requestVerifyUserToken(parsedUser)
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget })
@@ -86,19 +100,20 @@ class App extends Component {
               Chaos board
             </Typography>
 
-            {this.props.user && this.props.user.username ? (
-              <Button onClick={this.handleLogout} className={classes.logout}>
-                <Link to="/" style={{ color: 'white' }}>
-                  Logout
-                </Link>
-              </Button>
-            ) : (
-              <Button className={classes.login}>
-                <Link to="/" style={{ color: 'white' }}>
-                  Login
-                </Link>
-              </Button>
-            )}
+            {this.props.user &&
+              this.props.user.username && (
+                <div style={{display: 'flex'}}>
+                  <h4 style={{margin: 0, padding: '7px 2px 0px 2px'}}>{this.props.user.name}</h4>
+                  <Button
+                    onClick={this.handleLogout}
+                    className={classes.logout}
+                  >
+                    <Link to="/" style={{ color: 'white' }}>
+                      Logout
+                    </Link>
+                  </Button>
+                </div>
+              )}
           </Toolbar>
         </AppBar>
         <Switch>
@@ -112,7 +127,7 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestLogoutUser }, dispatch)
+  bindActionCreators({ requestLogoutUser, requestVerifyUserToken }, dispatch)
 
 const mapStateToProps = state => ({
   user: state.user
@@ -121,4 +136,4 @@ const mapStateToProps = state => ({
 App = DragDropContext(HTML5Backend)(App)
 App = withStyles(styles)(App)
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

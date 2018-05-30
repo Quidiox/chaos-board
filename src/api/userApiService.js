@@ -1,12 +1,25 @@
 const baseUrl = 'http://localhost:3005/api/'
 const login = async data => {
   try {
-    const token = await fetch(baseUrl + 'login', {
+    const user = await fetch(baseUrl + 'login', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
     })
-    return await token.json()
+    return await user.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const verifyToken = async data => {
+  try {
+    const result = await fetch(baseUrl + 'login/verifytoken', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    })
+    return await result.json()
   } catch (error) {
     console.log(error)
   }
@@ -49,4 +62,4 @@ const remove = async data => {
   }
 }
 
-export default { login, create, update, remove }
+export default { login, create, update, remove, verifyToken }

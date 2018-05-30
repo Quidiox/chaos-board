@@ -16,14 +16,15 @@ import {
 const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOGIN: {
-      console.log('hello!!!', action)
-      return action.payload
+      window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
+      return Object.assign({}, state, action.payload)
     }
     case USER_LOGOUT: {
+      window.localStorage.removeItem('loggedChaosBoardUser')
       return {}
     }
     case USER_VERIFY_TOKEN: {
-      return state
+      return Object.assign({}, state, action.payload)
     }
     case USER_CREATE: {
       return state
