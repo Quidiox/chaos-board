@@ -14,11 +14,11 @@ class Frontpage extends Component {
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         {registered ? (
           <div>
-            <Login /> <Button onClick={this.handleClick}>Register</Button>
+            <Login /> If you don't have account you need to <Button onClick={this.handleClick}>Register</Button>
           </div>
         ) : (
           <div>
-            <Register /> <Button onClick={this.handleClick}>Login</Button>
+            <Register /> If you already have an account you can <Button onClick={this.handleClick}>Login</Button>
           </div>
         )}
       </div>

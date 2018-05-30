@@ -2,17 +2,29 @@ import React from 'react'
 import { Form, Button, Input } from 'semantic-ui-react'
 
 const UserForm = ({
-  type,
+  nameField,
+  name,
   username,
   password,
   handleChange,
   handleSubmit,
   clear
 }) => {
+  console.log('aha:', name)
   return (
     <Form onSubmit={handleSubmit}>
+      {nameField  && (
+        <Form.Field
+          value={name}
+          control={Input}
+          placeholder="Full name"
+          name="name"
+          onChange={handleChange}
+          style={inputStyle}
+        />
+      )}
       <Form.Field
-        value={username || ''}
+        value={username}
         control={Input}
         placeholder="Username"
         name="username"
@@ -20,7 +32,7 @@ const UserForm = ({
         style={inputStyle}
       />
       <Form.Field
-        value={password || ''}
+        value={password}
         control={Input}
         placeholder="Password"
         name="password"
@@ -28,7 +40,7 @@ const UserForm = ({
         style={inputStyle}
       />
       <Form.Group>
-        <Form.Field control={Button}>{type}</Form.Field>
+        <Form.Field control={Button}>Submit</Form.Field>
         <Form.Field control={Button} onClick={clear}>
           Clear
         </Form.Field>
