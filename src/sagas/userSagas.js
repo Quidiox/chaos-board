@@ -29,8 +29,16 @@ function* watchLogin() {
   yield takeLatest(USER_LOGIN_REQUEST, login)
 }
 
-function* watchLogout() {
-  yield
+function* logout() {
+  try {
+    yield put(genericActionCreator(USER_LOGOUT))
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-export const userSagas = [call(watchLogin)]
+function* watchLogout() {
+  yield takeLatest(USER_LOGOUT_REQUEST, logout)
+}
+
+export const userSagas = [call(watchLogin), call(watchLogout)]

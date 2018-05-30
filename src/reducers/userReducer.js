@@ -13,14 +13,14 @@ import {
   USER_EDIT
 } from './actionTypes'
 
-const userReducer = (state = [], action) => {
+const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOGIN: {
       console.log('hello!!!', action)
-      return state
+      return action.payload
     }
     case USER_LOGOUT: {
-      return state
+      return {}
     }
     case USER_VERIFY_TOKEN: {
       return state
@@ -44,9 +44,8 @@ export const requestLoginUser = payload => ({
   payload
 })
 
-export const requestLogoutUser = payload => ({
-  type: USER_LOGOUT_REQUEST,
-  payload
+export const requestLogoutUser = () => ({
+  type: USER_LOGOUT_REQUEST
 })
 
 export const requestVerifyUserToken = payload => ({

@@ -25,6 +25,16 @@ const styles = {
   title: {
     flex: 1,
     textAlign: 'center'
+  },
+  login: {
+    right: '-20px'
+  },
+  logout: {
+    backgroundColor: 'secondary',
+    right: '-20px'
+  },
+  menuIcon: {
+    left: '-20px'
   }
 }
 
@@ -35,11 +45,12 @@ class App extends Component {
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget })
   }
-
   handleClose = () => {
     this.setState({ anchorEl: null })
   }
-  handleLogout = () => {}
+  handleLogout = () => {
+    this.props.requestLogoutUser()
+  }
   render() {
     const { anchorEl } = this.state
     const { classes } = this.props
@@ -47,7 +58,7 @@ class App extends Component {
       <Fragment>
         <AppBar position="static">
           <Toolbar className={classes.nav}>
-            <IconButton style={{ left: '-20px' }}>
+            <IconButton className={classes.menuIcon}>
               <MenuIcon
                 aria-owns={anchorEl ? 'simple-menu' : null}
                 aria-haspopup="true"
@@ -74,9 +85,20 @@ class App extends Component {
             >
               Chaos board
             </Typography>
-            <Button color="inherit" style={{ right: '-20px' }}>
-              Login
-            </Button>
+
+            {this.props.user && this.props.user.username ? (
+              <Button onClick={this.handleLogout} className={classes.logout}>
+                <Link to="/" style={{ color: 'white' }}>
+                  Logout
+                </Link>
+              </Button>
+            ) : (
+              <Button className={classes.login}>
+                <Link to="/" style={{ color: 'white' }}>
+                  Login
+                </Link>
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <Switch>
@@ -92,7 +114,11 @@ class App extends Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ requestLogoutUser }, dispatch)
 
+const mapStateToProps = state => ({
+  user: state.user
+})
+
 App = DragDropContext(HTML5Backend)(App)
 App = withStyles(styles)(App)
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

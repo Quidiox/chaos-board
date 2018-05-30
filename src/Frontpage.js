@@ -1,55 +1,29 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { Button } from 'semantic-ui-react'
-import UserForm from './UserForm'
-import { requestLoginUser } from './reducers/userReducer'
+import Login from './Login'
+import Register from './Register'
+import Button from '@material-ui/core/Button'
 
 class Frontpage extends Component {
-  state = { username: '', password: '', type: 'Login' }
-
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
+  state = { registered: true }
+  handleClick = () => {
+    this.setState({ registered: !this.state.registered })
   }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    const { username, password } = this.state
-    this.props.requestLoginUser({ username, password })
-    this.setState({ username: '', password: '' })
-  }
-
-  changeType = type => {
-    this.setState({ type })
-  }
-
-  clear = e => {
-    e.preventDefault()
-    this.setState({ username: '', password: '' })
-  }
-
   render() {
+    const { registered } = this.state
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div>
-          <h2>Login to view your boards</h2>
-          <UserForm
-            type={this.state.type}
-            username={this.state.username}
-            password={this.state.password}
-            handleChange={this.handleChange}
-            handleSubmit={this.handleSubmit}
-            clear={this.clear}
-          />
-          <h2>or create new account</h2>
-          <Button onClick={() => this.changeType('Register')}>Register</Button>
-        </div>
+        {registered ? (
+          <div>
+            <Login /> <Button onClick={this.handleClick}>Register</Button>
+          </div>
+        ) : (
+          <div>
+            <Register /> <Button onClick={this.handleClick}>Login</Button>
+          </div>
+        )}
       </div>
     )
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestLoginUser }, dispatch)
-
-export default connect(null, mapDispatchToProps)(Frontpage)
+export default Frontpage
