@@ -56,4 +56,22 @@ function* watchVerifyToken() {
   yield takeLatest(USER_VERIFY_TOKEN_REQUEST, verifyToken)
 }
 
-export const userSagas = [call(watchLogin), call(watchLogout), call(watchVerifyToken)]
+function* createUser(action) {
+  try {
+    const user = yield call(apiService.create, action.payload)
+    yield put(genericActionCreator(USER_CREATE, user))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchCreateUser() {
+  yield takeLatest(USER_CREATE_REQUEST, createUser)
+}
+
+export const userSagas = [
+  call(watchLogin),
+  call(watchLogout),
+  call(watchVerifyToken),
+  call(watchCreateUser)
+]

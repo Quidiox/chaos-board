@@ -10,7 +10,6 @@ const UserForm = ({
   handleSubmit,
   clear
 }) => {
-  console.log('aha:', name)
   return (
     <Form onSubmit={handleSubmit}>
       {nameField  && (

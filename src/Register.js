@@ -8,7 +8,6 @@ class Register extends Component {
   state = { name: '', username: '', password: '' }
 
   handleChange = e => {
-    console.log(e.target.name)
     this.setState({ [e.target.name]: e.target.value })
   }
 

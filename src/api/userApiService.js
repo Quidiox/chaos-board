@@ -40,7 +40,7 @@ const create = async data => {
 
 const update = async data => {
   try {
-    const user = await fetch(baseUrl + 'user', {
+    const user = await fetch(baseUrl + 'user/' + data.id, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -53,7 +53,7 @@ const update = async data => {
 
 const remove = async data => {
   try {
-    const response = await fetch(baseUrl + 'user/' + data.userId, {
+    const response = await fetch(baseUrl + 'user/' + data.id, {
       method: 'DELETE'
     })
     return await response.json()

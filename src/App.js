@@ -103,7 +103,7 @@ class App extends Component {
             {this.props.user &&
               this.props.user.username && (
                 <div style={{display: 'flex'}}>
-                  <h4 style={{margin: 0, padding: '7px 2px 0px 2px'}}>{this.props.user.name}</h4>
+                  <h4 style={{margin: 0, padding: '7px 0px 0px 2px'}}>{this.props.user.name}</h4>
                   <Button
                     onClick={this.handleLogout}
                     className={classes.logout}
