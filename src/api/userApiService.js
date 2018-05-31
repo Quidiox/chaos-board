@@ -1,12 +1,5 @@
+import { setToken } from '../utils/helpers'
 const baseUrl = 'http://localhost:3005/api/'
-let token = null
-const storedToken = JSON.parse(
-  window.localStorage.getItem('loggedChaosBoardUser')
-).token
-const setToken = newToken => {
-  token = `bearer ${newToken}`
-}
-setToken(storedToken)
 
 const login = async data => {
   try {
@@ -49,6 +42,7 @@ const create = async data => {
 
 const edit = async data => {
   try {
+    const token = setToken()
     const user = await fetch(baseUrl + 'user/' + data.id, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -65,11 +59,11 @@ const edit = async data => {
 
 const remove = async data => {
   try {
-    const response = await fetch(baseUrl + 'user/' + data.id, {
+    const token = setToken()
+    await fetch(baseUrl + 'user/' + data.id, {
       method: 'DELETE',
       headers: new Headers({ Authorization: token })
     })
-    return await response.json()
   } catch (error) {
     console.log(error)
   }

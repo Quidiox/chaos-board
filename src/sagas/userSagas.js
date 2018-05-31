@@ -1,4 +1,4 @@
-import { call, put, takeLatest, actionChannel, take } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import { genericActionCreator } from '../reducers/rootReducer'
 import {
   USER_LOGIN_REQUEST,
@@ -72,7 +72,7 @@ function* watchCreateUser() {
 function* editUser(action) {
   try {
     const editedUser = yield call(apiService.edit, action.payload)
-    yield put(genericActionCreator(USER_EDIT, action.payload))
+    yield put(genericActionCreator(USER_EDIT, editedUser))
   } catch (error) {
     console.log(error)
   }
@@ -82,9 +82,24 @@ function* watchEditUser() {
   yield takeLatest(USER_EDIT_REQUEST, editUser)
 }
 
+function* deleteUser(action) {
+  try {
+    yield call(apiService.remove, action.payload)
+    yield put(genericActionCreator(USER_DELETE))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchDeleteUser() {
+  yield takeLatest(USER_DELETE_REQUEST, deleteUser)
+}
+
 export const userSagas = [
   call(watchLogin),
   call(watchLogout),
   call(watchVerifyToken),
-  call(watchCreateUser)
+  call(watchCreateUser),
+  call(watchEditUser),
+  call(watchDeleteUser)
 ]

@@ -31,8 +31,9 @@ const userReducer = (state = {}, action) => {
       return action.payload
     }
     case USER_EDIT: {
-      window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
-      return action.payload
+      // window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
+      // return action.payload
+      return state
     }
     case USER_DELETE: {
       window.localStorage.removeItem('loggedChaosBoardUser')

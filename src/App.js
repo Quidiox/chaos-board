@@ -47,14 +47,23 @@ class App extends Component {
   }
   handleDelete = () => {
     this.handleClose()
-    this.props.requestDeleteUser()
+    console.log(this.props.user)
+    this.props.requestDeleteUser(this.props.user)
   }
-
   render() {
     const { pageAnchorEl, personAnchorEl } = this.state
     return (
       <Fragment>
-        <Header user={this.props.user} pageAnchorEl={pageAnchorEl} personAnchorEl={personAnchorEl} handleClick={this.handleClick} handleClose={this.handleClose} handleLogout={this.handleLogout} />
+        <Header
+          user={this.props.user}
+          pageAnchorEl={pageAnchorEl}
+          personAnchorEl={personAnchorEl}
+          handleEdit={this.handleEdit}
+          handleDelete={this.handleDelete}
+          handleClick={this.handleClick}
+          handleClose={this.handleClose}
+          handleLogout={this.handleLogout}
+        />
         <Switch>
           <Route exact path="/" component={Frontpage} />
           <Route path="/home" component={Home} />
@@ -66,7 +75,15 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestLogoutUser, requestVerifyUserToken, requestEditUser, requestDeleteUser }, dispatch)
+  bindActionCreators(
+    {
+      requestLogoutUser,
+      requestVerifyUserToken,
+      requestEditUser,
+      requestDeleteUser
+    },
+    dispatch
+  )
 
 const mapStateToProps = state => ({
   user: state.user

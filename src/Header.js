@@ -21,7 +21,7 @@ const styles = {
   login: {
     right: '-20px'
   },
-  logout: {
+  profile: {
     backgroundColor: 'secondary',
     right: '-20px'
   },
@@ -29,10 +29,11 @@ const styles = {
     left: '-20px'
   }
 }
-
 const Header = ({
   user,
   classes,
+  handleEdit,
+  handleDelete,
   handleClose,
   handleClick,
   handleLogout,
@@ -76,6 +77,7 @@ const Header = ({
               aria-haspopup="true"
               onClick={handleClick}
               color="inherit"
+              className={classes.profile}
             >
               <AccountCircle />
             </IconButton>
@@ -97,8 +99,8 @@ const Header = ({
               <MenuItem onClick={handleLogout} className={classes.logout}>
                 <Link to="/">Logout</Link>
               </MenuItem>
-              <MenuItem onClick={handleClose}>Edit account</MenuItem>
-              <MenuItem onClick={handleClose}>Delete account</MenuItem>
+              <MenuItem onClick={handleEdit}>Edit account</MenuItem>
+              <MenuItem onClick={handleDelete}>Delete account</MenuItem>
             </Menu>
           </div>
         )}

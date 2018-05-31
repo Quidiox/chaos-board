@@ -4,13 +4,16 @@ const baseUrl = 'http://localhost:3005/api/'
 const initialBoardId = '5ae9d453b0f47c69442dd3b9'
 
 let token = null
-const newToken = JSON.parse(window.localStorage.getItem('loggedChaosBoardUser'))
-  .token
-
-const setToken = newToken => {
-  token = `bearer ${newToken}`
+const setToken = storedToken => {
+  token = `Bearer ${storedToken}`
 }
-setToken(newToken)
+const storedUser = window.localStorage.getItem('loggedChaosBoardUser')
+if (storedUser && typeof storedUser !== 'undefined') {
+  const storedToken = storedUser.token
+  setToken(storedToken)
+} else {
+  window.localStorage.removeItem('loggedChaosBoardUser')
+}
 
 const fetchBoard = async (boardId = initialBoardId) => {
   try {
