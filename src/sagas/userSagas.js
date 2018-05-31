@@ -69,6 +69,19 @@ function* watchCreateUser() {
   yield takeLatest(USER_CREATE_REQUEST, createUser)
 }
 
+function* editUser(action) {
+  try {
+    const editedUser = yield call(apiService.edit, action.payload)
+    yield put(genericActionCreator(USER_EDIT, action.payload))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchEditUser() {
+  yield takeLatest(USER_EDIT_REQUEST, editUser)
+}
+
 export const userSagas = [
   call(watchLogin),
   call(watchLogout),

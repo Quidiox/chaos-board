@@ -67,7 +67,8 @@ const Header = ({
       <Typography variant="title" color="inherit" className={classes.title}>
         Chaos board
       </Typography>
-      {user && user.username && (
+      {user &&
+        user.username && (
           <div>
             <IconButton
               name="personAnchorEl"

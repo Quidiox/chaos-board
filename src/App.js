@@ -10,7 +10,9 @@ import Frontpage from './Frontpage'
 import Home from './Home'
 import {
   requestLogoutUser,
-  requestVerifyUserToken
+  requestVerifyUserToken,
+  requestEditUser,
+  requestDeleteUser
 } from './reducers/userReducer'
 
 class App extends Component {
@@ -39,6 +41,14 @@ class App extends Component {
     this.handleClose()
     this.props.requestLogoutUser()
   }
+  handleEdit = () => {
+    this.handleClose()
+    this.props.requestEditUser()
+  }
+  handleDelete = () => {
+    this.handleClose()
+    this.props.requestDeleteUser()
+  }
 
   render() {
     const { pageAnchorEl, personAnchorEl } = this.state
@@ -56,7 +66,7 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestLogoutUser, requestVerifyUserToken }, dispatch)
+  bindActionCreators({ requestLogoutUser, requestVerifyUserToken, requestEditUser, requestDeleteUser }, dispatch)
 
 const mapStateToProps = state => ({
   user: state.user

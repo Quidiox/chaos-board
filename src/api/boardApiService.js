@@ -3,9 +3,20 @@
 const baseUrl = 'http://localhost:3005/api/'
 const initialBoardId = '5ae9d453b0f47c69442dd3b9'
 
+let token = null
+const newToken = JSON.parse(window.localStorage.getItem('loggedChaosBoardUser'))
+  .token
+
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+}
+setToken(newToken)
+
 const fetchBoard = async (boardId = initialBoardId) => {
   try {
-    const response = await fetch(baseUrl + 'board/' + boardId)
+    const response = await fetch(baseUrl + 'board/' + boardId, {
+      headers: new Headers({ Authorization: token })
+    })
     return await response.json()
   } catch (error) {
     console.log(error)
@@ -14,7 +25,9 @@ const fetchBoard = async (boardId = initialBoardId) => {
 
 const fetchAllBoards = async () => {
   try {
-    const response = await fetch(baseUrl + 'board')
+    const response = await fetch(baseUrl + 'board', {
+      headers: new Headers({ Authorization: token })
+    })
     return await response.json()
   } catch (error) {
     console.log(error)
@@ -26,7 +39,10 @@ const moveCard = async data => {
     const response = await fetch(baseUrl + 'card/move', {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {
@@ -39,7 +55,10 @@ const moveContainer = async data => {
     const response = await fetch(baseUrl + 'container/move', {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {
@@ -52,7 +71,10 @@ const moveCardBetweenContainers = async data => {
     const response = await fetch(baseUrl + 'card/betweencontainers', {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {
@@ -65,7 +87,10 @@ const createContainer = async payload => {
     const response = await fetch(baseUrl + 'container/' + payload.boardId, {
       method: 'POST',
       body: JSON.stringify(payload),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {
@@ -78,7 +103,8 @@ const deleteContainer = async payload => {
     await fetch(
       baseUrl + 'container/' + payload.boardId + '/' + payload.containerId,
       {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: new Headers({ Authorization: token })
       }
     )
   } catch (error) {
@@ -94,7 +120,10 @@ const editContainer = async payload => {
       {
         method: 'PUT',
         body: JSON.stringify(payload),
-        headers: new Headers({ 'Content-Type': 'application/json' })
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: token
+        })
       }
     )
     return await response.json()
@@ -108,7 +137,10 @@ const createCard = async payload => {
     const response = await fetch(baseUrl + 'card/' + payload.containerId, {
       method: 'POST',
       body: JSON.stringify(payload),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {
@@ -121,7 +153,10 @@ const editCard = async payload => {
     const response = await fetch(baseUrl + 'card/edit/' + payload.cardId, {
       method: 'PUT',
       body: JSON.stringify(payload),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {
@@ -134,7 +169,8 @@ const deleteCard = async payload => {
     await fetch(
       baseUrl + 'card/' + payload.containerId + '/' + payload.cardId,
       {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: new Headers({ Authorization: token })
       }
     )
   } catch (error) {

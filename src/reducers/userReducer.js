@@ -31,10 +31,12 @@ const userReducer = (state = {}, action) => {
       return action.payload
     }
     case USER_EDIT: {
-      return state
+      window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
+      return action.payload
     }
     case USER_DELETE: {
-      return state
+      window.localStorage.removeItem('loggedChaosBoardUser')
+      return {}
     }
     default:
       return state

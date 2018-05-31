@@ -1,4 +1,13 @@
 const baseUrl = 'http://localhost:3005/api/'
+let token = null
+const storedToken = JSON.parse(
+  window.localStorage.getItem('loggedChaosBoardUser')
+).token
+const setToken = newToken => {
+  token = `bearer ${newToken}`
+}
+setToken(storedToken)
+
 const login = async data => {
   try {
     const user = await fetch(baseUrl + 'login', {
@@ -38,12 +47,15 @@ const create = async data => {
   }
 }
 
-const update = async data => {
+const edit = async data => {
   try {
     const user = await fetch(baseUrl + 'user/' + data.id, {
       method: 'PUT',
       body: JSON.stringify(data),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await user.json()
   } catch (error) {
@@ -54,7 +66,8 @@ const update = async data => {
 const remove = async data => {
   try {
     const response = await fetch(baseUrl + 'user/' + data.id, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: new Headers({ Authorization: token })
     })
     return await response.json()
   } catch (error) {
@@ -62,4 +75,4 @@ const remove = async data => {
   }
 }
 
-export default { login, create, update, remove, verifyToken }
+export default { login, create, edit, remove, verifyToken }
