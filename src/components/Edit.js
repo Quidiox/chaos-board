@@ -47,7 +47,7 @@ class Edit extends Component {
           <Form.Group>
             <Form.Field control={Button}>Save</Form.Field>
             <Form.Field control={Button} onClick={this.close}>
-              Clear
+              Close
             </Form.Field>
           </Form.Group>
         </Form>

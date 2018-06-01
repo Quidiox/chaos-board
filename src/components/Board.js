@@ -26,7 +26,7 @@ class Board extends Component {
       ? sortByPosition(board.containers)
       : []
     return (
-      <div style={{ marginLeft: '10px', marginRight: '10px' }}>
+      <div style={{ marginLeft: '10px', marginRight: '10px', height: '93%', overflowX: 'auto'}}>
         <h3>
           {board.title}
         </h3>
@@ -59,7 +59,6 @@ class Board extends Component {
 
 const scrollingWrapper = {
   display: 'flex',
-  overflowX: 'auto',
   minWidth: '100%',
   minHeight: '200px',
   height: '100%'

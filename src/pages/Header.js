@@ -40,7 +40,7 @@ const Header = ({
   pageAnchorEl,
   personAnchorEl
 }) => (
-  <AppBar position="static">
+  <AppBar position="static" style={{height: '7%'}}>
     <Toolbar className={classes.nav}>
       <IconButton
         className={classes.menuIcon}
