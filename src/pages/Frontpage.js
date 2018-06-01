@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Login from './Login'
-import Register from './Register'
 import Button from '@material-ui/core/Button'
+import Login from './user/Login'
+import Register from './user/Register'
 
 class Frontpage extends Component {
   state = { registered: true }

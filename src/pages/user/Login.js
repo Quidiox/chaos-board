@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import UserForm from './UserForm'
-import { requestLoginUser } from './reducers/userReducer'
+import { requestLoginUser } from '../../reducers/userReducer'
 
 class Login extends Component {
   state = { username: '', password: '' }

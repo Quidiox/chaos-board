@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Route, Switch, withRouter } from 'react-router-dom'
-import Header from './Header'
-import Board from './Board'
-import Frontpage from './Frontpage'
-import Home from './Home'
+import Header from './pages/Header'
+import Board from './components/Board'
+import Frontpage from './pages/Frontpage'
+import Home from './pages/Home'
 import {
   requestLogoutUser,
   requestVerifyUserToken,

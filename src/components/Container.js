@@ -4,12 +4,12 @@ import flow from 'lodash/flow'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Card from './Card'
-import { ItemTypes } from './constants'
-import { sortByPosition } from './utils/helpers'
+import { ItemTypes } from '../utils/constants'
+import { sortByPosition } from '../utils/helpers'
 import {
   requestMoveContainer,
   requestDeleteContainer
-} from './reducers/boardReducer'
+} from '../reducers/boardReducer'
 import AddCard from './AddCard'
 import Edit from './Edit'
 import DropdownMenu from './DropdownMenu'

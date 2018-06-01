@@ -1,6 +1,6 @@
 import { setToken } from '../utils/helpers'
-const baseUrl = 'http://localhost:3005/api/'
 
+const baseUrl = 'http://localhost:3005/api/'
 const login = async data => {
   try {
     const user = await fetch(baseUrl + 'login', {

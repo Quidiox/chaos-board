@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
-import { ItemTypes } from './constants'
 import flow from 'lodash/flow'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Card as CardComp } from 'semantic-ui-react'
+import { ItemTypes } from '../utils/constants'
 import {
   requestMoveCard,
   requestMoveCardBetweenContainers,
   requestDeleteCard,
   hoverCard
-} from './reducers/boardReducer'
+} from '../reducers/boardReducer'
 import Edit from './Edit'
 import DropdownMenu from './DropdownMenu'
 

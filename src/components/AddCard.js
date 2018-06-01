@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Add from './Add'
-import { requestCreateCard } from './reducers/boardReducer'
+import { requestCreateCard } from '../reducers/boardReducer'
 
 class AddCard extends Component {
   state = {
