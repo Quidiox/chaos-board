@@ -21,14 +21,8 @@ class App extends Component {
     personAnchorEl: null
   }
   componentDidMount() {
-    const user = window.localStorage.getItem('loggedChaosBoardUser')
-    const parsedUser = JSON.parse(user)
-    if (parsedUser) {
-      try {
-        this.props.requestVerifyUserToken(parsedUser)
-      } catch (error) {
-        console.log(error)
-      }
+    if (this.props.user) {
+      this.props.requestVerifyUserToken(this.props.user)
     }
   }
   handleClick = event => {
@@ -47,7 +41,6 @@ class App extends Component {
   }
   handleDelete = () => {
     this.handleClose()
-    console.log(this.props.user)
     this.props.requestDeleteUser(this.props.user)
   }
   render() {

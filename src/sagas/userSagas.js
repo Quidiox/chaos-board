@@ -15,6 +15,7 @@ import {
   USER_EDIT
 } from '../reducers/actionTypes'
 import apiService from '../api/userApiService'
+import { withToken } from './helpers'
 
 function* login(action) {
   try {
@@ -69,9 +70,9 @@ function* watchCreateUser() {
   yield takeLatest(USER_CREATE_REQUEST, createUser)
 }
 
-function* editUser(action) {
+function* editUser(token, action) {
   try {
-    const editedUser = yield call(apiService.edit, action.payload)
+    const editedUser = yield call(apiService.edit, token, action.payload)
     yield put(genericActionCreator(USER_EDIT, editedUser))
   } catch (error) {
     console.log(error)
@@ -79,12 +80,12 @@ function* editUser(action) {
 }
 
 function* watchEditUser() {
-  yield takeLatest(USER_EDIT_REQUEST, editUser)
+  yield takeLatest(USER_EDIT_REQUEST, withToken(editUser))
 }
 
-function* deleteUser(action) {
+function* deleteUser(token, action) {
   try {
-    yield call(apiService.remove, action.payload)
+    yield call(apiService.remove, token, action.payload)
     yield put(genericActionCreator(USER_DELETE))
   } catch (error) {
     console.log(error)
@@ -92,7 +93,7 @@ function* deleteUser(action) {
 }
 
 function* watchDeleteUser() {
-  yield takeLatest(USER_DELETE_REQUEST, deleteUser)
+  yield takeLatest(USER_DELETE_REQUEST, withToken(deleteUser))
 }
 
 export const userSagas = [

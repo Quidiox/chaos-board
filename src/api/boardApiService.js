@@ -1,12 +1,10 @@
-import { setToken } from '../utils/helpers'
 // const baseUrl = 'https://chaos-board-backend.herokuapp.com/api/'
 // const initialBoardId='5b054242cbe9c7000469e95a' //heroku
 const baseUrl = 'http://localhost:3005/api/'
 const initialBoardId = '5ae9d453b0f47c69442dd3b9'
 
-const fetchBoard = async (boardId = initialBoardId) => {
+const fetchBoard = async (token, boardId = initialBoardId) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'board/' + boardId, {
       headers: new Headers({ Authorization: token })
     })
@@ -16,9 +14,8 @@ const fetchBoard = async (boardId = initialBoardId) => {
   }
 }
 
-const fetchAllBoards = async () => {
+const fetchAllBoards = async token => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'board', {
       headers: new Headers({ Authorization: token })
     })
@@ -28,9 +25,8 @@ const fetchAllBoards = async () => {
   }
 }
 
-const moveCard = async data => {
+const moveCard = async (token, data) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'card/move', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -45,9 +41,8 @@ const moveCard = async data => {
   }
 }
 
-const moveContainer = async data => {
+const moveContainer = async (token, data) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'container/move', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -62,9 +57,8 @@ const moveContainer = async data => {
   }
 }
 
-const moveCardBetweenContainers = async data => {
+const moveCardBetweenContainers = async (token, data) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'card/betweencontainers', {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -79,9 +73,8 @@ const moveCardBetweenContainers = async data => {
   }
 }
 
-const createContainer = async payload => {
+const createContainer = async (token, payload) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'container/' + payload.boardId, {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -96,9 +89,8 @@ const createContainer = async payload => {
   }
 }
 
-const deleteContainer = async payload => {
+const deleteContainer = async (token, payload) => {
   try {
-    const token = setToken()
     await fetch(
       baseUrl + 'container/' + payload.boardId + '/' + payload.containerId,
       {
@@ -112,9 +104,8 @@ const deleteContainer = async payload => {
   }
 }
 
-const editContainer = async payload => {
+const editContainer = async (token, payload) => {
   try {
-    const token = setToken()
     const response = await fetch(
       baseUrl + 'container/edit/' + payload.containerId,
       {
@@ -132,9 +123,8 @@ const editContainer = async payload => {
   }
 }
 
-const createCard = async payload => {
+const createCard = async (token, payload) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'card/' + payload.containerId, {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -149,9 +139,8 @@ const createCard = async payload => {
   }
 }
 
-const editCard = async payload => {
+const editCard = async (token, payload) => {
   try {
-    const token = setToken()
     const response = await fetch(baseUrl + 'card/edit/' + payload.cardId, {
       method: 'PUT',
       body: JSON.stringify(payload),
@@ -166,9 +155,8 @@ const editCard = async payload => {
   }
 }
 
-const deleteCard = async payload => {
+const deleteCard = async (token, payload) => {
   try {
-    const token = setToken()
     await fetch(
       baseUrl + 'card/' + payload.containerId + '/' + payload.cardId,
       {

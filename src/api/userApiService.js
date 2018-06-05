@@ -1,6 +1,5 @@
-import { setToken } from '../utils/helpers'
-
 const baseUrl = 'http://localhost:3005/api/'
+
 const login = async data => {
   try {
     const user = await fetch(baseUrl + 'login', {
@@ -29,7 +28,7 @@ const verifyToken = async data => {
 
 const create = async data => {
   try {
-    const user = await fetch(baseUrl + 'user', {
+    const user = await fetch(baseUrl + 'user/create', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -40,9 +39,8 @@ const create = async data => {
   }
 }
 
-const edit = async data => {
+const edit = async (token, data) => {
   try {
-    const token = setToken()
     const user = await fetch(baseUrl + 'user/' + data.id, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -57,9 +55,8 @@ const edit = async data => {
   }
 }
 
-const remove = async data => {
+const remove = async (token, data) => {
   try {
-    const token = setToken()
     await fetch(baseUrl + 'user/' + data.id, {
       method: 'DELETE',
       headers: new Headers({ Authorization: token })

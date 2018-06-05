@@ -13,7 +13,9 @@ import {
   USER_EDIT
 } from './actionTypes'
 
-const userReducer = (state = {}, action) => {
+const initialState = JSON.parse(window.localStorage.getItem('loggedChaosBoardUser'))
+
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case USER_LOGIN: {
       window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
@@ -21,7 +23,7 @@ const userReducer = (state = {}, action) => {
     }
     case USER_LOGOUT: {
       window.localStorage.removeItem('loggedChaosBoardUser')
-      return {}
+      return null
     }
     case USER_VERIFY_TOKEN: {
       return action.payload
@@ -37,7 +39,7 @@ const userReducer = (state = {}, action) => {
     }
     case USER_DELETE: {
       window.localStorage.removeItem('loggedChaosBoardUser')
-      return {}
+      return null
     }
     default:
       return state

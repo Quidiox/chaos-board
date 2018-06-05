@@ -22,30 +22,31 @@ import {
 } from '../reducers/actionTypes'
 import apiService from '../api/boardApiService'
 import { genericActionCreator } from '../reducers/rootReducer'
+import { withToken } from './helpers'
 
-function* initializeBoard() {
+function* initializeBoard(token) {
   try {
-    const board = yield call(apiService.fetchBoard)
+    const board = yield call(apiService.fetchBoard, token)
     yield put(genericActionCreator(BOARD_INITIALIZE, board))
   } catch (error) {
     console.log(error)
   }
 }
 function* watchInitializeBoard() {
-  yield takeLatest(BOARD_INITIALIZE_REQUEST, initializeBoard)
+  yield takeLatest(BOARD_INITIALIZE_REQUEST, withToken(initializeBoard))
 }
 
-function* moveCard(action) {
+function* moveCard(token, action) {
   try {
-    yield call(apiService.moveCard, action.payload)
+    yield call(apiService.moveCard, token, action.payload)
   } catch (error) {
     console.log(error)
   }
 }
 
-function* moveCardBetweenContainers(action) {
+function* moveCardBetweenContainers(token, action) {
   try {
-    yield call(apiService.moveCardBetweenContainers, action.payload)
+    yield call(apiService.moveCardBetweenContainers, token, action.payload)
     yield put(
       genericActionCreator(CARD_MOVE_BETWEEN_CONTAINERS, action.payload)
     )
@@ -54,30 +55,30 @@ function* moveCardBetweenContainers(action) {
   }
 }
 
-function* moveContainer(action) {
+function* moveContainer(token, action) {
   try {
-    yield call(apiService.moveContainer, action.payload)
+    yield call(apiService.moveContainer, token, action.payload)
     yield put(genericActionCreator(CONTAINER_MOVE, action.payload))
   } catch (error) {
     console.log(error)
   }
 }
 
-function* createContainer(action) {
+function* createContainer(token, action) {
   try {
     const response = yield call(apiService.createContainer, action.payload)
-    yield put(genericActionCreator(CONTAINER_CREATE, response))
+    yield put(genericActionCreator(CONTAINER_CREATE, token, response))
   } catch (error) {
     console.log(error)
   }
 }
 function* watchCreateContainer() {
-  yield takeLatest(CONTAINER_CREATE_REQUEST, createContainer)
+  yield takeLatest(CONTAINER_CREATE_REQUEST, withToken(createContainer))
 }
 
-function* createCard(action) {
+function* createCard(token, action) {
   try {
-    const response = yield call(apiService.createCard, action.payload)
+    const response = yield call(apiService.createCard, token, action.payload)
     yield put(genericActionCreator(CARD_CREATE, response))
   } catch (error) {
     console.log(error)
@@ -85,12 +86,12 @@ function* createCard(action) {
 }
 
 function* watchCreateCard() {
-  yield takeLatest(CARD_CREATE_REQUEST, createCard)
+  yield takeLatest(CARD_CREATE_REQUEST, withToken(createCard))
 }
 
-function* editCard(action) {
+function* editCard(token, action) {
   try {
-    const response = yield call(apiService.editCard, action.payload)
+    const response = yield call(apiService.editCard, token, action.payload)
     yield put(
       genericActionCreator(CARD_EDIT, response, null, {
         containerId: action.payload.containerId
@@ -102,12 +103,12 @@ function* editCard(action) {
 }
 
 function* watchEditCard() {
-  yield takeLatest(CARD_EDIT_REQUEST, editCard)
+  yield takeLatest(CARD_EDIT_REQUEST, withToken(editCard))
 }
 
-function* deleteCard(action) {
+function* deleteCard(token, action) {
   try {
-    yield call(apiService.deleteCard, action.payload)
+    yield call(apiService.deleteCard, token, action.payload)
     yield put(genericActionCreator(CARD_DELETE, action.payload))
   } catch (error) {
     console.log(error)
@@ -115,12 +116,12 @@ function* deleteCard(action) {
 }
 
 function* watchDeleteCard() {
-  yield takeLatest(CARD_DELETE_REQUEST, deleteCard)
+  yield takeLatest(CARD_DELETE_REQUEST, withToken(deleteCard))
 }
 
-function* deleteContainer(action) {
+function* deleteContainer(token, action) {
   try {
-    yield call(apiService.deleteContainer, action.payload)
+    yield call(apiService.deleteContainer, token, action.payload)
     yield put(genericActionCreator(CONTAINER_DELETE, action.payload))
   } catch (error) {
     console.log(error)
@@ -128,12 +129,12 @@ function* deleteContainer(action) {
 }
 
 function* watchDeleteContainer() {
-  yield takeLatest(CONTAINER_DELETE_REQUEST, deleteContainer)
+  yield takeLatest(CONTAINER_DELETE_REQUEST, withToken(deleteContainer))
 }
 
-function* editContainer(action) {
+function* editContainer(token, action) {
   try {
-    const response = yield call(apiService.editContainer, action.payload)
+    const response = yield call(apiService.editContainer, token, action.payload)
     yield put(genericActionCreator(CONTAINER_EDIT, response))
   } catch (error) {
     console.log(error)
@@ -141,7 +142,7 @@ function* editContainer(action) {
 }
 
 function* watchEditContainer() {
-  yield takeLatest(CONTAINER_EDIT_REQUEST, editContainer)
+  yield takeLatest(CONTAINER_EDIT_REQUEST, withToken(editContainer))
 }
 
 function* watchDragAndDrop() {
@@ -150,15 +151,15 @@ function* watchDragAndDrop() {
     const action = yield take(requestChannel)
     switch (action.type) {
       case CARD_MOVE_REQUEST: {
-        yield call(moveCard, action)
+        yield call(withToken(moveCard), action)
         break
       }
       case CONTAINER_MOVE_REQUEST: {
-        yield call(moveContainer, action)
+        yield call(withToken(moveContainer), action)
         break
       }
       case CARD_MOVE_BETWEEN_CONTAINERS_REQUEST: {
-        yield call(moveCardBetweenContainers, action)
+        yield call(withToken(moveCardBetweenContainers), action)
         break
       }
       default:
