@@ -91,13 +91,14 @@ const createContainer = async (token, payload) => {
 
 const deleteContainer = async (token, payload) => {
   try {
-    await fetch(
+    const response = await fetch(
       baseUrl + 'container/' + payload.boardId + '/' + payload.containerId,
       {
         method: 'DELETE',
         headers: new Headers({ Authorization: token })
       }
     )
+    return await response.json()
   } catch (error) {
     console.log(error)
     return error
@@ -157,13 +158,14 @@ const editCard = async (token, payload) => {
 
 const deleteCard = async (token, payload) => {
   try {
-    await fetch(
+    const response = await fetch(
       baseUrl + 'card/' + payload.containerId + '/' + payload.cardId,
       {
         method: 'DELETE',
         headers: new Headers({ Authorization: token })
       }
     )
+    return await response.json()
   } catch (error) {
     console.log(error)
   }

@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { getToken } from '../selectors/selectors'
+import { getToken } from './selectors'
 
 export const withToken = saga => {
   return function*(action) {
