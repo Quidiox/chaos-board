@@ -42,9 +42,9 @@ function* watchLogout() {
   yield takeLatest(USER_LOGOUT_REQUEST, logout)
 }
 
-function* verifyToken(action) {
+function* verifyToken(token, action) {
   try {
-    const response = yield call(apiService.verifyToken, action.payload)
+    const response = yield call(apiService.verifyToken, token)
     if (response && response.success) {
       yield put(genericActionCreator(USER_VERIFY_TOKEN, action.payload))
     }
@@ -54,7 +54,7 @@ function* verifyToken(action) {
 }
 
 function* watchVerifyToken() {
-  yield takeLatest(USER_VERIFY_TOKEN_REQUEST, verifyToken)
+  yield takeLatest(USER_VERIFY_TOKEN_REQUEST, withToken(verifyToken))
 }
 
 function* createUser(action) {

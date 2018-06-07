@@ -13,9 +13,9 @@ const login = async data => {
   }
 }
 
-const verifyToken = async data => {
+const create = async data => {
   try {
-    const response = await fetch(baseUrl + 'login/verifytoken', {
+    const response = await fetch(baseUrl + 'user/create', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({ 'Content-Type': 'application/json' })
@@ -26,12 +26,14 @@ const verifyToken = async data => {
   }
 }
 
-const create = async data => {
+const verifyToken = async token => {
   try {
-    const response = await fetch(baseUrl + 'user/create', {
+    const response = await fetch(baseUrl + 'login/verifytoken', {
       method: 'POST',
-      body: JSON.stringify(data),
-      headers: new Headers({ 'Content-Type': 'application/json' })
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: token
+      })
     })
     return await response.json()
   } catch (error) {

@@ -13,7 +13,13 @@ import {
   USER_EDIT
 } from './actionTypes'
 
-const initialState = JSON.parse(window.localStorage.getItem('loggedChaosBoardUser'))
+const user = window.localStorage.getItem('loggedChaosBoardUser')
+let initialState = {}
+if(user && user !== 'undefined' ) {
+  initialState = JSON.parse(user)
+} else {
+  window.localStorage.removeItem('loggedChaosBoardUser')
+}
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
