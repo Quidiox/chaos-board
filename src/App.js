@@ -3,10 +3,12 @@ import { DragDropContext } from 'react-dnd'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import Header from './pages/Header'
 import Board from './components/Board'
 import Frontpage from './pages/Frontpage'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import Home from './pages/Home'
 import {
   requestLogoutUser,
@@ -15,13 +17,33 @@ import {
   requestDeleteUser
 } from './reducers/userReducer'
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      rest.loggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+)
+
 class App extends Component {
   state = {
     pageAnchorEl: null,
-    personAnchorEl: null
+    personAnchorEl: null,
+    redirectTo: false,
+    from: { pathname: '/' }
   }
   componentDidMount() {
-    if (this.props.user) {
+    if (this.props.user && this.props.user.username) {
       this.props.requestVerifyUserToken(this.props.user)
     }
   }
@@ -44,11 +66,13 @@ class App extends Component {
     this.props.requestDeleteUser(this.props.user)
   }
   render() {
+    const { user } = this.props
+    const loggedIn = user && user.username ? true : false
     const { pageAnchorEl, personAnchorEl } = this.state
     return (
       <Fragment>
         <Header
-          user={this.props.user}
+          user={user}
           pageAnchorEl={pageAnchorEl}
           personAnchorEl={personAnchorEl}
           handleEdit={this.handleEdit}
@@ -59,8 +83,10 @@ class App extends Component {
         />
         <Switch>
           <Route exact path="/" component={Frontpage} />
-          <Route path="/home" component={Home} />
-          <Route path="/board" component={Board} />
+          <Route path="/login" component={Login} />} />
+          <Route path="/register" component={Register} />
+          <PrivateRoute loggedIn={loggedIn} path="/home" component={Home} />
+          <PrivateRoute loggedIn={loggedIn} path="/board" component={Board} />
         </Switch>
       </Fragment>
     )
@@ -84,4 +110,9 @@ const mapStateToProps = state => ({
 
 App = DragDropContext(HTML5Backend)(App)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+)

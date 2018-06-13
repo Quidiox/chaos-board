@@ -40,72 +40,125 @@ const Header = ({
   pageAnchorEl,
   personAnchorEl
 }) => (
-  <AppBar position="static" style={{height: '7%'}}>
+  <AppBar position="static" style={{ height: '7%' }}>
     <Toolbar className={classes.nav}>
-      <IconButton
-        className={classes.menuIcon}
-        name="pageAnchorEl"
-        aria-owns={pageAnchorEl ? 'simple-menu' : null}
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <MenuIcon />
-      </IconButton>
-      <Menu
-        id="simple-menu"
-        anchorEl={pageAnchorEl}
-        open={Boolean(pageAnchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>Close</MenuItem>
-        <MenuItem name="pageAnchorEl" onClick={handleClose}>
-          <Link to="/home">Home</Link>
-        </MenuItem>
-        <MenuItem name="pageAnchorEl" onClick={handleClose}>
-          <Link to="/board">Board</Link>
-        </MenuItem>
-      </Menu>
+      {user && user.username
+        ? loggedInPageNav(classes, pageAnchorEl, handleClick, handleClose)
+        : loggedOutPageNav(classes, pageAnchorEl, handleClick, handleClose)}
       <Typography variant="title" color="inherit" className={classes.title}>
         Chaos board
       </Typography>
       {user &&
-        user.username && (
-          <div>
-            <IconButton
-              name="personAnchorEl"
-              aria-owns={Boolean(personAnchorEl) ? 'menu-appbar' : null}
-              aria-haspopup="true"
-              onClick={handleClick}
-              color="inherit"
-              className={classes.profile}
-            >
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={personAnchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-              open={Boolean(personAnchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>Close</MenuItem>
-              <MenuItem onClick={handleLogout} className={classes.logout}>
-                <Link to="/">Logout</Link>
-              </MenuItem>
-              <MenuItem onClick={handleEdit}>Edit account</MenuItem>
-              <MenuItem onClick={handleDelete}>Delete account</MenuItem>
-            </Menu>
-          </div>
+        user.username &&
+        loggedInMenu(
+          personAnchorEl,
+          handleClick,
+          classes,
+          handleClose,
+          handleLogout,
+          handleEdit,
+          handleDelete
         )}
     </Toolbar>
   </AppBar>
 )
 
 export default withStyles(styles)(Header)
+const loggedInPageNav = (classes, pageAnchorEl, handleClick, handleClose) => (
+  <div>
+    <IconButton
+      className={classes.menuIcon}
+      name="pageAnchorEl"
+      aria-owns={pageAnchorEl ? 'simple-menu' : null}
+      aria-haspopup="true"
+      onClick={handleClick}
+    >
+      <MenuIcon />
+    </IconButton>
+    <Menu
+      id="simple-menu"
+      anchorEl={pageAnchorEl}
+      open={Boolean(pageAnchorEl)}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose}>Close</MenuItem>
+      <MenuItem name="pageAnchorEl" onClick={handleClose}>
+        <Link to="/home">Home</Link>
+      </MenuItem>
+      <MenuItem name="pageAnchorEl" onClick={handleClose}>
+        <Link to="/board">Board</Link>
+      </MenuItem>
+    </Menu>
+  </div>
+)
+const loggedOutPageNav = (classes, pageAnchorEl, handleClick, handleClose) => (
+  <div>
+    <IconButton
+      className={classes.menuIcon}
+      name="pageAnchorEl"
+      aria-owns={pageAnchorEl ? 'simple-menu' : null}
+      aria-haspopup="true"
+      onClick={handleClick}
+    >
+      <MenuIcon />
+    </IconButton>
+    <Menu
+      id="simple-menu"
+      anchorEl={pageAnchorEl}
+      open={Boolean(pageAnchorEl)}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose}>Close</MenuItem>
+      <MenuItem name="pageAnchorEl" onClick={handleClose}>
+        <Link to="/login">Login</Link>
+      </MenuItem>
+      <MenuItem name="pageAnchorEl" onClick={handleClose}>
+        <Link to="/register">Register</Link>
+      </MenuItem>
+    </Menu>
+  </div>
+)
+
+const loggedInMenu = (
+  personAnchorEl,
+  handleClick,
+  classes,
+  handleClose,
+  handleLogout,
+  handleEdit,
+  handleDelete
+) => (
+  <div>
+    <IconButton
+      name="personAnchorEl"
+      aria-owns={Boolean(personAnchorEl) ? 'menu-appbar' : null}
+      aria-haspopup="true"
+      onClick={handleClick}
+      color="inherit"
+      className={classes.profile}
+    >
+      <AccountCircle />
+    </IconButton>
+    <Menu
+      id="menu-appbar"
+      anchorEl={personAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right'
+      }}
+      open={Boolean(personAnchorEl)}
+      onClose={handleClose}
+    >
+      <MenuItem onClick={handleClose}>Close</MenuItem>
+      <MenuItem onClick={handleLogout} className={classes.logout}>
+        <Link to="/">Logout</Link>
+      </MenuItem>
+      <MenuItem onClick={handleEdit}>Edit account</MenuItem>
+      <MenuItem onClick={handleDelete}>Delete account</MenuItem>
+    </Menu>
+  </div>
+)

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router-dom'
 import UserForm from './UserForm'
-import { requestCreateUser } from '../../reducers/userReducer'
+import { requestCreateUser } from '../reducers/userReducer'
 
 class Register extends Component {
   state = { name: '', username: '', password: '' }
@@ -37,6 +38,7 @@ class Register extends Component {
             handleSubmit={this.handleSubmit}
             clear={this.clear}
           />
+          <h3>Or <Link to='/login'>login</Link> with an existing account.</h3>
         </div>
       </div>
     )

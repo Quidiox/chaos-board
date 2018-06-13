@@ -14,7 +14,7 @@ import {
 } from './actionTypes'
 
 const user = window.localStorage.getItem('loggedChaosBoardUser')
-let initialState = {}
+let initialState = null
 if(user && user !== 'undefined' ) {
   initialState = JSON.parse(user)
 } else {

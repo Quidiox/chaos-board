@@ -18,11 +18,14 @@ import {
   CONTAINER_EDIT_REQUEST,
   CONTAINER_EDIT,
   CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
-  CARD_MOVE_BETWEEN_CONTAINERS
+  CARD_MOVE_BETWEEN_CONTAINERS,
+  USER_LOGOUT
 } from './actionTypes'
 
 const boardReducer = (state = [], action) => {
   switch (action.type) {
+    case USER_LOGOUT:
+      return []
     case BOARD_INITIALIZE:
       return action.payload
     case CARD_HOVER: {
