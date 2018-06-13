@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { getToken } from './selectors'
+import { getToken, getFrom } from './selectors'
 
 export const withToken = saga => {
   return function*(action) {
@@ -7,4 +7,8 @@ export const withToken = saga => {
     token = `Bearer ${token}`
     yield call(saga, token, action)
   }
+}
+
+export function* getRedirectPath() {
+  return yield select(getFrom)
 }

@@ -14,8 +14,8 @@ import {
 } from './actionTypes'
 
 const user = window.localStorage.getItem('loggedChaosBoardUser')
-let initialState = null
-if(user && user !== 'undefined' ) {
+let initialState = {}
+if (user && user !== 'undefined') {
   initialState = JSON.parse(user)
 } else {
   window.localStorage.removeItem('loggedChaosBoardUser')
@@ -24,24 +24,32 @@ if(user && user !== 'undefined' ) {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case USER_LOGIN: {
-      window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
-      return action.payload
+      window.localStorage.setItem(
+        'loggedChaosBoardUser',
+        JSON.stringify(action.payload)
+      )
+      return Object.assign({}, state, action.payload)
     }
     case USER_LOGOUT: {
       window.localStorage.removeItem('loggedChaosBoardUser')
       return null
     }
     case USER_VERIFY_TOKEN: {
-      return action.payload
+      return Object.assign({}, state, action.payload)
     }
     case USER_CREATE: {
-      window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
-      return action.payload
+      window.localStorage.setItem(
+        'loggedChaosBoardUser',
+        JSON.stringify(action.payload)
+      )
+      return Object.assign({}, state, action.payload)
     }
     case USER_EDIT: {
-      // window.localStorage.setItem('loggedChaosBoardUser', JSON.stringify(action.payload))
-      // return action.payload
-      return state
+      window.localStorage.setItem(
+        'loggedChaosBoardUser',
+        JSON.stringify(action.payload)
+      )
+      return Object.assign({}, state, action.payload)
     }
     case USER_DELETE: {
       window.localStorage.removeItem('loggedChaosBoardUser')

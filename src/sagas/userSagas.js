@@ -1,4 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
+import { push } from 'connected-react-router'
 import { genericActionCreator } from '../reducers/rootReducer'
 import {
   USER_LOGIN_REQUEST,
@@ -15,12 +16,14 @@ import {
   USER_EDIT
 } from '../reducers/actionTypes'
 import apiService from '../api/userApiService'
-import { withToken } from './helpers'
+import { withToken, getRedirectPath } from './helpers'
 
 function* login(action) {
   try {
     const user = yield call(apiService.login, action.payload)
     yield put(genericActionCreator(USER_LOGIN, user))
+    const from = yield call(getRedirectPath)
+    yield put(push(from))
   } catch (error) {
     console.log(error)
   }
