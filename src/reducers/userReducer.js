@@ -28,21 +28,21 @@ const userReducer = (state = initialState, action) => {
         'loggedChaosBoardUser',
         JSON.stringify(action.payload)
       )
-      return Object.assign({}, state, action.payload)
+      return action.payload
     }
     case USER_LOGOUT: {
       window.localStorage.removeItem('loggedChaosBoardUser')
       return null
     }
     case USER_VERIFY_TOKEN: {
-      return Object.assign({}, state, action.payload)
+      return action.payload
     }
     case USER_CREATE: {
       window.localStorage.setItem(
         'loggedChaosBoardUser',
         JSON.stringify(action.payload)
       )
-      return Object.assign({}, state, action.payload)
+      return action.payload
     }
     case USER_EDIT: {
       window.localStorage.setItem(

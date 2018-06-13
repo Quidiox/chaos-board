@@ -12,11 +12,11 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
-  handleSubmit = async e => {
+  handleSubmit = e => {
     e.preventDefault()
     const { username, password } = this.state
-    await this.props.requestLoginUser({ username, password })
-    await this.setState({
+    this.props.requestLoginUser({ username, password })
+    this.setState({
       username: '',
       password: ''
     })
