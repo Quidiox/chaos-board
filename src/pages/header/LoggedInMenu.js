@@ -43,7 +43,7 @@ const LoggedInMenu = ({
       <MenuItem onClick={handleLogout} className={classes.logout}>
         <Link to="/">Logout</Link>
       </MenuItem>
-      <MenuItem onClick={handleEdit}>Edit account</MenuItem>
+      <MenuItem onClick={handleEdit}><Link to='/user/edit'>Edit account</Link></MenuItem>
       <MenuItem onClick={handleDelete}>Delete account</MenuItem>
     </Menu>
   </div>

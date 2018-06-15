@@ -10,10 +10,10 @@ import Frontpage from './pages/Frontpage'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
+import EditUser from './pages/EditUser'
 import {
   requestLogoutUser,
   requestVerifyUserToken,
-  requestEditUser,
   requestDeleteUser
 } from './reducers/userReducer'
 
@@ -59,7 +59,6 @@ class App extends Component {
   }
   handleEdit = () => {
     this.handleClose()
-    this.props.requestEditUser()
   }
   handleDelete = () => {
     this.handleClose()
@@ -83,9 +82,10 @@ class App extends Component {
         />
         <Switch>
           <Route exact path="/" component={Frontpage} />
-          <Route path="/login" component={Login} />} />
+          <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <PrivateRoute loggedIn={loggedIn} path="/home" component={Home} />
+          <PrivateRoute loggedIn={loggedIn} path='/user/edit' component={EditUser} />
           <PrivateRoute loggedIn={loggedIn} path="/board" component={Board} />
         </Switch>
       </Fragment>
@@ -98,7 +98,6 @@ const mapDispatchToProps = dispatch =>
     {
       requestLogoutUser,
       requestVerifyUserToken,
-      requestEditUser,
       requestDeleteUser
     },
     dispatch

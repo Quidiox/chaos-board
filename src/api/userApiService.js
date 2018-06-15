@@ -43,7 +43,7 @@ const verifyToken = async token => {
 
 const edit = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'user/' + data.id, {
+    const response = await fetch(baseUrl + 'user/' + data.userId, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({

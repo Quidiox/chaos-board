@@ -3,6 +3,38 @@ import { Link } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
+const Frontpage = ({ classes }) => (
+  <div className={classes.wrapperDiv}>
+    <div className={classes.innerDiv}>
+      <Typography
+        variant="headline"
+        component="h2"
+        style={{ textAlign: 'center' }}
+      >
+        Welcome to Chaos Board!
+      </Typography>
+      <Typography component="p" className={classes.pElement}>
+        This network address hosts demo installation of Chaos board. Chaos board
+        is an application for creating and operating Kanban boards. Do not use
+        Chaos board demo for anything real as all data can be deleted at any
+        moment.
+      </Typography>
+      <hr />
+      <Typography component="p" className={classes.pElement}>
+        To use Chaos board you need to <Link to="/login">login</Link>. <br />
+        If you don't have an account yet then{' '}
+        <Link to="/register">register</Link>.
+      </Typography>
+      <hr />
+      <Typography component="p" className={classes.pElement}>
+        Currently only desktop environment is supported because I have not found
+        uptodate touch backend for react-dnd. Mobile support might be added
+        later.
+      </Typography>
+    </div>
+  </div>
+)
+
 const styles = {
   wrapperDiv: {
     width: '60%',
@@ -21,23 +53,5 @@ const styles = {
     lineHeight: '1.3'
   }
 }
-
-const Frontpage = ({ classes }) => (
-  <div className={classes.wrapperDiv}>
-    <div className={classes.innerDiv}>
-      <Typography variant="headline" component="h2" style={{textAlign: 'center'}}>
-        Welcome to Chaos Board!
-      </Typography>
-      <Typography component="p" className={classes.pElement}>
-        This url hosts Chaos Board demo application that lets you create and operate Kanban boards. 
-        Do not use Chaos Board demo application for anything real as all data can be wiped at any moment.
-      </Typography>
-      <Typography component="p" className={classes.pElement}>
-        To use Chaos Board you need to <Link to='/login'>login</Link>. <br />
-        If you don't have an account then you need to <Link to='/register'>register</Link>.
-      </Typography>
-    </div>
-  </div>
-)
 
 export default withStyles(styles)(Frontpage)
