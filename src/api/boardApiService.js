@@ -14,17 +14,6 @@ const fetchBoard = async (token, boardId = initialBoardId) => {
   }
 }
 
-const fetchAllBoards = async token => {
-  try {
-    const response = await fetch(baseUrl + 'board', {
-      headers: new Headers({ Authorization: token })
-    })
-    return await response.json()
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 const moveCard = async (token, data) => {
   try {
     const response = await fetch(baseUrl + 'card/move', {
@@ -172,6 +161,7 @@ const deleteCard = async (token, payload) => {
 }
 
 export default {
+  fetchBoard,
   moveCard,
   moveContainer,
   createContainer,
@@ -180,7 +170,5 @@ export default {
   createCard,
   editCard,
   deleteCard,
-  fetchBoard,
-  fetchAllBoards,
   moveCardBetweenContainers
 }
