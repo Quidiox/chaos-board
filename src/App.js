@@ -86,7 +86,7 @@ class App extends Component {
           <Route path="/register" component={Register} />
           <PrivateRoute loggedIn={loggedIn} path="/home" component={Home} />
           <PrivateRoute loggedIn={loggedIn} path='/user/edit' component={EditUser} />
-          <PrivateRoute loggedIn={loggedIn} path="/board" component={Board} />
+          <PrivateRoute loggedIn={loggedIn} path="/board/:boardId" component={Board} />
         </Switch>
       </Fragment>
     )

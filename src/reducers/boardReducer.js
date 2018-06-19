@@ -146,8 +146,9 @@ const boardReducer = (state = [], action) => {
   }
 }
 
-export const requestInitializeBoard = () => ({
-  type: BOARD_INITIALIZE_REQUEST
+export const requestInitializeBoard = payload => ({
+  type: BOARD_INITIALIZE_REQUEST,
+  payload
 })
 
 export const hoverCard = payload => ({

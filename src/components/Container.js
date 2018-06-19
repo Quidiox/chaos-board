@@ -33,7 +33,8 @@ class Container extends Component {
     })
   }
   render() {
-    const sortedCards = sortByPosition(this.props.container.cards)
+    const { container } = this.props
+    const sortedCards = container && container.cards ? sortByPosition(container.cards) : []
     const {
       canDrop,
       isOver,

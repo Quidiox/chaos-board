@@ -24,9 +24,9 @@ import apiService from '../api/boardApiService'
 import { genericActionCreator } from '../reducers/rootReducer'
 import { withToken } from './helpers'
 
-function* initializeBoard(token) {
+function* initializeBoard(token, action) {
   try {
-    const board = yield call(apiService.fetchBoard, token)
+    const board = yield call(apiService.fetchBoard, token, action.payload)
     yield put(genericActionCreator(BOARD_INITIALIZE, board))
   } catch (error) {
     console.log(error)
@@ -66,8 +66,8 @@ function* moveContainer(token, action) {
 
 function* createContainer(token, action) {
   try {
-    const response = yield call(apiService.createContainer, action.payload)
-    yield put(genericActionCreator(CONTAINER_CREATE, token, response))
+    const response = yield call(apiService.createContainer, token, action.payload)
+    yield put(genericActionCreator(CONTAINER_CREATE, response))
   } catch (error) {
     console.log(error)
   }
