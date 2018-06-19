@@ -52,8 +52,9 @@ const userBoardsReducer = (state = [], action) => {
   }
 }
 
-export const requestFetchBoardsByUser = () => ({
-  type: BOARD_FETCH_BY_USER_REQUEST
+export const requestFetchBoardsByUser = payload => ({
+  type: BOARD_FETCH_BY_USER_REQUEST,
+  payload
 })
 
 export const requestCreateBoard = payload => ({

@@ -1,12 +1,10 @@
 const baseUrl = 'http://localhost:3005/api/'
-const fetchUsersBoards = async (token, user) => {
+
+const fetchBoardsByUser = async (token, user) => {
   try {
-    const response = await fetch(
-      baseUrl + 'board/' + user.id + '/boardsbyuser',
-      {
-        headers: new Headers({ Authorization: token })
-      }
-    )
+    const response = await fetch(baseUrl + 'boards/' + user.id, {
+      headers: new Headers({ Authorization: token })
+    })
     return await response.json()
   } catch (error) {
     console.log(error)
@@ -15,7 +13,7 @@ const fetchUsersBoards = async (token, user) => {
 
 const createBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'board', {
+    const response = await fetch(baseUrl + 'boards', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({
@@ -31,7 +29,7 @@ const createBoard = async (token, data) => {
 
 const editBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'board/' + data.id, {
+    const response = await fetch(baseUrl + 'boards/' + data.id, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({
@@ -47,7 +45,7 @@ const editBoard = async (token, data) => {
 
 const deleteBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'board/' + data.id, {
+    const response = await fetch(baseUrl + 'boards/' + data.id, {
       method: 'DELETE',
       headers: new Headers({
         Authorization: token
@@ -62,7 +60,7 @@ const deleteBoard = async (token, data) => {
 const addMemberToBoard = async (token, data, user) => {
   try {
     const response = await fetch(
-      baseUrl + 'board/' + data.id + '/add/' + user.id,
+      baseUrl + 'boards/' + data.id + '/add/' + user.id,
       {
         method: 'POST',
         headers: new Headers({
@@ -79,7 +77,7 @@ const addMemberToBoard = async (token, data, user) => {
 const removeMemberFromBoard = async (token, data, user) => {
   try {
     const response = await fetch(
-      baseUrl + 'board/' + data.id + '/remove/' + user.id,
+      baseUrl + 'boards/' + data.id + '/remove/' + user.id,
       {
         method: 'POST',
         headers: new Headers({
@@ -94,7 +92,7 @@ const removeMemberFromBoard = async (token, data, user) => {
 }
 
 export default {
-  fetchUsersBoards,
+  fetchBoardsByUser,
   createBoard,
   editBoard,
   deleteBoard,

@@ -17,6 +17,19 @@ import apiService from '../api/userBoardsApiService'
 import { genericActionCreator } from '../reducers/rootReducer'
 import { withToken } from './helpers'
 
+function* fetchBoardsByUser(token, action) {
+  try {
+    const response = yield call(apiService.fetchBoardsByUser, token, action.payload)
+    yield put(genericActionCreator(BOARD_FETCH_BY_USER, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchFetchBoardsByUser() {
+  yield takeLatest(BOARD_FETCH_BY_USER_REQUEST, withToken(fetchBoardsByUser))
+}
+
 function* createBoard(token, action) {
   try {
     const response = yield call(apiService.createBoard, token, action.payload)
@@ -30,6 +43,9 @@ function* watchCreateBoard() {
   yield takeLatest(BOARD_CREATE_REQUEST, withToken(createBoard))
 }
 
+
+
 export const userBoardsSagas = [
-  call(watchCreateBoard)
+  call(watchCreateBoard),
+  call(watchFetchBoardsByUser)
 ] 
