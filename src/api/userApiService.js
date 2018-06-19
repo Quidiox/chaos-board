@@ -59,11 +59,10 @@ const edit = async (token, data) => {
 
 const remove = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'user/' + data.id, {
+    await fetch(baseUrl + 'user/' + data.id, {
       method: 'DELETE',
       headers: new Headers({ Authorization: token })
     })
-    return await response.json()
   } catch (error) {
     console.log(error)
   }

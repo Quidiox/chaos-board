@@ -9,7 +9,6 @@ import AddContainer from './AddContainer'
 class Board extends Component {
   state = { draggingAllowed: true, editingCard: false, editingContainer: false }
   componentDidMount() {
-    console.log(this.props)
     this.props.requestInitializeBoard(this.props.match.params.boardId)
   }
   disableDragging = editingType => {
@@ -23,7 +22,6 @@ class Board extends Component {
   }
   render() {
     const board = this.props.board
-    console.log(this.props)
     const sortedContainers = board && board.containers
       ? sortByPosition(board.containers)
       : []

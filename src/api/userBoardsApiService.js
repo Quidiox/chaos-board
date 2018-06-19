@@ -45,13 +45,12 @@ const editBoard = async (token, data) => {
 
 const deleteBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'boards/' + data.id, {
+    await fetch(baseUrl + 'boards/' + data.id, {
       method: 'DELETE',
       headers: new Headers({
         Authorization: token
       })
     })
-    return await response.json()
   } catch (error) {
     console.log(error)
   }
@@ -76,7 +75,7 @@ const addMemberToBoard = async (token, data, user) => {
 
 const removeMemberFromBoard = async (token, data, user) => {
   try {
-    const response = await fetch(
+    await fetch(
       baseUrl + 'boards/' + data.id + '/remove/' + user.id,
       {
         method: 'POST',
@@ -85,7 +84,6 @@ const removeMemberFromBoard = async (token, data, user) => {
         })
       }
     )
-    return await response.json()
   } catch (error) {
     console.log(error)
   }
