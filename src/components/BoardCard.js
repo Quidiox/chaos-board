@@ -9,18 +9,19 @@ import { Link } from 'react-router-dom'
 
 const styles = {
   card: {
-    minWidth: 275
+    maxWidth: 175,
+    maxHeight: 110
   },
   title: {
-    marginBottom: 16,
+    marginBottom: 5,
     fontSize: 14
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 5
   }
 }
 
-const BoardPreview = ({ title, description, classes, id }) => (
+const BoardCard = ({ title, description, classes, id, buttonText }) => (
   <Card className={classes.card}>
     <CardContent>
       <Typography className={classes.title}>{title}</Typography>
@@ -28,10 +29,10 @@ const BoardPreview = ({ title, description, classes, id }) => (
     </CardContent>
     <CardActions>
       <Link to={`/board/${id}`}>
-        <Button>open board</Button>
+        <Button>{buttonText}</Button>
       </Link>
     </CardActions>
   </Card>
 )
 
-export default withStyles(styles)(BoardPreview)
+export default withStyles(styles)(BoardCard)

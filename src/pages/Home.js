@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
-import BoardPreview from '../components/BoardPreview'
+import BoardCard from '../components/BoardCard'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
+import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
+import Card from '@material-ui/core/Card'
 
 class Home extends Component {
   componentDidMount() {
@@ -14,16 +16,22 @@ class Home extends Component {
   render() {
     const { classes, boards } = this.props
     return (
-      <div className={classes.root} style={{ height: '93%' }}>
-        <GridList cellHeight={160} className={classes.gridList} cols={4}>
+      <div className={classes.root}>
+        <GridList cellHeight={110} className={classes.gridList} cols={4}>
           {boards &&
             boards.map(board => (
               <GridListTile className={classes.tile} key={board.id}>
-                <BoardPreview title={board.title} description={board.description} id={board.id}/>
+                <BoardCard
+                  title={board.title}
+                  buttonText="open board"
+                  id={board.id}
+                />
               </GridListTile>
             ))}
-          <GridListTile>
-            <div>Create new board</div>
+          <GridListTile className={classes.tile}>
+            <Card className={classes.card}>
+              <Button className={classes.button}>Create new board</Button>
+            </Card>
           </GridListTile>
         </GridList>
       </div>
@@ -40,14 +48,24 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   gridList: {
-    // width: 600,
-    height: 300
+    minHeight: '110px'
   },
   subheader: {
     width: '100%'
   },
   tile: {
+    minHeight: '100px',
     minWidth: '175px'
+  },
+  card: {
+    width: 175,
+    height: 109
+  },
+  button: {
+    margin: '30px 0 0 0',
+    '&:hover': {
+      backgroundColor: 'lightgray'
+    }
   }
 })
 

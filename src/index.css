@@ -5,17 +5,14 @@ body {
   margin: 0;
   padding: 0;
 }
-
 #root {
   height: 100%;
 }
-
 .addText {
   padding: 3px 1px 1px 3px;
   opacity: 0.5;
   cursor: pointer;
 }
-
 .addText:hover {
   opacity: 1;
 }
