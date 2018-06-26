@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Add from './Add'
-import { requestCreateCard } from '../reducers/boardReducer'
+import Add from '../common/Add'
+import { requestCreateCard } from '../../reducers/boardReducer'
 
 class AddCard extends Component {
   state = {
@@ -18,7 +18,7 @@ class AddCard extends Component {
     e.preventDefault()
     this.props.requestCreateCard({
       containerId: this.props.containerId,
-      ...this.state
+      title: this.state.title
     })
     this.setState({ title: '', addFormVisible: false })
   }

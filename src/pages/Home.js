@@ -1,20 +1,25 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
-import BoardCard from '../components/BoardCard'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
+import BoardCard from './home/BoardCard'
 
 class Home extends Component {
+  state = { boardForm: false, title: '' }
   componentDidMount() {
     this.props.requestFetchBoardsByUser(this.props.user)
   }
+  handleClick = () => {
+    this.setState({ boardForm: true })
+  }
   render() {
     const { classes, boards } = this.props
+    const { boardForm } = this.state
     return (
       <div className={classes.root}>
         <GridList cellHeight={110} className={classes.gridList} cols={4}>
@@ -30,7 +35,13 @@ class Home extends Component {
             ))}
           <GridListTile className={classes.tile}>
             <Card className={classes.card}>
-              <Button className={classes.button}>Create new board</Button>
+              {boardForm ? (
+                <div>hiiii</div>
+              ) : (
+                <Button className={classes.button} onClick={this.handleClick}>
+                  Create new board
+                </Button>
+              )}
             </Card>
           </GridListTile>
         </GridList>

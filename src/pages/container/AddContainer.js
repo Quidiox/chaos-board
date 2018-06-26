@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Add from './Add'
-import { requestCreateContainer } from '../reducers/boardReducer'
+import Add from '../common/Add'
+import { requestCreateContainer } from '../../reducers/boardReducer'
 
 class AddContainer extends Component {
   state = {}

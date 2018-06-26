@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Form, Button, TextArea } from 'semantic-ui-react'
-import { requestEditCard, requestEditContainer } from '../reducers/boardReducer'
+import { requestEditCard, requestEditContainer } from '../../reducers/boardReducer'
 
 class Edit extends Component {
   state = {

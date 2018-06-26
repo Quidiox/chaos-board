@@ -4,15 +4,15 @@ import flow from 'lodash/flow'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Card as CardComp } from 'semantic-ui-react'
-import { ItemTypes } from '../utils/constants'
+import { ItemTypes } from '../../utils/constants'
 import {
   requestMoveCard,
   requestMoveCardBetweenContainers,
   requestDeleteCard,
   hoverCard
-} from '../reducers/boardReducer'
-import Edit from './Edit'
-import DropdownMenu from './DropdownMenu'
+} from '../../reducers/boardReducer'
+import Edit from '../common/Edit'
+import DropdownMenu from '../common/DropdownMenu'
 
 class Card extends Component {
   state = {

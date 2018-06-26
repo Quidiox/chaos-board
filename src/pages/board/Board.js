@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import Container from './Container'
-import { requestInitializeBoard } from '../reducers/boardReducer'
-import { sortByPosition } from '../utils/helpers'
-import AddContainer from './AddContainer'
+import { requestInitializeBoard } from '../../reducers/boardReducer'
+import { sortByPosition } from '../../utils/helpers'
+import Container from '../container/Container'
+import AddContainer from '../container/AddContainer'
 
 class Board extends Component {
   state = { draggingAllowed: true, editingCard: false, editingContainer: false }

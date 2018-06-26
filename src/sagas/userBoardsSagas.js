@@ -1,17 +1,17 @@
-import { call, put, takeLatest, actionChannel, take } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import {
   BOARD_FETCH_BY_USER_REQUEST,
   BOARD_FETCH_BY_USER,
   BOARD_CREATE_REQUEST,
   BOARD_CREATE,
-  BOARD_EDIT_REQUEST,
+  /*BOARD_EDIT_REQUEST,
   BOARD_EDIT,
   BOARD_REMOVE_REQUEST,
   BOARD_REMOVE,
   BOARD_ADD_MEMBER_REQUEST,
   BOARD_ADD_MEMBER,
   BOARD_REMOVE_MEMBER_REQUEST,
-  BOARD_REMOVE_MEMBER
+  BOARD_REMOVE_MEMBER*/
 } from '../reducers/actionTypes'
 import apiService from '../api/userBoardsApiService'
 import { genericActionCreator } from '../reducers/rootReducer'

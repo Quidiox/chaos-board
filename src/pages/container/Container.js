@@ -3,16 +3,16 @@ import { DragSource, DropTarget } from 'react-dnd'
 import flow from 'lodash/flow'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import Card from './Card'
-import { ItemTypes } from '../utils/constants'
-import { sortByPosition } from '../utils/helpers'
+import Card from '../card/Card'
+import AddCard from '../card/AddCard'
+import { ItemTypes } from '../../utils/constants'
+import { sortByPosition } from '../../utils/helpers'
 import {
   requestMoveContainer,
   requestDeleteContainer
-} from '../reducers/boardReducer'
-import AddCard from './AddCard'
-import Edit from './Edit'
-import DropdownMenu from './DropdownMenu'
+} from '../../reducers/boardReducer'
+import Edit from '../common/Edit'
+import DropdownMenu from '../common/DropdownMenu'
 
 class Container extends Component {
   state = {
