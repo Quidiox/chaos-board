@@ -16,14 +16,16 @@ import {
   requestVerifyUserToken,
   requestDeleteUser
 } from './reducers/userReducer'
+import {requestFetchBoardsByUser} from './reducers/userBoardsReducer'
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  return (
   <Route
     {...rest}
     render={props =>
       rest.loggedIn ? (
         <Component {...props} />
-      ) : (
+      ): (
         <Redirect
           to={{
             pathname: '/login',
@@ -33,7 +35,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       )
     }
   />
-)
+)}
 
 class App extends Component {
   state = {
@@ -45,6 +47,7 @@ class App extends Component {
   componentDidMount() {
     if (this.props.user && this.props.user.username) {
       this.props.requestVerifyUserToken(this.props.user)
+      this.props.requestFetchBoardsByUser(this.props.user)
     }
   }
   handleClick = event => {
@@ -98,7 +101,8 @@ const mapDispatchToProps = dispatch =>
     {
       requestLogoutUser,
       requestVerifyUserToken,
-      requestDeleteUser
+      requestDeleteUser,
+      requestFetchBoardsByUser
     },
     dispatch
   )

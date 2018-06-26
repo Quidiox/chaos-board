@@ -1,15 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { Link } from 'react-router-dom'
 
 const LoggedInPageNav = ({
   classes,
   pageAnchorEl,
   handleClick,
-  handleClose
+  handleClose,
+  boards
 }) => (
   <div>
     <IconButton
@@ -31,11 +33,19 @@ const LoggedInPageNav = ({
       <MenuItem name="pageAnchorEl" onClick={handleClose}>
         <Link to="/home">Home</Link>
       </MenuItem>
-      <MenuItem name="pageAnchorEl" onClick={handleClose}>
-        <Link to="/board">Board</Link>
-      </MenuItem>
+      {boards &&
+        boards.length > 0 &&
+        boards.map(board => (
+          <MenuItem key={board.id} name="pageAnchorEl" onClick={handleClose}>
+            <Link to={`/board/${board.id}`}>{board.title}</Link>
+          </MenuItem>
+        ))}
     </Menu>
   </div>
 )
 
-export default LoggedInPageNav
+const mapStateToProps = state => ({
+  boards: state.boards
+})
+
+export default connect(mapStateToProps)(LoggedInPageNav)

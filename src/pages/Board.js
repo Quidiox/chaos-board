@@ -11,6 +11,13 @@ class Board extends Component {
   componentDidMount() {
     this.props.requestInitializeBoard(this.props.match.params.boardId)
   }
+  async shouldComponentUpdate(nextProps) {
+    if (nextProps.match.params.boardId !== this.props.match.params.boardId) {
+      await this.props.requestInitializeBoard(nextProps.match.params.boardId)
+      return true
+    }
+    return false
+  }
   disableDragging = editingType => {
     this.setState({ draggingAllowed: false, [editingType]: true })
   }
@@ -22,14 +29,18 @@ class Board extends Component {
   }
   render() {
     const board = this.props.board
-    const sortedContainers = board && board.containers
-      ? sortByPosition(board.containers)
-      : []
+    const sortedContainers =
+      board && board.containers ? sortByPosition(board.containers) : []
     return (
-      <div style={{ marginLeft: '10px', marginRight: '10px', height: '93%', overflowX: 'auto'}}>
-        <h3>
-          {board.title}
-        </h3>
+      <div
+        style={{
+          marginLeft: '10px',
+          marginRight: '10px',
+          height: '93%',
+          overflowX: 'auto'
+        }}
+      >
+        <h3>{board.title}</h3>
         <div>
           {sortedContainers && (
             <div style={{ ...scrollingWrapper }}>
@@ -74,4 +85,7 @@ const mapStateToProps = state => ({ board: state.board })
 const mapDispatchToProps = dispatch =>
   bindActionCreators({ requestInitializeBoard }, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Board)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Board)

@@ -3,7 +3,7 @@ import {
   BOARD_FETCH_BY_USER_REQUEST,
   BOARD_FETCH_BY_USER,
   BOARD_CREATE_REQUEST,
-  BOARD_CREATE,
+  BOARD_CREATE
   /*BOARD_EDIT_REQUEST,
   BOARD_EDIT,
   BOARD_REMOVE_REQUEST,
@@ -19,7 +19,11 @@ import { withToken } from './helpers'
 
 function* fetchBoardsByUser(token, action) {
   try {
-    const response = yield call(apiService.fetchBoardsByUser, token, action.payload)
+    const response = yield call(
+      apiService.fetchBoardsByUser,
+      token,
+      action.payload
+    )
     yield put(genericActionCreator(BOARD_FETCH_BY_USER, response))
   } catch (error) {
     console.log(error)
@@ -46,4 +50,4 @@ function* watchCreateBoard() {
 export const userBoardsSagas = [
   call(watchCreateBoard),
   call(watchFetchBoardsByUser)
-] 
+]

@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
-import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
 import BoardCard from './home/BoardCard'
 import AddBoard from './home/AddBoard'
 
 class Home extends Component {
   state = { boardForm: false, title: '' }
-  componentDidMount() {
-    this.props.requestFetchBoardsByUser(this.props.user)
-  }
   handleClick = () => {
     this.setState({ boardForm: true })
   }
@@ -91,12 +86,8 @@ const mapStateToProps = state => ({
   boards: state.boards
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestFetchBoardsByUser }, dispatch)
-
 Home = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Home)
 
 export default withStyles(styles)(Home)
