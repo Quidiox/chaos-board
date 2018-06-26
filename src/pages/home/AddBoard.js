@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Add from '../common/Add'
-import { requestCreateContainer } from '../../reducers/boardReducer'
+import { requestCreateBoard } from '../../reducers/userBoardsReducer'
 
-class AddContainer extends Component {
+class AddBoard extends Component {
   state = {}
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
@@ -12,26 +12,27 @@ class AddContainer extends Component {
   handleSubmit = e => {
     e.preventDefault()
     if (this.state.title && this.state.title.length >= 3) {
-      this.props.requestCreateContainer({
-        boardId: this.props.boardId,
+      this.props.requestCreateBoard({
         title: this.state.title
       })
       this.setState({ title: '' })
     }
   }
   clear = e => {
+    console.log(e)
     e.preventDefault()
+    this.props.boardFormVisible()
     this.setState({ title: '' })
   }
   render() {
     return (
-      <div style={{ minWidth: '250px' }}>
+      <div style={{ minWidth: '187px' }}>
         <Add
           title={this.state.title}
           clear={this.clear}
           handleSubmit={this.handleSubmit}
           handleChange={this.handleChange}
-          type="Container"
+          type="Board"
         />
       </div>
     )
@@ -39,9 +40,9 @@ class AddContainer extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestCreateContainer }, dispatch)
+  bindActionCreators({ requestCreateBoard }, dispatch)
 
 export default connect(
   null,
   mapDispatchToProps
-)(AddContainer)
+)(AddBoard)

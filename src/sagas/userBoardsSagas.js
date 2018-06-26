@@ -43,8 +43,6 @@ function* watchCreateBoard() {
   yield takeLatest(BOARD_CREATE_REQUEST, withToken(createBoard))
 }
 
-
-
 export const userBoardsSagas = [
   call(watchCreateBoard),
   call(watchFetchBoardsByUser)

@@ -49,8 +49,8 @@ class EditUser extends Component {
     this.setState({
       name: this.props.user.name,
       username: this.props.user.username,
-      password: '***********',
-      confirmPassword: '***********',
+      password: '',
+      confirmPassword: '',
       passwordEdit: false
     })
   }

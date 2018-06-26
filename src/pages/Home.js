@@ -4,10 +4,11 @@ import { bindActionCreators } from 'redux'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
 import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
+import { withStyles } from '@material-ui/core/styles'
 import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
 import BoardCard from './home/BoardCard'
+import AddBoard from './home/AddBoard'
 
 class Home extends Component {
   state = { boardForm: false, title: '' }
@@ -16,6 +17,9 @@ class Home extends Component {
   }
   handleClick = () => {
     this.setState({ boardForm: true })
+  }
+  boardFormVisible = () => {
+    this.setState({ boardForm: false })
   }
   render() {
     const { classes, boards } = this.props
@@ -33,17 +37,17 @@ class Home extends Component {
                 />
               </GridListTile>
             ))}
-          <GridListTile className={classes.tile}>
-            <Card className={classes.card}>
-              {boardForm ? (
-                <div>hiiii</div>
-              ) : (
+          {boardForm ? (
+            <AddBoard boardFormVisible={this.boardFormVisible} />
+          ) : (
+            <GridListTile className={classes.tile}>
+              <Card className={classes.card}>
                 <Button className={classes.button} onClick={this.handleClick}>
                   Create new board
                 </Button>
-              )}
-            </Card>
-          </GridListTile>
+              </Card>
+            </GridListTile>
+          )}
         </GridList>
       </div>
     )
@@ -59,7 +63,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   gridList: {
-    minHeight: '110px'
+    minHeight: '110px',
+    width: '100%',
+    justifyContent: 'flex-start'
   },
   subheader: {
     width: '100%'

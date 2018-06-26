@@ -14,7 +14,7 @@ const Add = ({ title, type, handleChange, handleSubmit, clear }) => {
           onChange={handleChange}
         />
         <Form.Group>
-          <Form.Field control={Button}>Save</Form.Field>
+          <Form.Field control={Button} type='submit'>Save</Form.Field>
           <Form.Field control={Button} onClick={clear}>
             Clear
           </Form.Field>
