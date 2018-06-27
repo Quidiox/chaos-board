@@ -18,6 +18,11 @@ const styles = {
   },
   pos: {
     marginBottom: 5
+  },
+  button: {
+    '&:hover': {
+      backgroundColor: 'lightgray'
+    }
   }
 }
 
@@ -29,7 +34,7 @@ const BoardCard = ({ title, description, classes, id, buttonText }) => (
     </CardContent>
     <CardActions>
       <Link to={`/board/${id}`}>
-        <Button>{buttonText}</Button>
+        <Button className={classes.button}>{buttonText}</Button>
       </Link>
     </CardActions>
   </Card>

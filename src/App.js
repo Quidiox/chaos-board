@@ -11,29 +11,28 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
 import EditUser from './pages/EditUser'
-import {
-  requestVerifyUserToken,
-} from './reducers/userReducer'
-import {requestFetchBoardsByUser} from './reducers/userBoardsReducer'
+import { requestVerifyUserToken } from './reducers/userReducer'
+import { requestFetchBoardsByUser } from './reducers/userBoardsReducer'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
-  <Route
-    {...rest}
-    render={props =>
-      rest.loggedIn ? (
-        <Component {...props} />
-      ): (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
-)}
+    <Route
+      {...rest}
+      render={props =>
+        rest.loggedIn ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  )
+}
 
 class App extends Component {
   state = {
@@ -57,8 +56,16 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <PrivateRoute loggedIn={loggedIn} path="/home" component={Home} />
-          <PrivateRoute loggedIn={loggedIn} path='/user/edit' component={EditUser} />
-          <PrivateRoute loggedIn={loggedIn} path="/board/:boardId" component={Board} />
+          <PrivateRoute
+            loggedIn={loggedIn}
+            path="/user/edit"
+            component={EditUser}
+          />
+          <PrivateRoute
+            loggedIn={loggedIn}
+            path="/board/:boardId"
+            component={Board}
+          />
         </Switch>
       </Fragment>
     )

@@ -26,7 +26,7 @@ class AddBoard extends Component {
   }
   render() {
     return (
-      <div style={{ minWidth: '187px' }}>
+      <div style={{ width: '175px' }}>
         <Add
           title={this.state.title}
           clear={this.clear}
