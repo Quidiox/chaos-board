@@ -12,9 +12,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import EditUser from './pages/EditUser'
 import {
-  requestLogoutUser,
   requestVerifyUserToken,
-  requestDeleteUser
 } from './reducers/userReducer'
 import {requestFetchBoardsByUser} from './reducers/userBoardsReducer'
 
@@ -39,8 +37,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
 class App extends Component {
   state = {
-    pageAnchorEl: null,
-    personAnchorEl: null,
     redirectTo: false,
     from: { pathname: '/' }
   }
@@ -50,39 +46,12 @@ class App extends Component {
       this.props.requestFetchBoardsByUser(this.props.user)
     }
   }
-  handleClick = event => {
-    this.setState({ [event.currentTarget.name]: event.currentTarget })
-  }
-  handleClose = () => {
-    this.setState({ pageAnchorEl: null, personAnchorEl: null })
-  }
-  handleLogout = () => {
-    this.handleClose()
-    this.props.requestLogoutUser()
-  }
-  handleEdit = () => {
-    this.handleClose()
-  }
-  handleDelete = () => {
-    this.handleClose()
-    this.props.requestDeleteUser(this.props.user)
-  }
   render() {
     const { user } = this.props
     const loggedIn = user && user.username ? true : false
-    const { pageAnchorEl, personAnchorEl } = this.state
     return (
       <Fragment>
-        <Header
-          user={user}
-          pageAnchorEl={pageAnchorEl}
-          personAnchorEl={personAnchorEl}
-          handleEdit={this.handleEdit}
-          handleDelete={this.handleDelete}
-          handleClick={this.handleClick}
-          handleClose={this.handleClose}
-          handleLogout={this.handleLogout}
-        />
+        <Header />
         <Switch>
           <Route exact path="/" component={Frontpage} />
           <Route path="/login" component={Login} />
@@ -99,9 +68,7 @@ class App extends Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      requestLogoutUser,
       requestVerifyUserToken,
-      requestDeleteUser,
       requestFetchBoardsByUser
     },
     dispatch
