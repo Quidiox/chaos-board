@@ -50,7 +50,7 @@ const userReducer = (state = initialState, action) => {
         'loggedChaosBoardUser',
         JSON.stringify(action.payload)
       )
-      return Object.assign({}, state, action.payload)
+      return action.payload
     }
     case USER_DELETE: {
       window.localStorage.removeItem('loggedChaosBoardUser')

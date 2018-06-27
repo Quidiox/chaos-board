@@ -24,10 +24,12 @@ import {
 
 const boardReducer = (state = [], action) => {
   switch (action.type) {
-    case USER_LOGOUT:
+    case USER_LOGOUT: {
       return []
-    case BOARD_INITIALIZE:
+    }
+    case BOARD_INITIALIZE: {
       return action.payload
+    }
     case CARD_HOVER: {
       const { dragIndex, hoverIndex, containerPosition } = action.payload
       const stateCopy = JSON.parse(JSON.stringify(state))

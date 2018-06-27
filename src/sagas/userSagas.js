@@ -75,8 +75,10 @@ function* watchCreateUser() {
 
 function* editUser(token, action) {
   try {
-    const editedUser = yield call(apiService.edit, token, action.payload)
-    yield put(genericActionCreator(USER_EDIT, editedUser))
+    const user = yield call(apiService.edit, token, action.payload)
+    yield put(genericActionCreator(USER_EDIT, user))
+    const from = yield call(getRedirectPath)
+    yield put(push(from))
   } catch (error) {
     console.log(error)
   }

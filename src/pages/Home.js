@@ -7,9 +7,16 @@ import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
 import BoardCard from './home/BoardCard'
 import AddBoard from './home/AddBoard'
+import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
+import { bindActionCreators } from 'redux';
 
 class Home extends Component {
   state = { boardForm: false, title: '' }
+  async componentDidMount() {
+    if (this.props.user && this.props.user.username) {
+      await this.props.requestFetchBoardsByUser(this.props.user)
+    }
+  }
   handleClick = () => {
     this.setState({ boardForm: true })
   }
@@ -86,8 +93,12 @@ const mapStateToProps = state => ({
   boards: state.boards
 })
 
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({requestFetchBoardsByUser}, dispatch)
+)
+
 Home = connect(
-  mapStateToProps
+  mapStateToProps, mapDispatchToProps
 )(Home)
 
 export default withStyles(styles)(Home)
