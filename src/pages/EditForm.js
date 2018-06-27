@@ -56,7 +56,7 @@ const EditForm = ({
         </div>
       )}
       <Form.Group>
-        <Form.Field control={Button}>Submit</Form.Field>
+        <Form.Field control={Button} type='submit'>Submit</Form.Field>
         <Form.Field control={Button} onClick={clear}>
           Clear
         </Form.Field>
