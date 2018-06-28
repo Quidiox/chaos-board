@@ -12,6 +12,7 @@ import Register from './pages/Register'
 import Home from './pages/Home'
 import EditUser from './pages/EditUser'
 import { requestVerifyUserToken } from './reducers/userReducer'
+import { requestFetchBoardsByUser } from './reducers/userBoardsReducer'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   return (
@@ -41,6 +42,7 @@ class App extends Component {
   async componentDidMount() {
     if (this.props.user && this.props.user.username) {
       await this.props.requestVerifyUserToken(this.props.user)
+      await this.props.requestFetchBoardsByUser(this.props.user)
     }
   }
   render() {
@@ -73,7 +75,8 @@ class App extends Component {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      requestVerifyUserToken
+      requestVerifyUserToken,
+      requestFetchBoardsByUser
     },
     dispatch
   )

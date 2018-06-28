@@ -15,6 +15,7 @@ class AddBoard extends Component {
       this.props.requestCreateBoard({
         title: this.state.title
       })
+      this.props.boardFormVisible()
       this.setState({ title: '' })
     }
   }
