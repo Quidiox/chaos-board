@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import EditForm from './EditForm'
+import EditForm from './user/EditForm'
 import { requestEditUser } from '../reducers/userReducer'
 
 class EditUser extends Component {

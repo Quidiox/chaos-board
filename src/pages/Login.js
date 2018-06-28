@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
-import UserForm from './UserForm'
+import UserForm from './user/UserForm'
 import { requestLoginUser } from '../reducers/userReducer'
 
 class Login extends Component {
