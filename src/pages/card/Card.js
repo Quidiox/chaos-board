@@ -87,27 +87,6 @@ class Card extends Component {
   }
 }
 
-const dropdownMenuStyle = {
-  position: 'absolute',
-  top: '2px',
-  right: '2px',
-  background: 'white',
-  color: 'black',
-  cursor: 'pointer'
-}
-
-const mainDivStyle = {
-  border: '1px dashed gray',
-  padding: '.1rem',
-  margin: '.1rem',
-  backgroundColor: 'white'
-}
-
-const cardCompStyle = {
-  margin: '.1rem',
-  padding: '.1rem'
-}
-
 const cardSource = {
   canDrag(props) {
     return props.draggingAllowed
@@ -200,6 +179,27 @@ const mapDispatchToProps = dispatch =>
     dispatch
   )
 
+const dropdownMenuStyle = {
+  position: 'absolute',
+  top: '2px',
+  right: '2px',
+  background: 'white',
+  color: 'black',
+  cursor: 'pointer'
+}
+
+const mainDivStyle = {
+  border: '1px dashed gray',
+  padding: '.1rem',
+  margin: '.1rem',
+  backgroundColor: 'white'
+}
+
+const cardCompStyle = {
+  margin: '.1rem',
+  padding: '.1rem'
+}
+
 const mapStateToProps = state => ({ containers: state.board.containers })
 
 Card = flow(
@@ -207,4 +207,7 @@ Card = flow(
   DragSource(ItemTypes.CARD, cardSource, collectDragSource)
 )(Card)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Card)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Card)

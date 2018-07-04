@@ -71,7 +71,7 @@ export const requestEditBoard = payload => ({
   payload
 })
 
-export const requestRemoveBoard = payload => ({
+export const requestDeleteBoard = payload => ({
   type: BOARD_REMOVE_REQUEST,
   payload
 })

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Form, Button, TextArea } from 'semantic-ui-react'
 import { requestEditCard, requestEditContainer } from '../../reducers/boardReducer'
+import { requestEditBoard } from '../../reducers/userBoardsReducer'
 
 class Edit extends Component {
   state = {
@@ -23,6 +24,12 @@ class Edit extends Component {
       this.props.requestEditContainer({
         title: this.state.title,
         containerId: this.props.containerId
+      })
+    }
+    else if (this.props.type==='Board') {
+      this.props.requestEditBoard({
+        title: this.state.title,
+        boardId: this.props.boardId
       })
     }
     this.props.endEdit()
@@ -57,6 +64,6 @@ class Edit extends Component {
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestEditCard, requestEditContainer }, dispatch)
+  bindActionCreators({ requestEditCard, requestEditContainer, requestEditBoard }, dispatch)
 
 export default connect(null, mapDispatchToProps)(Edit)

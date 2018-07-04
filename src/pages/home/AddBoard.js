@@ -5,7 +5,7 @@ import Add from '../common/Add'
 import { requestCreateBoard } from '../../reducers/userBoardsReducer'
 
 class AddBoard extends Component {
-  state = {}
+  state = { title: '' }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
