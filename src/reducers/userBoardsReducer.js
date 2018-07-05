@@ -9,8 +9,8 @@ import {
   BOARD_CREATE,
   BOARD_EDIT_REQUEST,
   BOARD_EDIT,
-  BOARD_REMOVE_REQUEST,
-  BOARD_REMOVE,
+  BOARD_DELETE_REQUEST,
+  BOARD_DELETE,
   USER_LOGOUT
 } from './actionTypes'
 
@@ -26,10 +26,8 @@ const userBoardsReducer = (state = [], action) => {
       return [...state, action.payload]
     }
     case BOARD_EDIT: {
-      const editedIndex = state.forEach((board, i) => {
-        if (board.id === action.payload.id) {
-          return i
-        }
+      const editedIndex = state.findIndex(board => {
+        return board.id === action.payload.id
       })
       return [
         ...state.slice(0, editedIndex),
@@ -37,11 +35,9 @@ const userBoardsReducer = (state = [], action) => {
         ...state.slice(editedIndex + 1)
       ]
     }
-    case BOARD_REMOVE: {
-      const removedIndex = state.forEach((board, i) => {
-        if (board.id === action.payload.id) {
-          return i
-        }
+    case BOARD_DELETE: {
+      const removedIndex = state.findIndex(board => {
+        return board.id === action.payload.boardId
       })
       return [...state.slice(0, removedIndex), ...state.slice(removedIndex + 1)]
     }
@@ -72,7 +68,7 @@ export const requestEditBoard = payload => ({
 })
 
 export const requestDeleteBoard = payload => ({
-  type: BOARD_REMOVE_REQUEST,
+  type: BOARD_DELETE_REQUEST,
   payload
 })
 

@@ -3,12 +3,12 @@ import {
   BOARD_FETCH_BY_USER_REQUEST,
   BOARD_FETCH_BY_USER,
   BOARD_CREATE_REQUEST,
-  BOARD_CREATE
-  /*BOARD_EDIT_REQUEST,
+  BOARD_CREATE,
+  BOARD_EDIT_REQUEST,
   BOARD_EDIT,
-  BOARD_REMOVE_REQUEST,
-  BOARD_REMOVE,
-  BOARD_ADD_MEMBER_REQUEST,
+  BOARD_DELETE_REQUEST,
+  BOARD_DELETE,
+  /*BOARD_ADD_MEMBER_REQUEST,
   BOARD_ADD_MEMBER,
   BOARD_REMOVE_MEMBER_REQUEST,
   BOARD_REMOVE_MEMBER*/
@@ -47,7 +47,35 @@ function* watchCreateBoard() {
   yield takeLatest(BOARD_CREATE_REQUEST, withToken(createBoard))
 }
 
+function* editBoard(token, action) {
+  try {
+    const response = yield call(apiService.editBoard, token, action.payload)
+    yield put(genericActionCreator(BOARD_EDIT, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchEditBoard() {
+  yield takeLatest(BOARD_EDIT_REQUEST, withToken(editBoard))
+}
+
+function* deleteBoard(token, action) {
+  try {
+    yield call(apiService.deleteBoard, token, action.payload)
+    yield put(genericActionCreator(BOARD_DELETE, action.payload))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchDeleteBoard() {
+  yield takeLatest(BOARD_DELETE_REQUEST, withToken(deleteBoard))
+}
+
 export const userBoardsSagas = [
   call(watchCreateBoard),
-  call(watchFetchBoardsByUser)
+  call(watchFetchBoardsByUser),
+  call(watchEditBoard),
+  call(watchDeleteBoard)
 ]

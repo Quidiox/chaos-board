@@ -68,9 +68,6 @@ const styles = theme => ({
     width: '100%',
     justifyContent: 'flex-start'
   },
-  subheader: {
-    width: '100%'
-  },
   tile: {
     minHeight: '114px',
     minWidth: '175px'

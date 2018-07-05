@@ -20,6 +20,7 @@ class BoardCard extends Component {
     isHovering: false,
     isEditing: false
   }
+
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ isHovering: true })
     if (e.type === 'mouseleave') this.setState({ isHovering: false })
@@ -39,6 +40,7 @@ class BoardCard extends Component {
     })
     this.setState({ isHovering: false })
   }
+
   render() {
     const { title, description, classes, id, buttonText } = this.props
     return (

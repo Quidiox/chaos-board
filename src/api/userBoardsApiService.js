@@ -29,7 +29,7 @@ const createBoard = async (token, data) => {
 
 const editBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'boards/' + data.id, {
+    const response = await fetch(baseUrl + 'boards/' + data.boardId, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({
@@ -45,7 +45,7 @@ const editBoard = async (token, data) => {
 
 const deleteBoard = async (token, data) => {
   try {
-    await fetch(baseUrl + 'boards/' + data.id, {
+    await fetch(baseUrl + 'boards/' + data.boardId, {
       method: 'DELETE',
       headers: new Headers({
         Authorization: token
