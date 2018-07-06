@@ -26,20 +26,26 @@ const userBoardsReducer = (state = [], action) => {
       return [...state, action.payload]
     }
     case BOARD_EDIT: {
-      const editedIndex = state.findIndex(board => {
+      const editIndex = state.findIndex(board => {
         return board.id === action.payload.id
       })
+      if(editIndex===undefined) {
+        return state
+      }
       return [
-        ...state.slice(0, editedIndex),
+        ...state.slice(0, editIndex),
         action.payload,
-        ...state.slice(editedIndex + 1)
+        ...state.slice(editIndex + 1)
       ]
     }
     case BOARD_DELETE: {
-      const removedIndex = state.findIndex(board => {
+      const removeIndex = state.findIndex(board => {
         return board.id === action.payload.boardId
       })
-      return [...state.slice(0, removedIndex), ...state.slice(removedIndex + 1)]
+      if(removeIndex===undefined) {
+        return state
+      }
+      return [...state.slice(0, removeIndex), ...state.slice(removeIndex + 1)]
     }
     case BOARD_ADD_MEMBER: {
       return state
