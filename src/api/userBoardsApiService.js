@@ -56,12 +56,12 @@ const deleteBoard = async (token, data) => {
   }
 }
 
-const addMemberToBoard = async (token, data, user) => {
+const addMember = async (token, data) => {
   try {
     const response = await fetch(
-      baseUrl + 'boards/' + data.id + '/add/' + user.id,
+      baseUrl + 'boards/' + data.boardId + '/add/' + data.userId,
       {
-        method: 'POST',
+        method: 'PUT',
         headers: new Headers({
           Authorization: token
         })
@@ -73,17 +73,18 @@ const addMemberToBoard = async (token, data, user) => {
   }
 }
 
-const removeMemberFromBoard = async (token, data, user) => {
+const removeMember = async (token, data) => {
   try {
-    await fetch(
-      baseUrl + 'boards/' + data.id + '/remove/' + user.id,
+    const response = await fetch(
+      baseUrl + 'boards/' + data.boardId + '/remove/' + data.userId,
       {
-        method: 'POST',
+        method: 'PUT',
         headers: new Headers({
           Authorization: token
         })
       }
     )
+    return await response.json()
   } catch (error) {
     console.log(error)
   }
@@ -94,6 +95,6 @@ export default {
   createBoard,
   editBoard,
   deleteBoard,
-  addMemberToBoard,
-  removeMemberFromBoard
+  addMember,
+  removeMember
 }

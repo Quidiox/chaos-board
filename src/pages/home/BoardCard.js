@@ -9,10 +9,12 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Edit from '../common/Edit'
-import DropdownMenu from '../common/DropdownMenu'
+import BoardDropdownMenu from './BoardDropdownMenu'
 import {
   requestEditBoard,
-  requestDeleteBoard
+  requestDeleteBoard,
+  requestAddBoardMember,
+  requestRemoveBoardMember
 } from '../../reducers/userBoardsReducer'
 
 class BoardCard extends Component {
@@ -41,6 +43,10 @@ class BoardCard extends Component {
     this.setState({ isHovering: false })
   }
 
+  addMember = () => {}
+
+  removeMember = () => {}
+
   render() {
     const { title, description, classes, id, buttonText } = this.props
     return (
@@ -66,11 +72,12 @@ class BoardCard extends Component {
                 <Button className={classes.button}>{buttonText}</Button>
               </Link>
               {this.state.isHovering && (
-                <div style={{ ...dropdownMenuStyle }}>
-                  <DropdownMenu
+                <div style={{ ...dropdownMenuStyle}}>
+                  <BoardDropdownMenu
+                    addMember={this.addMember}
+                    removeMember={this.removeMember}
                     handleEdit={this.editBoard}
                     handleDelete={this.deleteBoard}
-                    type="board"
                   />
                 </div>
               )}
@@ -107,11 +114,20 @@ const dropdownMenuStyle = {
   right: '20px',
   background: 'white',
   color: 'black',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  height: 'auto'
 }
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestEditBoard, requestDeleteBoard }, dispatch)
+  bindActionCreators(
+    {
+      requestEditBoard,
+      requestDeleteBoard,
+      requestAddBoardMember,
+      requestRemoveBoardMember
+    },
+    dispatch
+  )
 
 BoardCard = connect(
   null,

@@ -12,17 +12,21 @@ import AddBoard from './home/AddBoard'
 
 class Home extends Component {
   state = { boardForm: false, title: '' }
+  
   async componentDidMount() {
     if (this.props.user && this.props.user.username) {
       await this.props.requestFetchBoardsByUser(this.props.user)
     }
   }
+
   handleClick = () => {
     this.setState({ boardForm: true })
   }
+
   boardFormVisible = () => {
     this.setState({ boardForm: false })
   }
+
   render() {
     const { classes, boards } = this.props
     const { boardForm } = this.state
@@ -31,7 +35,7 @@ class Home extends Component {
         <GridList cellHeight={'auto'} className={classes.gridList} cols={4}>
           {boards &&
             boards.map(board => (
-              <GridListTile className={classes.tile} key={board.id}>
+              <GridListTile classes={{tile: classes.tile}} key={board.id}>
                 <BoardCard
                   title={board.title}
                   buttonText="open board"
@@ -70,7 +74,8 @@ const styles = theme => ({
   },
   tile: {
     minHeight: '114px',
-    minWidth: '175px'
+    minWidth: '175px',
+    overflow: 'visible'
   },
   card: {
     width: '175px',

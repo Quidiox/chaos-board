@@ -41,6 +41,18 @@ const verifyToken = async token => {
   }
 }
 
+const getAllUsers = async token => {
+  try {
+    const response = await fetch(baseUrl + 'user', {
+      method: 'GET',
+      headers: new Headers({Authorization: token})
+    })
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const edit = async (token, data) => {
   try {
     const response = await fetch(baseUrl + 'user/' + data.userId, {
@@ -68,4 +80,4 @@ const remove = async (token, data) => {
   }
 }
 
-export default { login, create, edit, remove, verifyToken }
+export default { login, create, edit, remove, verifyToken, getAllUsers }

@@ -10,7 +10,9 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE,
   USER_EDIT_REQUEST,
-  USER_EDIT
+  USER_EDIT,
+  USER_GET_ALL,
+  USER_GET_ALL_REQUEST
 } from './actionTypes'
 
 const user = window.localStorage.getItem('loggedChaosBoardUser')
@@ -56,6 +58,9 @@ const userReducer = (state = initialState, action) => {
       window.localStorage.removeItem('loggedChaosBoardUser')
       return null
     }
+    case USER_GET_ALL: {
+      return action.payload
+    }
     default:
       return state
   }
@@ -88,6 +93,10 @@ export const requestDeleteUser = payload => ({
 export const requestEditUser = payload => ({
   type: USER_EDIT_REQUEST,
   payload
+})
+
+export const requestGetAllUsers = () => ({
+  type: USER_GET_ALL_REQUEST
 })
 
 export default userReducer

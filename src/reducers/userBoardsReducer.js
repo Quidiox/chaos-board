@@ -29,7 +29,7 @@ const userBoardsReducer = (state = [], action) => {
       const editIndex = state.findIndex(board => {
         return board.id === action.payload.id
       })
-      if(editIndex===undefined) {
+      if (editIndex === undefined) {
         return state
       }
       return [
@@ -42,15 +42,17 @@ const userBoardsReducer = (state = [], action) => {
       const removeIndex = state.findIndex(board => {
         return board.id === action.payload.boardId
       })
-      if(removeIndex===undefined) {
+      if (removeIndex === undefined) {
         return state
       }
       return [...state.slice(0, removeIndex), ...state.slice(removeIndex + 1)]
     }
     case BOARD_ADD_MEMBER: {
+      console.log(action.payload)
       return state
     }
     case BOARD_REMOVE_MEMBER: {
+      console.log(action.payload)
       return state
     }
     default:
