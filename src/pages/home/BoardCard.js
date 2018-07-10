@@ -20,22 +20,32 @@ import {
 class BoardCard extends Component {
   state = {
     isHovering: false,
-    isEditing: false
+    isEditing: false,
+    title: this.props.title
   }
-
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ isHovering: true })
     if (e.type === 'mouseleave') this.setState({ isHovering: false })
   }
-
   editBoard = () => {
     this.setState({ isEditing: true })
   }
-
   endEdit = () => {
-    this.setState({ isHovering: false, isEditing: false })
+    this.props.requestEditBoard({
+      title: this.state.title,
+      boardId: this.props.id
+    })
+    this.setState({
+      isHovering: false,
+      isEditing: false
+    })
   }
-
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  close = () => {
+    this.setState({isEditing: false, title: this.props.title })
+  }
   deleteBoard = () => {
     this.props.requestDeleteBoard({
       boardId: this.props.id
@@ -57,8 +67,9 @@ class BoardCard extends Component {
         {this.state.isEditing ? (
           <Edit
             type="Board"
-            title={title}
-            boardId={id}
+            title={this.state.title}
+            close={this.close}
+            handleChange={this.handleChange}
             endEdit={this.endEdit}
           />
         ) : (
@@ -72,7 +83,7 @@ class BoardCard extends Component {
                 <Button className={classes.button}>{buttonText}</Button>
               </Link>
               {this.state.isHovering && (
-                <div style={{ ...dropdownMenuStyle}}>
+                <div style={{ ...dropdownMenuStyle }}>
                   <BoardDropdownMenu
                     addMember={this.addMember}
                     removeMember={this.removeMember}

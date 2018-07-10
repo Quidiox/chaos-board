@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { Card as CardComp } from 'semantic-ui-react'
 import { ItemTypes } from '../../utils/constants'
 import {
+  requestEditCard,
   requestMoveCard,
   requestMoveCardBetweenContainers,
   requestDeleteCard,
@@ -17,7 +18,8 @@ import DropdownMenu from '../common/DropdownMenu'
 class Card extends Component {
   state = {
     isHovering: false,
-    isEditing: false
+    isEditing: false,
+    title: this.props.card.title
   }
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ isHovering: true })
@@ -28,8 +30,20 @@ class Card extends Component {
     this.setState({ isEditing: true })
   }
   endEdit = () => {
+    this.props.requestEditCard({
+      title: this.state.title,
+      cardId: this.props.card.id,
+      containerId: this.props.containerId
+    })
     this.props.allowDragging('editingCard')
-    this.setState({ isEditing: false, isHovering: false })
+    this.setState({ isEditing: false, isHovering: false})
+  }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  close = () => {
+    this.props.allowDragging('editingCard')
+    this.setState({ isEditing: false, isHovering: false, title: this.props.card.title })
   }
   deleteCard = () => {
     this.props.requestDeleteCard({
@@ -58,9 +72,9 @@ class Card extends Component {
           {this.state.isEditing ? (
             <Edit
               type="Card"
-              title={card.title}
-              cardId={card.id}
-              containerId={this.props.containerId}
+              title={this.state.title}
+              close={this.close}
+              handleChange={this.handleChange}
               endEdit={this.endEdit}
             />
           ) : (
@@ -168,17 +182,6 @@ const collectDropTarget = connect => ({
   awesome: 'hello'
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestMoveCard,
-      requestMoveCardBetweenContainers,
-      requestDeleteCard,
-      hoverCard
-    },
-    dispatch
-  )
-
 const dropdownMenuStyle = {
   position: 'absolute',
   top: '2px',
@@ -199,6 +202,18 @@ const cardCompStyle = {
   margin: '.1rem',
   padding: '.1rem'
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      requestEditCard,
+      requestMoveCard,
+      requestMoveCardBetweenContainers,
+      requestDeleteCard,
+      hoverCard
+    },
+    dispatch
+  )
 
 const mapStateToProps = state => ({ containers: state.board.containers })
 

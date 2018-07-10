@@ -1,69 +1,35 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { Form, Button, TextArea } from 'semantic-ui-react'
-import { requestEditCard, requestEditContainer } from '../../reducers/boardReducer'
-import { requestEditBoard } from '../../reducers/userBoardsReducer'
 
-class Edit extends Component {
-  state = {
-    title: this.props.title || ''
+const Edit = props => {
+  const handleSubmit = e => {
+    props.endEdit()
   }
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-  handleSubmit = e => {
+  const close = e => {
     e.preventDefault()
-    if (this.props.type === 'Card') {
-      this.props.requestEditCard({
-        title: this.state.title,
-        cardId: this.props.cardId,
-        containerId: this.props.containerId
-      })
-    } else if (this.props.type === 'Container') {
-      this.props.requestEditContainer({
-        title: this.state.title,
-        containerId: this.props.containerId
-      })
-    }
-    else if (this.props.type==='Board') {
-      this.props.requestEditBoard({
-        title: this.state.title,
-        boardId: this.props.boardId
-      })
-    }
-    this.props.endEdit()
-    this.setState({ title: '' })
+    props.close()
   }
-  close = e => {
-    e.preventDefault()
-    this.props.endEdit()
-    this.setState({ title: '' })
-  }
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Field
-            value={this.state.title}
-            control={TextArea}
-            placeholder={`${this.props.type} title`}
-            name="title"
-            onChange={this.handleChange}
-          />
-          <Form.Group>
-            <Form.Field control={Button}>Save</Form.Field>
-            <Form.Field control={Button} onClick={this.close}>
-              Close
-            </Form.Field>
-          </Form.Group>
-        </Form>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Field
+          value={props.title}
+          control={TextArea}
+          placeholder={`${props.type} title`}
+          name="title"
+          onChange={props.handleChange}
+        />
+        <Form.Group>
+          <Form.Field control={Button} type="submit">
+            Save
+          </Form.Field>
+          <Form.Field control={Button} onClick={close}>
+            Close
+          </Form.Field>
+        </Form.Group>
+      </Form>
+    </div>
+  )
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestEditCard, requestEditContainer, requestEditBoard }, dispatch)
-
-export default connect(null, mapDispatchToProps)(Edit)
+export default Edit

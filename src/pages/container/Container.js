@@ -8,6 +8,7 @@ import AddCard from '../card/AddCard'
 import { ItemTypes } from '../../utils/constants'
 import { sortByPosition } from '../../utils/helpers'
 import {
+  requestEditContainer,
   requestMoveContainer,
   requestDeleteContainer
 } from '../../reducers/boardReducer'
@@ -16,15 +17,27 @@ import DropdownMenu from '../common/DropdownMenu'
 
 class Container extends Component {
   state = {
-    isEditing: false
+    isEditing: false,
+    title: this.props.container.title
   }
   editContainer = () => {
     this.props.disableDragging('editingContainer')
     this.setState({ isEditing: true })
   }
   endEdit = () => {
+    this.props.requestEditContainer({
+      title: this.state.title,
+      containerId: this.props.container.id
+    })
     this.props.allowDragging('editingContainer')
     this.setState({ isEditing: false })
+  }
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+  close = () => {
+    this.props.allowDragging('editingContainer')
+    this.setState({ isEditing: false, title: this.props.container.title })
   }
   deleteContainer = () => {
     this.props.requestDeleteContainer({
@@ -63,10 +76,11 @@ class Container extends Component {
             )}
             {this.state.isEditing ? (
               <Edit
-                title={this.props.container.title}
-                containerId={this.props.container.id}
-                endEdit={this.endEdit}
                 type="Container"
+                title={this.state.title}
+                close={this.close}
+                handleChange={this.handleChange}
+                endEdit={this.endEdit}
               />
             ) : (
               <div>
@@ -116,22 +130,6 @@ class Container extends Component {
       </div>
     )
   }
-}
-
-const dropdownMenuStyle = {
-  position: 'absolute',
-  top: '4px',
-  right: '2px',
-  background: 'white',
-  color: 'black',
-  cursor: 'pointer'
-}
-
-const containerStyle = {
-  width: '250px',
-  minHeight: '404px',
-  border: '1px solid black',
-  height: '100%'
 }
 
 const cardTarget = {
@@ -201,9 +199,26 @@ const collectContainerDropTarget = connect => ({
   connectContainerDropTarget: connect.dropTarget()
 })
 
+const dropdownMenuStyle = {
+  position: 'absolute',
+  top: '4px',
+  right: '2px',
+  background: 'white',
+  color: 'black',
+  cursor: 'pointer'
+}
+
+const containerStyle = {
+  width: '250px',
+  minHeight: '404px',
+  border: '1px solid black',
+  height: '100%'
+}
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      requestEditContainer,
       requestMoveContainer,
       requestDeleteContainer
     },
