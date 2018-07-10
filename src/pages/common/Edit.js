@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button, TextArea } from 'semantic-ui-react'
 
 const Edit = props => {
-  const handleSubmit = e => {
+  const handleSubmit = () => {
     props.endEdit()
   }
   const close = e => {
