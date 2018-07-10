@@ -1,29 +1,29 @@
 import React from 'react'
 import { Form, Button, TextArea } from 'semantic-ui-react'
 
-const Edit = props => {
+const Edit = ({endEdit, close, title, type, handleChange}) => {
   const handleSubmit = () => {
-    props.endEdit()
+    endEdit()
   }
-  const close = e => {
+  const closeForm = e => {
     e.preventDefault()
-    props.close()
+    close()
   }
   return (
     <div>
       <Form onSubmit={handleSubmit}>
         <Form.Field
-          value={props.title}
+          value={title}
           control={TextArea}
-          placeholder={`${props.type} title`}
+          placeholder={`${type} title`}
           name="title"
-          onChange={props.handleChange}
+          onChange={handleChange}
         />
         <Form.Group>
           <Form.Field control={Button} type="submit">
             Save
           </Form.Field>
-          <Form.Field control={Button} onClick={close}>
+          <Form.Field control={Button} onClick={closeForm}>
             Close
           </Form.Field>
         </Form.Group>
