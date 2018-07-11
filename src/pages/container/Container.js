@@ -35,7 +35,8 @@ class Container extends Component {
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
-  close = () => {
+  close = e => {
+    e.preventDefault()
     this.props.allowDragging('editingContainer')
     this.setState({ isEditing: false, title: this.props.container.title })
   }
@@ -80,7 +81,7 @@ class Container extends Component {
                 title={this.state.title}
                 close={this.close}
                 handleChange={this.handleChange}
-                endEdit={this.endEdit}
+                handleSubmit={this.endEdit}
               />
             ) : (
               <div>

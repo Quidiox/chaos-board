@@ -41,7 +41,8 @@ class Card extends Component {
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
-  close = () => {
+  close = e => {
+    e.preventDefault()
     this.props.allowDragging('editingCard')
     this.setState({ isEditing: false, isHovering: false, title: this.props.card.title })
   }
@@ -75,7 +76,7 @@ class Card extends Component {
               title={this.state.title}
               close={this.close}
               handleChange={this.handleChange}
-              endEdit={this.endEdit}
+              handleSubmit={this.endEdit}
             />
           ) : (
             <CardComp>

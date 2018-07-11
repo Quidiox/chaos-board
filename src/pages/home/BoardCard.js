@@ -43,7 +43,8 @@ class BoardCard extends Component {
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
   }
-  close = () => {
+  close = e => {
+    e.preventDefault()
     this.setState({isEditing: false, title: this.props.title })
   }
   deleteBoard = () => {
@@ -70,7 +71,7 @@ class BoardCard extends Component {
             title={this.state.title}
             close={this.close}
             handleChange={this.handleChange}
-            endEdit={this.endEdit}
+            handleSubmit={this.endEdit}
           />
         ) : (
           <Card className={classes.card}>
