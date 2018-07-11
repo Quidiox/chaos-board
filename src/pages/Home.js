@@ -12,7 +12,7 @@ import AddBoard from './home/AddBoard'
 
 class Home extends Component {
   state = { boardForm: false, title: '' }
-  
+
   async componentDidMount() {
     if (this.props.user && this.props.user.username) {
       await this.props.requestFetchBoardsByUser(this.props.user)
@@ -35,7 +35,10 @@ class Home extends Component {
         <GridList cellHeight={'auto'} className={classes.gridList} cols={4}>
           {boards &&
             boards.map(board => (
-              <GridListTile classes={{tile: classes.tile}} key={board.id}>
+              <GridListTile
+                classes={{ tile: classes.tile, root: classes.tileRoot }}
+                key={board.id}
+              >
                 <BoardCard
                   title={board.title}
                   buttonText="open board"
@@ -46,7 +49,9 @@ class Home extends Component {
           {boardForm ? (
             <AddBoard boardFormVisible={this.boardFormVisible} />
           ) : (
-            <GridListTile className={classes.tile}>
+            <GridListTile
+              classes={{ tile: classes.tile, root: classes.tileRoot }}
+            >
               <Card className={classes.card}>
                 <Button className={classes.button} onClick={this.handleClick}>
                   Create new board
@@ -69,12 +74,16 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   gridList: {
-    width: '100%',
+    display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'flex-start'
+  },
+  tileRoot: {
+    minWidth: '175px'
   },
   tile: {
     minHeight: '114px',
-    minWidth: '175px',
+    width: '175px',
     overflow: 'visible'
   },
   card: {
@@ -94,12 +103,12 @@ const mapStateToProps = state => ({
   boards: state.boards
 })
 
-const mapDispatchToProps = dispatch => (
-  bindActionCreators({requestFetchBoardsByUser}, dispatch)
-)
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ requestFetchBoardsByUser }, dispatch)
 
 Home = connect(
-  mapStateToProps, mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Home)
 
 export default withStyles(styles)(Home)
