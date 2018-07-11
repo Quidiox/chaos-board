@@ -10,25 +10,25 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Edit from '../common/Edit'
 import BoardDropdownMenu from './BoardDropdownMenu'
+import AddBoardMembers from './AddBoardMembers'
 import {
   requestEditBoard,
-  requestDeleteBoard,
-  requestAddBoardMember,
-  requestRemoveBoardMember
+  requestDeleteBoard
 } from '../../reducers/userBoardsReducer'
 
 class BoardCard extends Component {
   state = {
-    isHovering: false,
-    isEditing: false,
-    title: this.props.title
+    hovering: false,
+    editing: false,
+    title: this.props.title,
+    addMemberOpen: false
   }
   handleMouseHover = e => {
-    if (e.type === 'mouseenter') this.setState({ isHovering: true })
-    if (e.type === 'mouseleave') this.setState({ isHovering: false })
+    if (e.type === 'mouseenter') this.setState({ hovering: true })
+    if (e.type === 'mouseleave') this.setState({ hovering: false })
   }
   editBoard = () => {
-    this.setState({ isEditing: true })
+    this.setState({ editing: true })
   }
   endEdit = () => {
     this.props.requestEditBoard({
@@ -36,8 +36,8 @@ class BoardCard extends Component {
       boardId: this.props.id
     })
     this.setState({
-      isHovering: false,
-      isEditing: false
+      hovering: false,
+      editing: false
     })
   }
   handleChange = e => {
@@ -45,27 +45,32 @@ class BoardCard extends Component {
   }
   close = e => {
     e.preventDefault()
-    this.setState({isEditing: false, title: this.props.title })
+    this.setState({ editing: false, title: this.props.title })
   }
   deleteBoard = () => {
     this.props.requestDeleteBoard({
       boardId: this.props.id
     })
-    this.setState({ isHovering: false })
+    this.setState({ hovering: false })
   }
-
-  addMember = () => {}
+  openAddMember = () => {
+    this.setState({ addMemberOpen: true })
+  }
+  closeAddMember = () => {
+    this.setState({ addMemberOpen: false })
+  }
 
   removeMember = () => {}
 
   render() {
     const { title, description, classes, id, buttonText } = this.props
+    const { addMemberOpen, editing, hovering } = this.state
     return (
       <div
         onMouseEnter={this.handleMouseHover}
         onMouseLeave={this.handleMouseHover}
       >
-        {this.state.isEditing ? (
+        {editing ? (
           <Edit
             type="Board"
             title={this.state.title}
@@ -74,27 +79,32 @@ class BoardCard extends Component {
             handleSubmit={this.endEdit}
           />
         ) : (
-          <Card className={classes.card}>
-            <CardContent>
-              <Typography className={classes.title}>{title}</Typography>
-              <Typography component="p">{description}</Typography>
-            </CardContent>
-            <CardActions>
-              <Link to={`/board/${id}`}>
-                <Button className={classes.button}>{buttonText}</Button>
-              </Link>
-              {this.state.isHovering && (
-                <div style={{ ...dropdownMenuStyle }}>
-                  <BoardDropdownMenu
-                    addMember={this.addMember}
-                    removeMember={this.removeMember}
-                    handleEdit={this.editBoard}
-                    handleDelete={this.deleteBoard}
-                  />
-                </div>
-              )}
-            </CardActions>
-          </Card>
+          <div>
+            <Card className={classes.card}>
+              <CardContent>
+                <Typography className={classes.title}>{title}</Typography>
+                <Typography component="p">{description}</Typography>
+              </CardContent>
+              <CardActions>
+                <Link to={`/board/${id}`}>
+                  <Button className={classes.button}>{buttonText}</Button>
+                </Link>
+                {hovering && (
+                  <div style={{ ...dropdownMenuStyle }}>
+                    <BoardDropdownMenu
+                      addMember={this.openAddMember}
+                      removeMember={this.removeMember}
+                      handleEdit={this.editBoard}
+                      handleDelete={this.deleteBoard}
+                    />
+                  </div>
+                )}
+              </CardActions>
+            </Card>
+            {addMemberOpen && (
+              <AddBoardMembers closeAddMember={this.closeAddMember} />
+            )}
+          </div>
         )}
       </div>
     )
@@ -123,7 +133,7 @@ const styles = {
 const dropdownMenuStyle = {
   position: 'absolute',
   top: '2px',
-  right: '20px',
+  right: '0px',
   background: 'white',
   color: 'black',
   cursor: 'pointer',
@@ -134,9 +144,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       requestEditBoard,
-      requestDeleteBoard,
-      requestAddBoardMember,
-      requestRemoveBoardMember
+      requestDeleteBoard
     },
     dispatch
   )

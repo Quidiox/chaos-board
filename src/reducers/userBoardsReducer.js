@@ -80,7 +80,7 @@ export const requestDeleteBoard = payload => ({
   payload
 })
 
-export const requestAddBoardMember = payload => ({
+export const requestAddBoardMembers = payload => ({
   type: BOARD_ADD_MEMBER_REQUEST,
   payload
 })

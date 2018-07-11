@@ -14,8 +14,6 @@ import {
   USER_DELETE,
   USER_EDIT_REQUEST,
   USER_EDIT,
-  USER_GET_ALL,
-  USER_GET_ALL_REQUEST
 } from '../reducers/actionTypes'
 import apiService from '../api/userApiService'
 import { withToken, getRedirectPath } from './helpers'
@@ -103,25 +101,11 @@ function* watchDeleteUser() {
   yield takeLatest(USER_DELETE_REQUEST, withToken(deleteUser))
 }
 
-function* getAllUsers(token) {
-  try {
-    const response = yield call(apiService.getAllUsers, token)
-    yield put(genericActionCreator(USER_GET_ALL, response))
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-function* watchGetAllUsers() {
-  yield takeLatest(USER_GET_ALL_REQUEST, withToken(getAllUsers))
-}
-
 export const userSagas = [
   call(watchLogin),
   call(watchLogout),
   call(watchVerifyToken),
   call(watchCreateUser),
   call(watchEditUser),
-  call(watchDeleteUser),
-  call(watchGetAllUsers)
+  call(watchDeleteUser)
 ]
