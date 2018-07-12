@@ -7,6 +7,7 @@ import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import { requestGetAllUsers } from '../../reducers/usersReducer'
 import { requestAddBoardMembers } from '../../reducers/userBoardsReducer'
+import UserList from './UserList'
 
 class AddBoardMembers extends Component {
   componentDidMount() {
@@ -17,16 +18,16 @@ class AddBoardMembers extends Component {
     this.props.requestAddBoardMembers()
   }
   render() {
-    const { classes, users } = this.props
-    console.log(users)
+    const { classes, open, users } = this.props
     return (
       <Fragment>
-        <Modal open={true}>
+        <Modal open={open}>
           <div style={getModalStyle()} className={classes.paper}>
             <Typography variant="title" id="modal-title">
-              Text in a modal
+              Users: 
             </Typography>
-            <Button onClick={this.props.closeAddMember}>Close Modal</Button>
+            <UserList users={users}/>
+            <Button onClick={this.props.closeAddMember}>Close</Button>
           </div>
         </Modal>
       </Fragment>
