@@ -10,24 +10,48 @@ import { requestAddBoardMembers } from '../../reducers/userBoardsReducer'
 import UserList from './UserList'
 
 class AddBoardMembers extends Component {
+  state = { checked: [] }
   componentDidMount() {
     this.props.requestGetAllUsers()
   }
   addMembers = e => {
     e.preventDefault()
-    this.props.requestAddBoardMembers()
+    this.props.requestAddBoardMembers({
+      boardId: this.props.boardId,
+      checked: this.state.checked
+    })
+    this.props.closeAddMember()
+  }
+  handleToggle = value => () => {
+    const { checked } = this.state
+    const currentIndex = checked.indexOf(value)
+    const newChecked = [...checked]
+    if (currentIndex === -1) {
+      newChecked.push(value)
+    } else {
+      newChecked.splice(currentIndex, 1)
+    }
+    this.setState({
+      checked: newChecked
+    })
   }
   render() {
-    const { classes, open, users } = this.props
+    const { classes, open, users, closeAddMember } = this.props
+    const { checked } = this.state
     return (
       <Fragment>
         <Modal open={open}>
           <div style={getModalStyle()} className={classes.paper}>
             <Typography variant="title" id="modal-title">
-              Users: 
+              Users:
             </Typography>
-            <UserList users={users}/>
-            <Button onClick={this.props.closeAddMember}>Close</Button>
+            <UserList
+              users={users}
+              handleToggle={this.handleToggle}
+              checked={checked}
+            />
+            <Button onClick={this.addMembers}>Submit</Button>
+            <Button onClick={closeAddMember}>Close</Button>
           </div>
         </Modal>
       </Fragment>
@@ -63,6 +87,9 @@ const mapStateToProps = state => ({
   users: state.users
 })
 
-AddBoardMembers = connect(mapStateToProps, mapDispatchToProps)(AddBoardMembers)
+AddBoardMembers = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddBoardMembers)
 
 export default withStyles(styles)(AddBoardMembers)

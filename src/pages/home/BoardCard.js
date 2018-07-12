@@ -102,7 +102,7 @@ class BoardCard extends Component {
               </CardActions>
             </Card>
             {addMemberOpen && (
-              <AddBoardMembers open={addMemberOpen} closeAddMember={this.closeAddMember} />
+              <AddBoardMembers open={addMemberOpen} closeAddMember={this.closeAddMember} boardId={id}/>
             )}
           </div>
         )}

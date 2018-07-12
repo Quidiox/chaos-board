@@ -59,10 +59,12 @@ const deleteBoard = async (token, data) => {
 const addMember = async (token, data) => {
   try {
     const response = await fetch(
-      baseUrl + 'boards/' + data.boardId + '/add/' + data.userId,
+      baseUrl + 'boards/' + data.boardId + '/add',
       {
         method: 'PUT',
+        body: JSON.stringify(data),
         headers: new Headers({
+          'Content-Type': 'application/json',
           Authorization: token
         })
       }
@@ -76,10 +78,12 @@ const addMember = async (token, data) => {
 const removeMember = async (token, data) => {
   try {
     const response = await fetch(
-      baseUrl + 'boards/' + data.boardId + '/remove/' + data.userId,
+      baseUrl + 'boards/' + data.boardId + '/remove',
       {
         method: 'PUT',
+        body: JSON.stringify(data),
         headers: new Headers({
+          'Content-Type': 'application/json',
           Authorization: token
         })
       }

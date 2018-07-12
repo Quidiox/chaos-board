@@ -79,7 +79,7 @@ const styles = theme => ({
     justifyContent: 'flex-start'
   },
   tileRoot: {
-    minWidth: '175px'
+    minWidth: '177px'
   },
   tile: {
     minHeight: '114px',
