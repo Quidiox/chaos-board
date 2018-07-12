@@ -56,49 +56,9 @@ const deleteBoard = async (token, data) => {
   }
 }
 
-const addMember = async (token, data) => {
-  try {
-    const response = await fetch(
-      baseUrl + 'boards/' + data.boardId + '/add',
-      {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Authorization: token
-        })
-      }
-    )
-    return await response.json()
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const removeMember = async (token, data) => {
-  try {
-    const response = await fetch(
-      baseUrl + 'boards/' + data.boardId + '/remove',
-      {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Authorization: token
-        })
-      }
-    )
-    return await response.json()
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 export default {
   fetchBoardsByUser,
   createBoard,
   editBoard,
-  deleteBoard,
-  addMember,
-  removeMember
+  deleteBoard
 }

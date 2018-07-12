@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import { requestGetAllUsers } from '../../reducers/usersReducer'
-import { requestAddBoardMembers } from '../../reducers/userBoardsReducer'
+import { requestAddBoardMembers } from '../../reducers/boardReducer'
 import UserList from './UserList'
 
 class AddBoardMembers extends Component {
@@ -18,7 +18,7 @@ class AddBoardMembers extends Component {
     e.preventDefault()
     this.props.requestAddBoardMembers({
       boardId: this.props.boardId,
-      checked: this.state.checked
+      members: this.state.checked
     })
     this.props.closeAddMember()
   }

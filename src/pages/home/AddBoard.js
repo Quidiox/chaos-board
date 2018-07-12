@@ -20,7 +20,6 @@ class AddBoard extends Component {
     }
   }
   clear = e => {
-    console.log(e)
     e.preventDefault()
     this.props.boardFormVisible()
     this.setState({ title: '' })

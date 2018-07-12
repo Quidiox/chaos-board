@@ -155,6 +155,44 @@ const deleteCard = async (token, payload) => {
   }
 }
 
+const addMember = async (token, data) => {
+  try {
+    const response = await fetch(
+      baseUrl + 'board/' + data.boardId + '/addmember',
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: token
+        })
+      }
+    )
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const removeMember = async (token, data) => {
+  try {
+    const response = await fetch(
+      baseUrl + 'board/' + data.boardId + '/removemember',
+      {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: token
+        })
+      }
+    )
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default {
   fetchBoard,
   moveCard,
@@ -165,5 +203,7 @@ export default {
   createCard,
   editCard,
   deleteCard,
-  moveCardBetweenContainers
+  moveCardBetweenContainers,
+  addMember,
+  removeMember
 }

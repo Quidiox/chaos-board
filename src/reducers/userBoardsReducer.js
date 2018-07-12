@@ -1,10 +1,6 @@
 import {
   BOARD_FETCH_BY_USER_REQUEST,
   BOARD_FETCH_BY_USER,
-  BOARD_ADD_MEMBER_REQUEST,
-  BOARD_ADD_MEMBER,
-  BOARD_REMOVE_MEMBER_REQUEST,
-  BOARD_REMOVE_MEMBER,
   BOARD_CREATE_REQUEST,
   BOARD_CREATE,
   BOARD_EDIT_REQUEST,
@@ -47,14 +43,6 @@ const userBoardsReducer = (state = [], action) => {
       }
       return [...state.slice(0, removeIndex), ...state.slice(removeIndex + 1)]
     }
-    case BOARD_ADD_MEMBER: {
-      console.log(action.payload)
-      return state
-    }
-    case BOARD_REMOVE_MEMBER: {
-      console.log(action.payload)
-      return state
-    }
     default:
       return state
   }
@@ -77,16 +65,6 @@ export const requestEditBoard = payload => ({
 
 export const requestDeleteBoard = payload => ({
   type: BOARD_DELETE_REQUEST,
-  payload
-})
-
-export const requestAddBoardMembers = payload => ({
-  type: BOARD_ADD_MEMBER_REQUEST,
-  payload
-})
-
-export const requestRemoveBoardMember = payload => ({
-  type: BOARD_REMOVE_MEMBER_REQUEST,
   payload
 })
 

@@ -18,7 +18,11 @@ import {
   CARD_DELETE_REQUEST,
   CARD_DELETE,
   CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
-  CARD_MOVE_BETWEEN_CONTAINERS
+  CARD_MOVE_BETWEEN_CONTAINERS,
+  BOARD_ADD_MEMBER_REQUEST,
+  BOARD_ADD_MEMBER,
+  BOARD_REMOVE_MEMBER_REQUEST,
+  BOARD_REMOVE_MEMBER
 } from '../reducers/actionTypes'
 import apiService from '../api/boardApiService'
 import { genericActionCreator } from '../reducers/rootReducer'
@@ -66,7 +70,11 @@ function* moveContainer(token, action) {
 
 function* createContainer(token, action) {
   try {
-    const response = yield call(apiService.createContainer, token, action.payload)
+    const response = yield call(
+      apiService.createContainer,
+      token,
+      action.payload
+    )
     yield put(genericActionCreator(CONTAINER_CREATE, response))
   } catch (error) {
     console.log(error)
@@ -168,6 +176,32 @@ function* watchDragAndDrop() {
   }
 }
 
+function* addMember(token, action) {
+  try {
+    const response = yield call(apiService.addMember, token, action.payload)
+    yield put(genericActionCreator(BOARD_ADD_MEMBER, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchAddMember() {
+  yield takeLatest(BOARD_ADD_MEMBER_REQUEST, withToken(addMember))
+}
+
+function* removeMember(token, action) {
+  try {
+    const response = yield call(apiService.removeMember, token, action.payload)
+    yield put(genericActionCreator(BOARD_REMOVE_MEMBER, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchRemoveMember() {
+  yield takeLatest(BOARD_REMOVE_MEMBER_REQUEST, withToken(removeMember))
+}
+
 export const boardSagas = [
   call(watchDragAndDrop),
   call(watchInitializeBoard),
@@ -176,5 +210,7 @@ export const boardSagas = [
   call(watchEditCard),
   call(watchDeleteCard),
   call(watchEditContainer),
-  call(watchDeleteContainer)
+  call(watchDeleteContainer),
+  call(watchAddMember),
+  call(watchRemoveMember)
 ]

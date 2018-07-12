@@ -1,6 +1,10 @@
 import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
+  BOARD_ADD_MEMBER_REQUEST,
+  BOARD_ADD_MEMBER,
+  BOARD_REMOVE_MEMBER_REQUEST,
+  BOARD_REMOVE_MEMBER,
   CARD_MOVE_REQUEST,
   CARD_CREATE_REQUEST,
   CARD_CREATE,
@@ -143,6 +147,14 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers = containers
       return stateCopy
     }
+    case BOARD_ADD_MEMBER: {
+      console.log(action.payload)
+      return state
+    }
+    case BOARD_REMOVE_MEMBER: {
+      console.log(action.payload)
+      return state
+    }
     default:
       return state
   }
@@ -200,6 +212,16 @@ export const requestEditContainer = payload => ({
 
 export const requestDeleteContainer = payload => ({
   type: CONTAINER_DELETE_REQUEST,
+  payload
+})
+
+export const requestAddBoardMembers = payload => ({
+  type: BOARD_ADD_MEMBER_REQUEST,
+  payload
+})
+
+export const requestRemoveBoardMember = payload => ({
+  type: BOARD_REMOVE_MEMBER_REQUEST,
   payload
 })
 
