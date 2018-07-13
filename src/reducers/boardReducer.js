@@ -149,7 +149,7 @@ const boardReducer = (state = [], action) => {
     }
     case BOARD_ADD_MEMBER: {
       console.log(action.payload)
-      return state
+      return Object.assign({}, state, { members: action.payload.members })
     }
     case BOARD_REMOVE_MEMBER: {
       console.log(action.payload)

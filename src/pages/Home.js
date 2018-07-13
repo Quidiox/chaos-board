@@ -32,7 +32,7 @@ class Home extends Component {
     const { boardForm } = this.state
     return (
       <div className={classes.root}>
-        <GridList cellHeight={'auto'} className={classes.gridList} cols={4}>
+        <GridList cellHeight={'auto'} className={classes.gridList} cols={5}>
           {boards &&
             boards.map(board => (
               <GridListTile
@@ -67,22 +67,24 @@ class Home extends Component {
 
 const styles = theme => ({
   root: {
+    alignItems: 'start',
+    height: '93%',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     backgroundColor: theme.palette.background.paper
   },
   gridList: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    height: '100%',
+    alignContent: 'start',
     justifyContent: 'flex-start'
   },
   tileRoot: {
+    alignSelf: 'start',
     minWidth: '177px'
   },
   tile: {
-    minHeight: '114px',
+    height: '114px',
     width: '175px',
     overflow: 'visible'
   },
