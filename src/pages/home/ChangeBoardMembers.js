@@ -6,21 +6,21 @@ import Typography from '@material-ui/core/Typography'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import { requestGetAllUsers } from '../../reducers/usersReducer'
-import { requestAddBoardMembers } from '../../reducers/boardReducer'
+import { requestChangeBoardMembers } from '../../reducers/boardReducer'
 import UserList from './UserList'
 
-class AddBoardMembers extends Component {
+class ChangeBoardMembers extends Component {
   state = { checked: [] }
   componentDidMount() {
     this.props.requestGetAllUsers()
   }
-  addMembers = e => {
+  changeMembers = e => {
     e.preventDefault()
-    this.props.requestAddBoardMembers({
+    this.props.requestChangeBoardMembers({
       boardId: this.props.boardId,
       members: this.state.checked
     })
-    this.props.closeAddMember()
+    this.props.closeChangeMembers()
   }
   handleToggle = value => () => {
     const { checked } = this.state
@@ -36,7 +36,7 @@ class AddBoardMembers extends Component {
     })
   }
   render() {
-    const { classes, open, users, closeAddMember } = this.props
+    const { classes, open, users, closeChangeMembers } = this.props
     const { checked } = this.state
     return (
       <Fragment>
@@ -50,8 +50,8 @@ class AddBoardMembers extends Component {
               handleToggle={this.handleToggle}
               checked={checked}
             />
-            <Button onClick={this.addMembers}>Submit</Button>
-            <Button onClick={closeAddMember}>Close</Button>
+            <Button onClick={this.changeMembers}>Submit</Button>
+            <Button onClick={closeChangeMembers}>Close</Button>
           </div>
         </Modal>
       </Fragment>
@@ -81,15 +81,15 @@ const styles = theme => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestGetAllUsers, requestAddBoardMembers }, dispatch)
+  bindActionCreators({ requestGetAllUsers, requestChangeBoardMembers }, dispatch)
 
 const mapStateToProps = state => ({
   users: state.users
 })
 
-AddBoardMembers = connect(
+ChangeBoardMembers = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddBoardMembers)
+)(ChangeBoardMembers)
 
-export default withStyles(styles)(AddBoardMembers)
+export default withStyles(styles)(ChangeBoardMembers)

@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Edit from '../common/Edit'
 import BoardDropdownMenu from './BoardDropdownMenu'
-import AddBoardMembers from './AddBoardMembers'
+import ChangeBoardMembers from './ChangeBoardMembers'
 import {
   requestEditBoard,
   requestDeleteBoard
@@ -21,7 +21,7 @@ class BoardCard extends Component {
     hovering: false,
     editing: false,
     title: this.props.title,
-    addMemberOpen: false
+    changeMembersOpen: false
   }
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ hovering: true })
@@ -53,18 +53,16 @@ class BoardCard extends Component {
     })
     this.setState({ hovering: false })
   }
-  openAddMember = () => {
-    this.setState({ addMemberOpen: true })
+  openChangeMembers = () => {
+    this.setState({ changeMembersOpen: true })
   }
-  closeAddMember = () => {
-    this.setState({ addMemberOpen: false })
+  closeChangeMembers = () => {
+    this.setState({ changeMembersOpen: false })
   }
-
-  removeMember = () => {}
 
   render() {
     const { title, description, classes, id, buttonText } = this.props
-    const { addMemberOpen, editing, hovering } = this.state
+    const { changeMembersOpen, editing, hovering } = this.state
     return (
       <div
         onMouseEnter={this.handleMouseHover}
@@ -92,8 +90,7 @@ class BoardCard extends Component {
                 {hovering && (
                   <div style={{ ...dropdownMenuStyle }}>
                     <BoardDropdownMenu
-                      addMember={this.openAddMember}
-                      removeMember={this.removeMember}
+                      changeMembers={this.openChangeMembers}
                       handleEdit={this.editBoard}
                       handleDelete={this.deleteBoard}
                     />
@@ -101,8 +98,8 @@ class BoardCard extends Component {
                 )}
               </CardActions>
             </Card>
-            {addMemberOpen && (
-              <AddBoardMembers open={addMemberOpen} closeAddMember={this.closeAddMember} boardId={id}/>
+            {changeMembersOpen && (
+              <ChangeBoardMembers open={changeMembersOpen} closeChangeMembers={this.closeChangeMembers} boardId={id}/>
             )}
           </div>
         )}
