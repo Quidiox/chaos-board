@@ -40,9 +40,10 @@ class Home extends Component {
                 key={board.id}
               >
                 <BoardCard
-                  title={board.title}
                   buttonText="open board"
+                  title={board.title}
                   id={board.id}
+                  owner={board.owner}
                 />
               </GridListTile>
             ))}

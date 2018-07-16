@@ -25,7 +25,7 @@ const userBoardsReducer = (state = [], action) => {
       const editIndex = state.findIndex(board => {
         return board.id === action.payload.id
       })
-      if (editIndex === undefined) {
+      if (editIndex === -1) {
         return state
       }
       return [

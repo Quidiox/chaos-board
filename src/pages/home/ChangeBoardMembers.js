@@ -13,13 +13,13 @@ import {
 import UserList from './UserList'
 
 class ChangeBoardMembers extends Component {
-  state = { checked: [], first: false }
+  state = { checked: [], initialChecked: false }
   async componentDidMount() {
     await this.props.requestGetAllUsers()
     await this.props.requestFetchBoardAndMembers({
       boardId: this.props.boardId
     })
-    await this.setState({ first: true })
+    await this.setState({ initialChecked: true })
   }
   changeMembers = e => {
     e.preventDefault()
@@ -31,7 +31,7 @@ class ChangeBoardMembers extends Component {
   }
   handleToggle = value => () => {
     const checked =
-      this.state.first && this.props.board && this.props.board.members
+      this.state.initialChecked && this.props.board && this.props.board.members
         ? this.props.board.members
         : this.state.checked
     const currentIndex = checked.indexOf(value)
@@ -43,13 +43,13 @@ class ChangeBoardMembers extends Component {
     }
     this.setState({
       checked: newChecked,
-      first: false
+      initialChecked: false
     })
   }
   render() {
     const { classes, open, users, board, closeChangeMembers } = this.props
     let checked =
-      this.state.first && board.members ? board.members : this.state.checked
+      this.state.initialChecked && board.members ? board.members : this.state.checked
     return (
       <Fragment>
         <Modal open={open}>
@@ -74,7 +74,6 @@ class ChangeBoardMembers extends Component {
 function getModalStyle() {
   const top = 50
   const left = 50
-
   return {
     top: `${top}%`,
     left: `${left}%`,

@@ -2,7 +2,7 @@ const baseUrl = 'http://localhost:3005/api/'
 
 const fetchBoardsByUser = async (token, user) => {
   try {
-    const response = await fetch(baseUrl + 'boards/' + user.id, {
+    const response = await fetch(baseUrl + 'userboards/' + user.id, {
       headers: new Headers({ Authorization: token })
     })
     return await response.json()
@@ -13,7 +13,7 @@ const fetchBoardsByUser = async (token, user) => {
 
 const createBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'boards', {
+    const response = await fetch(baseUrl + 'userboards', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: new Headers({
@@ -29,7 +29,7 @@ const createBoard = async (token, data) => {
 
 const editBoard = async (token, data) => {
   try {
-    const response = await fetch(baseUrl + 'boards/' + data.boardId, {
+    const response = await fetch(baseUrl + 'userboards/' + data.boardId, {
       method: 'PUT',
       body: JSON.stringify(data),
       headers: new Headers({
@@ -45,7 +45,7 @@ const editBoard = async (token, data) => {
 
 const deleteBoard = async (token, data) => {
   try {
-    await fetch(baseUrl + 'boards/' + data.boardId, {
+    await fetch(baseUrl + 'userboards/' + data.boardId, {
       method: 'DELETE',
       headers: new Headers({
         Authorization: token

@@ -61,7 +61,7 @@ class BoardCard extends Component {
   }
 
   render() {
-    const { title, description, classes, id, buttonText } = this.props
+    const { title, id, owner, classes, buttonText, user } = this.props
     const { changeMembersOpen, editing, hovering } = this.state
     return (
       <div
@@ -81,13 +81,12 @@ class BoardCard extends Component {
             <Card className={classes.card}>
               <CardContent>
                 <Typography className={classes.title}>{title}</Typography>
-                <Typography component="p">{description}</Typography>
               </CardContent>
               <CardActions>
                 <Link to={`/board/${id}`}>
                   <Button className={classes.button}>{buttonText}</Button>
                 </Link>
-                {hovering && (
+                {hovering && user.id === owner && (
                   <div style={{ ...dropdownMenuStyle }}>
                     <BoardDropdownMenu
                       changeMembers={this.openChangeMembers}
@@ -137,6 +136,10 @@ const dropdownMenuStyle = {
   height: 'auto'
 }
 
+const mapStateToProps = state => ({
+  user: state.user
+})
+
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
@@ -147,7 +150,7 @@ const mapDispatchToProps = dispatch =>
   )
 
 BoardCard = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(BoardCard)
 

@@ -158,7 +158,7 @@ const deleteCard = async (token, payload) => {
 const changeMembers = async (token, data) => {
   try {
     const response = await fetch(
-      baseUrl + 'board/' + data.boardId + '/addmember',
+      baseUrl + 'board/' + data.boardId + '/change',
       {
         method: 'PUT',
         body: JSON.stringify(data),
