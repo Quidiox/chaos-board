@@ -174,6 +174,23 @@ const changeMembers = async (token, data) => {
   }
 }
 
+const fetchBoardAndMembers = async (token, data) => {
+  try {
+    const response = await fetch(
+      baseUrl + 'board/' + data.boardId + '/members',
+      {
+        method: 'GET',
+        headers: new Headers({
+          Authorization: token
+        })
+      }
+    )
+    return await response.json()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default {
   fetchBoard,
   moveCard,
@@ -185,5 +202,6 @@ export default {
   editCard,
   deleteCard,
   moveCardBetweenContainers,
-  changeMembers
+  changeMembers,
+  fetchBoardAndMembers
 }

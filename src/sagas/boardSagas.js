@@ -21,6 +21,8 @@ import {
   CARD_MOVE_BETWEEN_CONTAINERS,
   BOARD_CHANGE_MEMBERS_REQUEST,
   BOARD_CHANGE_MEMBERS,
+  BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
+  BOARD_FETCH_BOARD_AND_MEMBERS
 } from '../reducers/actionTypes'
 import apiService from '../api/boardApiService'
 import { genericActionCreator } from '../reducers/rootReducer'
@@ -187,6 +189,19 @@ function* watchChangeMembers() {
   yield takeLatest(BOARD_CHANGE_MEMBERS_REQUEST, withToken(changeMembers))
 }
 
+function* fetchBoardAndMembers(token, action) {
+  try {
+    const response = yield call(apiService.fetchBoardAndMembers, token, action.payload)
+    yield put(genericActionCreator(BOARD_FETCH_BOARD_AND_MEMBERS, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchFetchBoardAndMembers() {
+  yield takeLatest(BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST, withToken(fetchBoardAndMembers))
+}
+
 export const boardSagas = [
   call(watchDragAndDrop),
   call(watchInitializeBoard),
@@ -196,5 +211,6 @@ export const boardSagas = [
   call(watchDeleteCard),
   call(watchEditContainer),
   call(watchDeleteContainer),
-  call(watchChangeMembers)
+  call(watchChangeMembers),
+  call(watchFetchBoardAndMembers)
 ]

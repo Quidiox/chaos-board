@@ -3,6 +3,8 @@ import {
   BOARD_INITIALIZE,
   BOARD_CHANGE_MEMBERS_REQUEST,
   BOARD_CHANGE_MEMBERS,
+  BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
+  BOARD_FETCH_BOARD_AND_MEMBERS,
   CARD_MOVE_REQUEST,
   CARD_CREATE_REQUEST,
   CARD_CREATE,
@@ -146,8 +148,10 @@ const boardReducer = (state = [], action) => {
       return stateCopy
     }
     case BOARD_CHANGE_MEMBERS: {
-      console.log(action.payload)
       return Object.assign({}, state, { members: action.payload.members })
+    }
+    case BOARD_FETCH_BOARD_AND_MEMBERS: {
+      return action.payload
     }
     default:
       return state
@@ -211,6 +215,11 @@ export const requestDeleteContainer = payload => ({
 
 export const requestChangeBoardMembers = payload => ({
   type: BOARD_CHANGE_MEMBERS_REQUEST,
+  payload
+})
+
+export const requestFetchBoardAndMembers = payload => ({
+  type: BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
   payload
 })
 

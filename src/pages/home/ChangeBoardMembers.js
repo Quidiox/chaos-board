@@ -6,13 +6,20 @@ import Typography from '@material-ui/core/Typography'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import { requestGetAllUsers } from '../../reducers/usersReducer'
-import { requestChangeBoardMembers } from '../../reducers/boardReducer'
+import {
+  requestChangeBoardMembers,
+  requestFetchBoardAndMembers
+} from '../../reducers/boardReducer'
 import UserList from './UserList'
 
 class ChangeBoardMembers extends Component {
-  state = { checked: [] }
-  componentDidMount() {
-    this.props.requestGetAllUsers()
+  state = { checked: [], first: false }
+  async componentDidMount() {
+    await this.props.requestGetAllUsers()
+    await this.props.requestFetchBoardAndMembers({
+      boardId: this.props.boardId
+    })
+    await this.setState({ first: true })
   }
   changeMembers = e => {
     e.preventDefault()
@@ -23,7 +30,10 @@ class ChangeBoardMembers extends Component {
     this.props.closeChangeMembers()
   }
   handleToggle = value => () => {
-    const { checked } = this.state
+    const checked =
+      this.state.first && this.props.board && this.props.board.members
+        ? this.props.board.members
+        : this.state.checked
     const currentIndex = checked.indexOf(value)
     const newChecked = [...checked]
     if (currentIndex === -1) {
@@ -32,12 +42,14 @@ class ChangeBoardMembers extends Component {
       newChecked.splice(currentIndex, 1)
     }
     this.setState({
-      checked: newChecked
+      checked: newChecked,
+      first: false
     })
   }
   render() {
-    const { classes, open, users, closeChangeMembers } = this.props
-    const { checked } = this.state
+    const { classes, open, users, board, closeChangeMembers } = this.props
+    let checked =
+      this.state.first && board.members ? board.members : this.state.checked
     return (
       <Fragment>
         <Modal open={open}>
@@ -81,10 +93,18 @@ const styles = theme => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestGetAllUsers, requestChangeBoardMembers }, dispatch)
+  bindActionCreators(
+    {
+      requestFetchBoardAndMembers,
+      requestChangeBoardMembers,
+      requestGetAllUsers
+    },
+    dispatch
+  )
 
 const mapStateToProps = state => ({
-  users: state.users
+  users: state.users,
+  board: state.board
 })
 
 ChangeBoardMembers = connect(
