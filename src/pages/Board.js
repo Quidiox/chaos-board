@@ -39,7 +39,7 @@ class Board extends Component {
           height: '93%',
           overflowX: 'auto'
         }}
-      >
+      > {board ? <div>
         <h3>{board.title}</h3>
         <div>
           {sortedContainers && (
@@ -62,7 +62,7 @@ class Board extends Component {
               <AddContainer style={{ ...containerStyle }} boardId={board.id} />
             </div>
           )}
-        </div>
+        </div></div> : <div>loading...</div>}
       </div>
     )
   }

@@ -6,15 +6,11 @@ import {
   BOARD_EDIT_REQUEST,
   BOARD_EDIT,
   BOARD_DELETE_REQUEST,
-  BOARD_DELETE,
-  USER_LOGOUT
+  BOARD_DELETE
 } from './actionTypes'
 
 const userBoardsReducer = (state = [], action) => {
   switch (action.type) {
-    case USER_LOGOUT: {
-      return []
-    }
     case BOARD_FETCH_BY_USER: {
       return action.payload
     }
