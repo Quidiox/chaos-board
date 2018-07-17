@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Add from '../common/Add'
 import { requestCreateBoard } from '../../reducers/userBoardsReducer'
 
@@ -39,8 +38,7 @@ class AddBoard extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestCreateBoard }, dispatch)
+const mapDispatchToProps = { requestCreateBoard }
 
 export default connect(
   null,

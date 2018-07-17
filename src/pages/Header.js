@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -94,14 +93,10 @@ const styles = {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestLogoutUser,
-      requestDeleteUser
-    },
-    dispatch
-  )
+const mapDispatchToProps = {
+  requestLogoutUser,
+  requestDeleteUser
+}
 
 const mapStateToProps = state => ({ user: state.user })
 

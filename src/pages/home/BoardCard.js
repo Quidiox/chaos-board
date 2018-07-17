@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
@@ -86,19 +85,24 @@ class BoardCard extends Component {
                 <Link to={`/board/${id}`}>
                   <Button className={classes.button}>{buttonText}</Button>
                 </Link>
-                {hovering && user.id === owner && (
-                  <div style={{ ...dropdownMenuStyle }}>
-                    <BoardDropdownMenu
-                      changeMembers={this.openChangeMembers}
-                      handleEdit={this.editBoard}
-                      handleDelete={this.deleteBoard}
-                    />
-                  </div>
-                )}
+                {hovering &&
+                  user.id === owner && (
+                    <div style={{ ...dropdownMenuStyle }}>
+                      <BoardDropdownMenu
+                        changeMembers={this.openChangeMembers}
+                        handleEdit={this.editBoard}
+                        handleDelete={this.deleteBoard}
+                      />
+                    </div>
+                  )}
               </CardActions>
             </Card>
             {changeMembersOpen && (
-              <ChangeBoardMembers open={changeMembersOpen} closeChangeMembers={this.closeChangeMembers} boardId={id}/>
+              <ChangeBoardMembers
+                open={changeMembersOpen}
+                closeChangeMembers={this.closeChangeMembers}
+                boardId={id}
+              />
             )}
           </div>
         )}
@@ -140,14 +144,10 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestEditBoard,
-      requestDeleteBoard
-    },
-    dispatch
-  )
+const mapDispatchToProps = {
+  requestEditBoard,
+  requestDeleteBoard
+}
 
 BoardCard = connect(
   mapStateToProps,

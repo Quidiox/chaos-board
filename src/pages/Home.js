@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import { withStyles } from '@material-ui/core/styles'
 import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
-import { bindActionCreators } from 'redux'
 import BoardCard from './home/BoardCard'
 import AddBoard from './home/AddBoard'
 
@@ -106,8 +105,7 @@ const mapStateToProps = state => ({
   boards: state.boards
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestFetchBoardsByUser }, dispatch)
+const mapDispatchToProps = { requestFetchBoardsByUser }
 
 Home = connect(
   mapStateToProps,

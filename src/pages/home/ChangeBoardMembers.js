@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Modal from '@material-ui/core/Modal'
@@ -49,7 +48,9 @@ class ChangeBoardMembers extends Component {
   render() {
     const { classes, open, users, board, closeChangeMembers } = this.props
     let checked =
-      this.state.initialChecked && board.members ? board.members : this.state.checked
+      this.state.initialChecked && board.members
+        ? board.members
+        : this.state.checked
     return (
       <Fragment>
         <Modal open={open}>
@@ -91,15 +92,11 @@ const styles = theme => ({
   }
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestFetchBoardAndMembers,
-      requestChangeBoardMembers,
-      requestGetAllUsers
-    },
-    dispatch
-  )
+const mapDispatchToProps = {
+  requestFetchBoardAndMembers,
+  requestChangeBoardMembers,
+  requestGetAllUsers
+}
 
 const mapStateToProps = state => ({
   users: state.users,

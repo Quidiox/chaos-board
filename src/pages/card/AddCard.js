@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import Add from '../common/Add'
 import { requestCreateCard } from '../../reducers/boardReducer'
 
@@ -47,7 +46,9 @@ class AddCard extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestCreateCard }, dispatch)
+const mapDispatchToProps = { requestCreateCard }
 
-export default connect(null, mapDispatchToProps)(AddCard)
+export default connect(
+  null,
+  mapDispatchToProps
+)(AddCard)

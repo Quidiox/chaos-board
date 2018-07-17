@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { requestInitializeBoard } from '../reducers/boardReducer'
 import { sortByPosition } from '../utils/helpers'
 import Container from './container/Container'
@@ -39,30 +38,40 @@ class Board extends Component {
           height: '93%',
           overflowX: 'auto'
         }}
-      > {board ? <div>
-        <h3>{board.title}</h3>
-        <div>
-          {sortedContainers && (
-            <div style={{ ...scrollingWrapper }}>
-              {sortedContainers.map((container, i) => {
-                return (
-                  <div style={{ ...containerStyle }} key={i}>
-                    <Container
-                      key={container.id}
-                      container={container}
-                      boardId={board.id}
-                      position={container.position}
-                      draggingAllowed={this.state.draggingAllowed}
-                      allowDragging={this.allowDragging}
-                      disableDragging={this.disableDragging}
-                    />
-                  </div>
-                )
-              })}
-              <AddContainer style={{ ...containerStyle }} boardId={board.id} />
+      >
+        {' '}
+        {board ? (
+          <div>
+            <h3>{board.title}</h3>
+            <div>
+              {sortedContainers && (
+                <div style={{ ...scrollingWrapper }}>
+                  {sortedContainers.map((container, i) => {
+                    return (
+                      <div style={{ ...containerStyle }} key={i}>
+                        <Container
+                          key={container.id}
+                          container={container}
+                          boardId={board.id}
+                          position={container.position}
+                          draggingAllowed={this.state.draggingAllowed}
+                          allowDragging={this.allowDragging}
+                          disableDragging={this.disableDragging}
+                        />
+                      </div>
+                    )
+                  })}
+                  <AddContainer
+                    style={{ ...containerStyle }}
+                    boardId={board.id}
+                  />
+                </div>
+              )}
             </div>
-          )}
-        </div></div> : <div>loading...</div>}
+          </div>
+        ) : (
+          <div>loading...</div>
+        )}
       </div>
     )
   }
@@ -82,8 +91,7 @@ const containerStyle = {
 
 const mapStateToProps = state => ({ board: state.board })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestInitializeBoard }, dispatch)
+const mapDispatchToProps = { requestInitializeBoard }
 
 export default connect(
   mapStateToProps,

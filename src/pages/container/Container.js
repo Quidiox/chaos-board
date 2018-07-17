@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
 import flow from 'lodash/flow'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Card from '../card/Card'
 import AddCard from '../card/AddCard'
@@ -48,7 +47,8 @@ class Container extends Component {
   }
   render() {
     const { container } = this.props
-    const sortedCards = container && container.cards ? sortByPosition(container.cards) : []
+    const sortedCards =
+      container && container.cards ? sortByPosition(container.cards) : []
     const {
       canDrop,
       isOver,
@@ -216,15 +216,11 @@ const containerStyle = {
   height: '100%'
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestEditContainer,
-      requestMoveContainer,
-      requestDeleteContainer
-    },
-    dispatch
-  )
+const mapDispatchToProps = {
+  requestEditContainer,
+  requestMoveContainer,
+  requestDeleteContainer
+}
 
 const mapStateToProps = state => ({ containers: state.board.containers })
 
@@ -234,4 +230,7 @@ Container = flow(
   DropTarget(ItemTypes.CONTAINER, containerTarget, collectContainerDropTarget)
 )(Container)
 
-export default connect(mapStateToProps, mapDispatchToProps)(Container)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container)

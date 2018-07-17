@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import EditForm from './user/EditForm'
 import { requestEditUser } from '../reducers/userReducer'
 
@@ -31,7 +30,12 @@ class EditUser extends Component {
       passwordEdit
     } = this.state
     if (passwordEdit && password === confirmPassword) {
-      this.props.requestEditUser({ name, username, password, userId: this.props.user.id })
+      this.props.requestEditUser({
+        name,
+        username,
+        password,
+        userId: this.props.user.id
+      })
     } else {
       this.props.requestEditUser({ name, username, userId: this.props.user.id })
     }
@@ -72,8 +76,7 @@ class EditUser extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestEditUser }, dispatch)
+const mapDispatchToProps = { requestEditUser }
 
 const mapStateToProps = state => ({
   user: state.user

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Link } from 'react-router-dom'
 import UserForm from './user/UserForm'
 import { requestCreateUser } from '../reducers/userReducer'
@@ -38,14 +37,18 @@ class Register extends Component {
             handleSubmit={this.handleSubmit}
             clear={this.clear}
           />
-          <h3>Or <Link to='/login'>login</Link> with an existing account.</h3>
+          <h3>
+            Or <Link to="/login">login</Link> with an existing account.
+          </h3>
         </div>
       </div>
     )
   }
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({ requestCreateUser }, dispatch)
+const mapDispatchToProps = { requestCreateUser }
 
-export default connect(null, mapDispatchToProps)(Register)
+export default connect(
+  null,
+  mapDispatchToProps
+)(Register)

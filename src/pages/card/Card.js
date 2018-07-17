@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { DragSource, DropTarget } from 'react-dnd'
 import flow from 'lodash/flow'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import { Card as CardComp } from 'semantic-ui-react'
 import { ItemTypes } from '../../utils/constants'
 import {
@@ -36,7 +35,7 @@ class Card extends Component {
       containerId: this.props.containerId
     })
     this.props.allowDragging('editingCard')
-    this.setState({ isEditing: false, isHovering: false})
+    this.setState({ isEditing: false, isHovering: false })
   }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
@@ -44,7 +43,11 @@ class Card extends Component {
   close = e => {
     e.preventDefault()
     this.props.allowDragging('editingCard')
-    this.setState({ isEditing: false, isHovering: false, title: this.props.card.title })
+    this.setState({
+      isEditing: false,
+      isHovering: false,
+      title: this.props.card.title
+    })
   }
   deleteCard = () => {
     this.props.requestDeleteCard({
@@ -204,17 +207,13 @@ const cardCompStyle = {
   padding: '.1rem'
 }
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      requestEditCard,
-      requestMoveCard,
-      requestMoveCardBetweenContainers,
-      requestDeleteCard,
-      hoverCard
-    },
-    dispatch
-  )
+const mapDispatchToProps = {
+  requestEditCard,
+  requestMoveCard,
+  requestMoveCardBetweenContainers,
+  requestDeleteCard,
+  hoverCard
+}
 
 const mapStateToProps = state => ({ containers: state.board.containers })
 
