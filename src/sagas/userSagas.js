@@ -64,6 +64,7 @@ function* createUser(action) {
   try {
     const user = yield call(apiService.create, action.payload)
     yield put(genericActionCreator(USER_CREATE, user))
+    yield put(push('/home'))
   } catch (error) {
     console.log(error)
   }

@@ -13,7 +13,7 @@ class Home extends Component {
   state = { boardForm: false, title: '' }
 
   async componentDidMount() {
-    if (this.props.user && this.props.user.username) {
+    if (this.props.boards.length < 1) {
       await this.props.requestFetchBoardsByUser(this.props.user)
     }
   }

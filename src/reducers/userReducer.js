@@ -45,7 +45,6 @@ const userReducer = (state = initialState, action) => {
       return action.payload
     }
     case USER_EDIT: {
-      console.log(action.payload)
       window.localStorage.setItem(
         'loggedChaosBoardUser',
         JSON.stringify(action.payload)
