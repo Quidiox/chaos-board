@@ -13,15 +13,17 @@ import {
 } from '../../reducers/boardReducer'
 import Edit from '../common/Edit'
 import DropdownMenu from '../common/DropdownMenu'
+import Confirm from '../common/Confirm'
 
 class Container extends Component {
   state = {
-    isEditing: false,
-    title: this.props.container.title
+    editing: false,
+    title: this.props.container.title,
+    confirmVisible: false
   }
   editContainer = () => {
     this.props.disableDragging('editingContainer')
-    this.setState({ isEditing: true })
+    this.setState({ editing: true })
   }
   endEdit = () => {
     this.props.requestEditContainer({
@@ -29,7 +31,7 @@ class Container extends Component {
       containerId: this.props.container.id
     })
     this.props.allowDragging('editingContainer')
-    this.setState({ isEditing: false })
+    this.setState({ editing: false })
   }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
@@ -37,19 +39,24 @@ class Container extends Component {
   close = e => {
     e.preventDefault()
     this.props.allowDragging('editingContainer')
-    this.setState({ isEditing: false, title: this.props.container.title })
+    this.setState({ editing: false, title: this.props.container.title })
   }
   deleteContainer = () => {
-    this.props.requestDeleteContainer({
-      containerId: this.props.container.id,
-      boardId: this.props.boardId
-    })
+    this.setState({ confirmVisible: true })
+  }
+  confirmDelete = type => () => {
+    if (type === 'yes') {
+      this.props.requestDeleteContainer({
+        containerId: this.props.container.id,
+        boardId: this.props.boardId
+      })
+    }
+    this.setState({ confirmVisible: false })
   }
   render() {
-    const { container } = this.props
-    const sortedCards =
-      container && container.cards ? sortByPosition(container.cards) : []
+    const { confirmVisible } = this.state
     const {
+      container,
       canDrop,
       isOver,
       connectCardDropTarget,
@@ -57,6 +64,8 @@ class Container extends Component {
       connectContainerDropTarget,
       connectContainerDragPreview
     } = this.props
+    const sortedCards =
+      container && container.cards ? sortByPosition(container.cards) : []
     const isActive = canDrop && isOver
     const backgroundColor = isActive ? 'lightgreen' : '#FFF'
     const cursor = this.props.draggingAllowed ? 'move' : 'not-allowed'
@@ -75,7 +84,7 @@ class Container extends Component {
                 className="expand exchange alternate icon"
               />
             )}
-            {this.state.isEditing ? (
+            {this.state.editing ? (
               <Edit
                 type="Container"
                 title={this.state.title}
@@ -128,6 +137,14 @@ class Container extends Component {
             )}
           </div>
         )}
+        <Confirm
+          open={confirmVisible}
+          text="Do you really want to delete this container and all cards it contains?"
+          noButtonText="no"
+          yesButtonText="yes"
+          no={this.confirmDelete()}
+          yes={this.confirmDelete('yes')}
+        />
       </div>
     )
   }

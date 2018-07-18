@@ -10,25 +10,23 @@ import BoardCard from './home/BoardCard'
 import AddBoard from './home/AddBoard'
 
 class Home extends Component {
-  state = { boardForm: false, title: '' }
-
+  state = { boardForm: false, title: ''}
+  
   async componentDidMount() {
     if (this.props.boards.length < 1) {
       await this.props.requestFetchBoardsByUser(this.props.user)
     }
   }
-
   handleClick = () => {
     this.setState({ boardForm: true })
   }
-
   boardFormVisible = () => {
     this.setState({ boardForm: false })
   }
 
   render() {
-    const { classes, boards } = this.props
     const { boardForm } = this.state
+    const { classes, boards } = this.props
     return (
       <div className={classes.root}>
         <GridList cellHeight={'auto'} className={classes.gridList} cols={5}>

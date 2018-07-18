@@ -14,13 +14,15 @@ import {
   requestEditBoard,
   requestDeleteBoard
 } from '../../reducers/userBoardsReducer'
+import Confirm from '../common/Confirm'
 
 class BoardCard extends Component {
   state = {
     hovering: false,
     editing: false,
     title: this.props.title,
-    changeMembersOpen: false
+    changeMembersOpen: false,
+    confirmVisible: false
   }
   handleMouseHover = e => {
     if (e.type === 'mouseenter') this.setState({ hovering: true })
@@ -46,22 +48,27 @@ class BoardCard extends Component {
     e.preventDefault()
     this.setState({ editing: false, title: this.props.title })
   }
-  deleteBoard = () => {
-    this.props.requestDeleteBoard({
-      boardId: this.props.id
-    })
-    this.setState({ hovering: false })
-  }
   openChangeMembers = () => {
     this.setState({ changeMembersOpen: true })
   }
   closeChangeMembers = () => {
     this.setState({ changeMembersOpen: false })
   }
+  deleteBoard = () => {
+    this.setState({ confirmVisible: true })
+  }
+  confirmDelete = type => () => {
+    if (type === 'yes') {
+      this.props.requestDeleteBoard({
+        boardId: this.props.id
+      })
+    }
+    this.setState({ hovering: false, confirmVisible: false })
+  }
 
   render() {
     const { title, id, owner, classes, buttonText, user } = this.props
-    const { changeMembersOpen, editing, hovering } = this.state
+    const { changeMembersOpen, editing, hovering, confirmVisible } = this.state
     return (
       <div
         onMouseEnter={this.handleMouseHover}
@@ -106,6 +113,14 @@ class BoardCard extends Component {
             )}
           </div>
         )}
+        <Confirm
+          open={confirmVisible}
+          text="Do you really want to delete this board and all containers and cards it contains?"
+          noButtonText="no"
+          yesButtonText="yes"
+          no={this.confirmDelete()}
+          yes={this.confirmDelete('yes')}
+        />
       </div>
     )
   }

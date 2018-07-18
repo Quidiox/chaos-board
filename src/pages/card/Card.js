@@ -13,20 +13,22 @@ import {
 } from '../../reducers/boardReducer'
 import Edit from '../common/Edit'
 import DropdownMenu from '../common/DropdownMenu'
+import Confirm from '../common/Confirm'
 
 class Card extends Component {
   state = {
-    isHovering: false,
-    isEditing: false,
-    title: this.props.card.title
+    hovering: false,
+    editing: false,
+    title: this.props.card.title,
+    confirmVisible: false
   }
   handleMouseHover = e => {
-    if (e.type === 'mouseenter') this.setState({ isHovering: true })
-    if (e.type === 'mouseleave') this.setState({ isHovering: false })
+    if (e.type === 'mouseenter') this.setState({ hovering: true })
+    if (e.type === 'mouseleave') this.setState({ hovering: false })
   }
   editCard = () => {
     this.props.disableDragging('editingCard')
-    this.setState({ isEditing: true })
+    this.setState({ editing: true })
   }
   endEdit = () => {
     this.props.requestEditCard({
@@ -35,7 +37,7 @@ class Card extends Component {
       containerId: this.props.containerId
     })
     this.props.allowDragging('editingCard')
-    this.setState({ isEditing: false, isHovering: false })
+    this.setState({ editing: false, hovering: false })
   }
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value })
@@ -44,19 +46,25 @@ class Card extends Component {
     e.preventDefault()
     this.props.allowDragging('editingCard')
     this.setState({
-      isEditing: false,
-      isHovering: false,
+      editing: false,
+      hovering: false,
       title: this.props.card.title
     })
   }
   deleteCard = () => {
-    this.props.requestDeleteCard({
-      containerId: this.props.containerId,
-      cardId: this.props.card.id
-    })
-    this.setState({ isHovering: false })
+    this.setState({ confirmVisible: true })
+  }
+  confirmDelete = type => () => {
+    if (type === 'yes') {
+      this.props.requestDeleteCard({
+        containerId: this.props.containerId,
+        cardId: this.props.card.id
+      })
+    }
+    this.setState({ hovering: false, confirmVisible: false })
   }
   render() {
+    const { confirmVisible } = this.state
     const {
       card,
       isDragging,
@@ -73,7 +81,7 @@ class Card extends Component {
           onMouseEnter={this.handleMouseHover}
           onMouseLeave={this.handleMouseHover}
         >
-          {this.state.isEditing ? (
+          {this.state.editing ? (
             <Edit
               type="Card"
               title={this.state.title}
@@ -86,7 +94,7 @@ class Card extends Component {
               <CardComp.Content style={{ ...cardCompStyle }}>
                 <CardComp.Description>
                   {card.title}{' '}
-                  {this.state.isHovering && (
+                  {this.state.hovering && (
                     <div style={{ ...dropdownMenuStyle }}>
                       <DropdownMenu
                         handleEdit={this.editCard}
@@ -99,6 +107,14 @@ class Card extends Component {
               </CardComp.Content>
             </CardComp>
           )}
+          <Confirm
+            open={confirmVisible}
+            text="Do you really want to delete this card?"
+            noButtonText="no"
+            yesButtonText="yes"
+            no={this.confirmDelete()}
+            yes={this.confirmDelete('yes')}
+          />
         </div>
       )
     )
