@@ -52,7 +52,7 @@ class BoardCard extends Component {
     this.setState({ changeMembersOpen: true })
   }
   closeChangeMembers = () => {
-    this.setState({ changeMembersOpen: false })
+    this.setState({ changeMembersOpen: false, hovering: false })
   }
   deleteBoard = () => {
     this.setState({ confirmVisible: true })
@@ -104,13 +104,11 @@ class BoardCard extends Component {
                   )}
               </CardActions>
             </Card>
-            {changeMembersOpen && (
-              <ChangeBoardMembers
-                open={changeMembersOpen}
-                closeChangeMembers={this.closeChangeMembers}
-                boardId={id}
-              />
-            )}
+            <ChangeBoardMembers
+              open={changeMembersOpen}
+              closeChangeMembers={this.closeChangeMembers}
+              boardId={id}
+            />
           </div>
         )}
         <Confirm
