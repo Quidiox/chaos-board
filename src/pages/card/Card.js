@@ -109,7 +109,8 @@ class Card extends Component {
           )}
           <Confirm
             open={confirmVisible}
-            text="Do you really want to delete this card?"
+            title={`Delete card`}
+            body="Do you really want to delete this card?"
             noButtonText="no"
             yesButtonText="yes"
             no={this.confirmDelete()}

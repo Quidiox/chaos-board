@@ -139,7 +139,8 @@ class Container extends Component {
         )}
         <Confirm
           open={confirmVisible}
-          text="Do you really want to delete this container and all cards it contains?"
+          title={`Delete container`}
+          body="Do you really want to delete this container and all cards it contains?"
           noButtonText="no"
           yesButtonText="yes"
           no={this.confirmDelete()}

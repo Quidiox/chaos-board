@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button'
 
 const Confirm = ({
   open,
-  text,
+  title,
+  body,
   noButtonText,
   yesButtonText,
   no,
@@ -16,10 +17,13 @@ const Confirm = ({
   <Modal open={open}>
     <div style={getModalStyle()} className={classes.paper}>
       <Typography variant="title" id="modal-title">
-        {text}
+        {title}
       </Typography>
-      <Button onClick={yes}>{yesButtonText}</Button>
-      <Button onClick={no}>{noButtonText}</Button>
+      <Typography className={classes.body} id="modal-body1">
+        {body}
+      </Typography>
+      <Button onClick={yes} className={classes.yesButton}>{yesButtonText}</Button>
+      <Button onClick={no} className={classes.noButton}>{noButtonText}</Button>
     </div>
   </Modal>
 )
@@ -41,6 +45,25 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing.unit * 4
+  },
+  body: {
+    marginTop: '15px',
+    marginBottom: '5px'
+  },
+  yesButton: {
+    marginTop: '10px',
+    backgroundColor: '#FF9999',
+    '&:hover': {
+      background: '#FF0000'
+    }
+  },
+  noButton: {
+    marginTop: '10px',
+    marginLeft: '100px',
+    backgroundColor: '#e0e1e2',
+    '&:hover': {
+      background: '#C0C0C0'
+    }
   }
 })
 
