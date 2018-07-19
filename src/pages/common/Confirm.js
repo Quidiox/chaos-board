@@ -22,8 +22,12 @@ const Confirm = ({
       <Typography className={classes.body} id="modal-body1">
         {body}
       </Typography>
-      <Button onClick={yes} className={classes.yesButton}>{yesButtonText}</Button>
-      <Button onClick={no} className={classes.noButton}>{noButtonText}</Button>
+      <Button onClick={yes} className={classes.yesButton}>
+        {yesButtonText}
+      </Button>
+      <Button onClick={no} className={classes.noButton}>
+        {noButtonText}
+      </Button>
     </div>
   </Modal>
 )
