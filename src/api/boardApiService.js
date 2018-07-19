@@ -1,5 +1,4 @@
-// const baseUrl = 'https://chaos-board-backend.herokuapp.com/api/'
-const baseUrl = 'http://localhost:3005/api/'
+import { baseUrl } from '../utils/constants'
 
 const fetchBoard = async (token, boardId) => {
   try {

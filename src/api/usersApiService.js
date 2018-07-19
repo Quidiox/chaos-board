@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:3005/api/'
+import { baseUrl } from '../utils/constants'
 
 const getAllUsers = async token => {
   try {
