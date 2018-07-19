@@ -4,4 +4,4 @@ export const ItemTypes = {
 }
 
 export const baseUrl = 'https://chaos-board-backend.herokuapp.com/api/'
-export const baseUrl = 'http://localhost:3005/api/'
+// export const baseUrl = 'http://localhost:3005/api/'
