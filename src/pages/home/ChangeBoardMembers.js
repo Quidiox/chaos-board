@@ -48,7 +48,7 @@ class ChangeBoardMembers extends Component {
   render() {
     const { classes, open, users, board, closeChangeMembers } = this.props
     let checked =
-      this.state.initialChecked && board.members
+      this.state.initialChecked && board && board.members
         ? board.members
         : this.state.checked
     return (
