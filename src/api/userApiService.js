@@ -1,4 +1,4 @@
-import { baseUrl } from '../utils/constants'
+const baseUrl = process.env.REACT_APP_BASEURL
 
 const login = async data => {
   try {

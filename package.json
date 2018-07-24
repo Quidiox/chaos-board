@@ -17,9 +17,7 @@
     "react-router-dom": "4.2.2",
     "react-scripts": "1.1.4",
     "redux": "3.7.2",
-    "redux-devtools-extension": "2.13.2",
     "redux-saga": "0.16.0",
-    "redux-saga-devtools": "0.2.0",
     "semantic-ui-css": "2.3.1",
     "semantic-ui-react": "0.81.1"
   },
@@ -29,5 +27,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "redux-devtools-extension": "2.13.5",
+    "redux-saga-devtools": "0.3.0"
+  }
 }
