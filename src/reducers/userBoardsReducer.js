@@ -1,3 +1,4 @@
+import produce from 'immer'
 import {
   BOARD_FETCH_BY_USER_REQUEST,
   BOARD_FETCH_BY_USER,
@@ -9,40 +10,27 @@ import {
   BOARD_DELETE
 } from './actionTypes'
 
-const userBoardsReducer = (state = [], action) => {
+const userBoardsReducer = produce((draft, action) => {
+  // eslint-disable-next-line
   switch (action.type) {
     case BOARD_FETCH_BY_USER: {
       return action.payload
     }
     case BOARD_CREATE: {
-      return [...state, action.payload]
+      draft.push(action.payload)
+      return
     }
     case BOARD_EDIT: {
-      const editIndex = state.findIndex(board => {
+      const editIndex = draft.findIndex(board => {
         return board.id === action.payload.id
       })
-      if (editIndex === -1) {
-        return state
-      }
-      return [
-        ...state.slice(0, editIndex),
-        action.payload,
-        ...state.slice(editIndex + 1)
-      ]
+      return draft[editIndex] = action.payload
     }
     case BOARD_DELETE: {
-      const removeIndex = state.findIndex(board => {
-        return board.id === action.payload.boardId
-      })
-      if (removeIndex === undefined) {
-        return state
-      }
-      return [...state.slice(0, removeIndex), ...state.slice(removeIndex + 1)]
+      return draft.filter(board => board.id !== action.payload.boardId)
     }
-    default:
-      return state
   }
-}
+}, [])
 
 export const requestFetchBoardsByUser = payload => ({
   type: BOARD_FETCH_BY_USER_REQUEST,

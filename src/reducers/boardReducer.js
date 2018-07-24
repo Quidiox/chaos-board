@@ -5,6 +5,7 @@ import {
   BOARD_CHANGE_MEMBERS,
   BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
   BOARD_FETCH_BOARD_AND_MEMBERS,
+  BOARD_CLEAR_STATE,
   CARD_MOVE_REQUEST,
   CARD_CREATE_REQUEST,
   CARD_CREATE,
@@ -127,7 +128,6 @@ const boardReducer = (state = [], action) => {
     }
     case CONTAINER_DELETE: {
       const stateCopy = JSON.parse(JSON.stringify(state))
-      // only one board, I need to change this at some point to support many boards
       const board = stateCopy
       const container = board.containers.find(
         container => container.id === action.payload.containerId
@@ -144,10 +144,13 @@ const boardReducer = (state = [], action) => {
       return stateCopy
     }
     case BOARD_CHANGE_MEMBERS: {
-      return Object.assign({}, state, { members: action.payload.members })
+      return []
     }
     case BOARD_FETCH_BOARD_AND_MEMBERS: {
       return action.payload
+    }
+    case BOARD_CLEAR_STATE: {
+      return []
     }
     default:
       return state
@@ -217,6 +220,10 @@ export const requestChangeBoardMembers = payload => ({
 export const requestFetchBoardAndMembers = payload => ({
   type: BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
   payload
+})
+
+export const clearBoardState = () => ({
+  type: BOARD_CLEAR_STATE
 })
 
 export default boardReducer

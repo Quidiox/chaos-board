@@ -104,11 +104,13 @@ class BoardCard extends Component {
                   )}
               </CardActions>
             </Card>
-            <ChangeBoardMembers
-              open={changeMembersOpen}
-              closeChangeMembers={this.closeChangeMembers}
-              boardId={id}
-            />
+            {changeMembersOpen && (
+              <ChangeBoardMembers
+                open={changeMembersOpen}
+                closeChangeMembers={this.closeChangeMembers}
+                boardId={id}
+              />
+            )}
           </div>
         )}
         <Confirm

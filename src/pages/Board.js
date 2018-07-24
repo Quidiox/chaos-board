@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { requestInitializeBoard } from '../reducers/boardReducer'
+import { requestInitializeBoard, clearBoardState } from '../reducers/boardReducer'
 import { sortByPosition } from '../utils/helpers'
 import Container from './container/Container'
 import AddContainer from './container/AddContainer'
@@ -16,6 +16,9 @@ class Board extends Component {
       return true
     }
     return false
+  }
+  componentWillUnmount() {
+    this.props.clearBoardState()
   }
   disableDragging = editingType => {
     this.setState({ draggingAllowed: false, [editingType]: true })
@@ -91,7 +94,7 @@ const containerStyle = {
 
 const mapStateToProps = state => ({ board: state.board })
 
-const mapDispatchToProps = { requestInitializeBoard }
+const mapDispatchToProps = { requestInitializeBoard, clearBoardState }
 
 export default connect(
   mapStateToProps,
