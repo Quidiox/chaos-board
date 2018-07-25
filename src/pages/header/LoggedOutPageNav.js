@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const LoggedOutPageNav = ({
   classes,
@@ -29,10 +29,10 @@ const LoggedOutPageNav = ({
     >
       <MenuItem onClick={handleClose}>Close</MenuItem>
       <MenuItem name="pageAnchorEl" onClick={handleClose}>
-        <Link to="/login">Login</Link>
+        <NavLink to="/login">Login</NavLink>
       </MenuItem>
       <MenuItem name="pageAnchorEl" onClick={handleClose}>
-        <Link to="/register">Register</Link>
+        <NavLink to="/register">Register</NavLink>
       </MenuItem>
     </Menu>
   </div>

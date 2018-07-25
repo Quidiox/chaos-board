@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const LoggedInMenu = ({
   personAnchorEl,
@@ -41,9 +41,9 @@ const LoggedInMenu = ({
     >
       <MenuItem onClick={handleClose}>Close</MenuItem>
       <MenuItem onClick={handleLogout} className={classes.logout}>
-        <Link to="/">Logout</Link>
+        <NavLink to="/">Logout</NavLink>
       </MenuItem>
-      <MenuItem onClick={handleEdit}><Link to='/user/edit'>Edit account</Link></MenuItem>
+      <MenuItem onClick={handleEdit}><NavLink to='/user/edit'>Edit account</NavLink></MenuItem>
       <MenuItem onClick={handleDelete}>Delete account</MenuItem>
     </Menu>
   </div>

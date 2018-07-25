@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { requestInitializeBoard, clearBoardState } from '../reducers/boardReducer'
+import { Redirect } from 'react-router-dom'
+import {
+  requestInitializeBoard,
+  clearBoardState
+} from '../reducers/boardReducer'
 import { sortByPosition } from '../utils/helpers'
 import Container from './container/Container'
 import AddContainer from './container/AddContainer'
@@ -73,7 +77,7 @@ class Board extends Component {
             </div>
           </div>
         ) : (
-          <div>loading...</div>
+          <Redirect to="/home" />
         )}
       </div>
     )

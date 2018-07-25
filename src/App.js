@@ -14,25 +14,23 @@ import EditUser from './pages/EditUser'
 import { requestVerifyUserToken } from './reducers/userReducer'
 import { requestFetchBoardsByUser } from './reducers/userBoardsReducer'
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        rest.loggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-  )
-}
+const PrivateRoute = ({ component: Component, loggedIn, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      loggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+)
 
 class App extends Component {
   state = {
@@ -66,6 +64,7 @@ class App extends Component {
             path="/board/:boardId"
             component={Board}
           />
+          <Redirect to="/" />
         </Switch>
       </Fragment>
     )
