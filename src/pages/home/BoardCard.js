@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
@@ -18,15 +18,10 @@ import Confirm from '../common/Confirm'
 
 class BoardCard extends Component {
   state = {
-    hovering: false,
     editing: false,
     title: this.props.title,
     changeMembersOpen: false,
     confirmVisible: false
-  }
-  handleMouseHover = e => {
-    if (e.type === 'mouseenter') this.setState({ hovering: true })
-    if (e.type === 'mouseleave') this.setState({ hovering: false })
   }
   editBoard = () => {
     this.setState({ editing: true })
@@ -37,7 +32,6 @@ class BoardCard extends Component {
       boardId: this.props.id
     })
     this.setState({
-      hovering: false,
       editing: false
     })
   }
@@ -52,7 +46,7 @@ class BoardCard extends Component {
     this.setState({ changeMembersOpen: true })
   }
   closeChangeMembers = () => {
-    this.setState({ changeMembersOpen: false, hovering: false })
+    this.setState({ changeMembersOpen: false })
   }
   deleteBoard = () => {
     this.setState({ confirmVisible: true })
@@ -68,12 +62,9 @@ class BoardCard extends Component {
 
   render() {
     const { title, id, owner, classes, buttonText, user } = this.props
-    const { changeMembersOpen, editing, hovering, confirmVisible } = this.state
+    const { changeMembersOpen, editing, confirmVisible } = this.state
     return (
-      <div
-        onMouseEnter={this.handleMouseHover}
-        onMouseLeave={this.handleMouseHover}
-      >
+      <Fragment>
         {editing ? (
           <Edit
             type="Board"
@@ -92,8 +83,7 @@ class BoardCard extends Component {
                 <Link to={`/board/${id}`}>
                   <Button className={classes.button}>{buttonText}</Button>
                 </Link>
-                {hovering &&
-                  user.id === owner && (
+                {user.id === owner && (
                     <div style={{ ...dropdownMenuStyle }}>
                       <BoardDropdownMenu
                         changeMembers={this.openChangeMembers}
@@ -122,7 +112,7 @@ class BoardCard extends Component {
           no={this.confirmDelete()}
           yes={this.confirmDelete('yes')}
         />
-      </div>
+      </Fragment>
     )
   }
 }
