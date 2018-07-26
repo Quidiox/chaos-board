@@ -5,6 +5,8 @@ import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import HomeIcon from 'mdi-react/HomeIcon'
+import CloseIcon from 'mdi-react/CloseIcon'
 
 const LoggedInPageNav = ({
   classes,
@@ -29,12 +31,11 @@ const LoggedInPageNav = ({
       open={Boolean(pageAnchorEl)}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleClose}>Close</MenuItem>
-      <MenuItem name="pageAnchorEl" onClick={handleClose}  className={classes.linkMenuItem}>
-        <NavLink
-          to="/home"
-          activeClassName="currentLink"
-        >
+      <MenuItem onClick={handleClose}>
+        <CloseIcon style={iconStyle} />Close
+      </MenuItem>
+      <MenuItem name="pageAnchorEl" onClick={handleClose}>
+        <NavLink to="/home" activeClassName="currentLink">
           Home
         </NavLink>
       </MenuItem>
@@ -55,6 +56,13 @@ const LoggedInPageNav = ({
     </Menu>
   </div>
 )
+
+const iconStyle = {
+  width: '18px',
+  height: '18px',
+  marginRight: '5px',
+  color: 'black'
+}
 
 const mapStateToProps = state => ({
   boards: state.boards
