@@ -87,6 +87,7 @@ class Header extends Component {
             {user &&
               user.username && (
                 <LoggedInMenu
+                 
                   personAnchorEl={personAnchorEl}
                   handleClick={this.handleClick}
                   classes={classes}
@@ -132,6 +133,10 @@ const styles = {
   },
   menuIcon: {
     left: '-20px'
+  },
+  linkMenuItem: {
+    paddingTop: '2px',
+    paddingBottom: '2px',
   }
 }
 
@@ -140,7 +145,7 @@ const mapDispatchToProps = {
   requestDeleteUser
 }
 
-const mapStateToProps = state => ({ user: state.user, boards: state.boards })
+const mapStateToProps = state => ({ user: state.user, boards: state.boards, router: state.router })
 
 Header = connect(
   mapStateToProps,

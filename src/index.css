@@ -16,3 +16,15 @@ body {
 .addText:hover {
   opacity: 1;
 }
+
+.link {
+  outline: none;
+  text-decoration: none;
+  color: blue;
+}
+
+.currentLink {
+  color: black;
+  font-weight: bold;
+}
+

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import Menu from '@material-ui/core/Menu'
@@ -30,14 +30,26 @@ const LoggedInPageNav = ({
       onClose={handleClose}
     >
       <MenuItem onClick={handleClose}>Close</MenuItem>
-      <MenuItem name="pageAnchorEl" onClick={handleClose}>
-        <NavLink to="/home">Home</NavLink>
+      <MenuItem name="pageAnchorEl" onClick={handleClose}  className={classes.linkMenuItem}>
+        <NavLink
+          to="/home"
+          activeClassName="currentLink"
+        >
+          Home
+        </NavLink>
       </MenuItem>
       {boards &&
         boards.length > 0 &&
         boards.map(board => (
-          <MenuItem key={board.id} name="pageAnchorEl" onClick={handleClose}>
-            <NavLink to={`/board/${board.id}`}>{board.title}</NavLink>
+          <MenuItem
+            key={board.id}
+            name="pageAnchorEl"
+            onClick={handleClose}
+            className={classes.linkMenuItem}
+          >
+            <NavLink to={`/board/${board.id}`} activeClassName="currentLink">
+              {board.title}
+            </NavLink>
           </MenuItem>
         ))}
     </Menu>
@@ -48,4 +60,4 @@ const mapStateToProps = state => ({
   boards: state.boards
 })
 
-export default connect(mapStateToProps)(LoggedInPageNav)
+export default withRouter(connect(mapStateToProps)(LoggedInPageNav))

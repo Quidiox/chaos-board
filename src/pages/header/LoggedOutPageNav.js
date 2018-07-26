@@ -29,10 +29,10 @@ const LoggedOutPageNav = ({
     >
       <MenuItem onClick={handleClose}>Close</MenuItem>
       <MenuItem name="pageAnchorEl" onClick={handleClose}>
-        <NavLink to="/login">Login</NavLink>
+        <NavLink to="/login" activeClassName='currentLink'>Login</NavLink>
       </MenuItem>
       <MenuItem name="pageAnchorEl" onClick={handleClose}>
-        <NavLink to="/register">Register</NavLink>
+        <NavLink to="/register" activeClassName='currentLink'>Register</NavLink>
       </MenuItem>
     </Menu>
   </div>
