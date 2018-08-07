@@ -32,7 +32,6 @@ const userBoardsReducer = produce((draft, action) => {
       return draft.filter(board => board.id !== action.payload.boardId)
     }
     case BOARD_CHANGE_MEMBERS: {
-      console.log(action)
       draft.map(board => {
         if (board.id === action.payload.id) {
           board.members = action.payload.members
