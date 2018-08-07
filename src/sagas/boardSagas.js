@@ -19,8 +19,6 @@ import {
   CARD_DELETE,
   CARD_MOVE_BETWEEN_CONTAINERS_REQUEST,
   CARD_MOVE_BETWEEN_CONTAINERS,
-  BOARD_CHANGE_MEMBERS_REQUEST,
-  BOARD_CHANGE_MEMBERS,
   BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
   BOARD_FETCH_BOARD_AND_MEMBERS
 } from '../reducers/actionTypes'
@@ -176,19 +174,6 @@ function* watchDragAndDrop() {
   }
 }
 
-function* changeMembers(token, action) {
-  try {
-    const response = yield call(apiService.changeMembers, token, action.payload)
-    yield put(genericActionCreator(BOARD_CHANGE_MEMBERS, response))
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-function* watchChangeMembers() {
-  yield takeLatest(BOARD_CHANGE_MEMBERS_REQUEST, withToken(changeMembers))
-}
-
 function* fetchBoardAndMembers(token, action) {
   try {
     const response = yield call(
@@ -218,6 +203,5 @@ export const boardSagas = [
   call(watchDeleteCard),
   call(watchEditContainer),
   call(watchDeleteContainer),
-  call(watchChangeMembers),
   call(watchFetchBoardAndMembers)
 ]

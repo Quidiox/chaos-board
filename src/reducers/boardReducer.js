@@ -1,8 +1,6 @@
 import {
   BOARD_INITIALIZE_REQUEST,
   BOARD_INITIALIZE,
-  BOARD_CHANGE_MEMBERS_REQUEST,
-  BOARD_CHANGE_MEMBERS,
   BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
   BOARD_FETCH_BOARD_AND_MEMBERS,
   BOARD_CLEAR_STATE,
@@ -143,9 +141,6 @@ const boardReducer = (state = [], action) => {
       stateCopy.containers = containers
       return stateCopy
     }
-    case BOARD_CHANGE_MEMBERS: {
-      return []
-    }
     case BOARD_FETCH_BOARD_AND_MEMBERS: {
       return action.payload
     }
@@ -209,11 +204,6 @@ export const requestEditContainer = payload => ({
 
 export const requestDeleteContainer = payload => ({
   type: CONTAINER_DELETE_REQUEST,
-  payload
-})
-
-export const requestChangeBoardMembers = payload => ({
-  type: BOARD_CHANGE_MEMBERS_REQUEST,
   payload
 })
 

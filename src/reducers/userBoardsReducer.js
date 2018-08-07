@@ -7,7 +7,9 @@ import {
   BOARD_EDIT_REQUEST,
   BOARD_EDIT,
   BOARD_DELETE_REQUEST,
-  BOARD_DELETE
+  BOARD_DELETE,
+  BOARD_CHANGE_MEMBERS_REQUEST,
+  BOARD_CHANGE_MEMBERS
 } from './actionTypes'
 
 const userBoardsReducer = produce((draft, action) => {
@@ -29,6 +31,16 @@ const userBoardsReducer = produce((draft, action) => {
     case BOARD_DELETE: {
       return draft.filter(board => board.id !== action.payload.boardId)
     }
+    case BOARD_CHANGE_MEMBERS: {
+      console.log(action)
+      draft.map(board => {
+        if (board.id === action.payload.id) {
+          board.members = action.payload.members
+        }
+        return board
+      })
+      return
+    }
   }
 }, [])
 
@@ -49,6 +61,11 @@ export const requestEditBoard = payload => ({
 
 export const requestDeleteBoard = payload => ({
   type: BOARD_DELETE_REQUEST,
+  payload
+})
+
+export const requestChangeBoardMembers = payload => ({
+  type: BOARD_CHANGE_MEMBERS_REQUEST,
   payload
 })
 

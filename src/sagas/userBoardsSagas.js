@@ -7,7 +7,9 @@ import {
   BOARD_EDIT_REQUEST,
   BOARD_EDIT,
   BOARD_DELETE_REQUEST,
-  BOARD_DELETE
+  BOARD_DELETE,
+  BOARD_CHANGE_MEMBERS_REQUEST,
+  BOARD_CHANGE_MEMBERS
 } from '../reducers/actionTypes'
 import apiService from '../api/userBoardsApiService'
 import { genericActionCreator } from '../reducers/rootReducer'
@@ -69,9 +71,23 @@ function* watchDeleteBoard() {
   yield takeLatest(BOARD_DELETE_REQUEST, withToken(deleteBoard))
 }
 
+function* changeMembers(token, action) {
+  try {
+    const response = yield call(apiService.changeMembers, token, action.payload)
+    yield put(genericActionCreator(BOARD_CHANGE_MEMBERS, response))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* watchChangeMembers() {
+  yield takeLatest(BOARD_CHANGE_MEMBERS_REQUEST, withToken(changeMembers))
+}
+
 export const userBoardsSagas = [
   call(watchCreateBoard),
   call(watchFetchBoardsByUser),
   call(watchEditBoard),
-  call(watchDeleteBoard)
+  call(watchDeleteBoard),
+  call(watchChangeMembers)
 ]

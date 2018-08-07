@@ -5,10 +5,8 @@ import Typography from '@material-ui/core/Typography'
 import Modal from '@material-ui/core/Modal'
 import Button from '@material-ui/core/Button'
 import { requestGetAllUsers } from '../../reducers/usersReducer'
-import {
-  requestChangeBoardMembers,
-  requestFetchBoardAndMembers
-} from '../../reducers/boardReducer'
+import { requestChangeBoardMembers } from '../../reducers/userBoardsReducer'
+import { requestFetchBoardAndMembers } from '../../reducers/boardReducer'
 import UserList from './UserList'
 
 class ChangeBoardMembers extends Component {

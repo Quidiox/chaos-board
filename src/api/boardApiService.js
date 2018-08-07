@@ -154,25 +154,6 @@ const deleteCard = async (token, payload) => {
   }
 }
 
-const changeMembers = async (token, data) => {
-  try {
-    const response = await fetch(
-      baseUrl + 'board/' + data.boardId + '/change',
-      {
-        method: 'PUT',
-        body: JSON.stringify(data),
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Authorization: token
-        })
-      }
-    )
-    return await response.json()
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 const fetchBoardAndMembers = async (token, data) => {
   try {
     const response = await fetch(
@@ -201,6 +182,5 @@ export default {
   editCard,
   deleteCard,
   moveCardBetweenContainers,
-  changeMembers,
   fetchBoardAndMembers
 }
