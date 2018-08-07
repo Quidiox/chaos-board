@@ -13,7 +13,7 @@ import {
   USER_DELETE_REQUEST,
   USER_DELETE,
   USER_EDIT_REQUEST,
-  USER_EDIT,
+  USER_EDIT
 } from '../reducers/actionTypes'
 import apiService from '../api/userApiService'
 import { withToken, getRedirectPath } from './helpers'

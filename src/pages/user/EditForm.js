@@ -33,7 +33,7 @@ const EditForm = ({
         type="checkbox"
         name="passwordEdit"
         label="Edit password?"
-        onChange={(e, {checked})=>handleChange(e, checked)}
+        onChange={(e, { checked }) => handleChange(e, checked)}
       />
       {passwordEdit && (
         <div>
@@ -56,7 +56,9 @@ const EditForm = ({
         </div>
       )}
       <Form.Group>
-        <Form.Field control={Button} type='submit'>Submit</Form.Field>
+        <Form.Field control={Button} type="submit">
+          Submit
+        </Form.Field>
         <Form.Field control={Button} onClick={clear}>
           Clear
         </Form.Field>

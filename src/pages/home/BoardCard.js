@@ -84,14 +84,14 @@ class BoardCard extends Component {
                   <Button className={classes.button}>{buttonText}</Button>
                 </Link>
                 {user.id === owner && (
-                    <div style={{ ...dropdownMenuStyle }}>
-                      <BoardDropdownMenu
-                        changeMembers={this.openChangeMembers}
-                        handleEdit={this.editBoard}
-                        handleDelete={this.deleteBoard}
-                      />
-                    </div>
-                  )}
+                  <div style={{ ...dropdownMenuStyle }}>
+                    <BoardDropdownMenu
+                      changeMembers={this.openChangeMembers}
+                      handleEdit={this.editBoard}
+                      handleDelete={this.deleteBoard}
+                    />
+                  </div>
+                )}
               </CardActions>
             </Card>
             {changeMembersOpen && (

@@ -44,7 +44,8 @@ const LoggedInMenu = ({
       onClose={handleClose}
     >
       <MenuItem onClick={handleClose} className={menuItemStyle}>
-        <CloseIcon style={iconStyle} />Close
+        <CloseIcon style={iconStyle} />
+        Close
       </MenuItem>
       <MenuItem onClick={handleLogout} className={menuItemStyle}>
         <AccountOffIcon style={iconStyle} />
@@ -59,7 +60,8 @@ const LoggedInMenu = ({
         </NavLink>
       </MenuItem>
       <MenuItem onClick={handleDelete} className={menuItemStyle}>
-        <AccountRemoveIcon style={iconStyle} />Delete account
+        <AccountRemoveIcon style={iconStyle} />
+        Delete account
       </MenuItem>
     </Menu>
   </div>

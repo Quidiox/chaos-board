@@ -10,7 +10,11 @@ import Container from './container/Container'
 import AddContainer from './container/AddContainer'
 
 class Board extends Component {
-  state = { draggingAllowed: true, editingCard: false, editingContainer: false }
+  state = {
+    draggingAllowed: true,
+    editingCard: false,
+    editingContainer: false
+  }
   componentDidMount() {
     this.props.requestInitializeBoard(this.props.match.params.boardId)
   }

@@ -31,7 +31,8 @@ const LoggedInPageNav = ({
       onClose={handleClose}
     >
       <MenuItem onClick={handleClose}>
-        <CloseIcon style={iconStyle} />Close
+        <CloseIcon style={iconStyle} />
+        Close
       </MenuItem>
       <MenuItem name="pageAnchorEl" onClick={handleClose}>
         <NavLink to="/home" activeClassName="currentLink">

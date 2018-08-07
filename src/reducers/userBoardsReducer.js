@@ -24,7 +24,7 @@ const userBoardsReducer = produce((draft, action) => {
       const editIndex = draft.findIndex(board => {
         return board.id === action.payload.id
       })
-      return draft[editIndex] = action.payload
+      return (draft[editIndex] = action.payload)
     }
     case BOARD_DELETE: {
       return draft.filter(board => board.id !== action.payload.boardId)

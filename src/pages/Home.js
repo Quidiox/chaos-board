@@ -10,8 +10,8 @@ import BoardCard from './home/BoardCard'
 import AddBoard from './home/AddBoard'
 
 class Home extends Component {
-  state = { boardForm: false, title: ''}
-  
+  state = { boardForm: false, title: '' }
+
   async componentDidMount() {
     if (this.props.boards.length < 1) {
       await this.props.requestFetchBoardsByUser(this.props.user)

@@ -191,7 +191,11 @@ function* watchChangeMembers() {
 
 function* fetchBoardAndMembers(token, action) {
   try {
-    const response = yield call(apiService.fetchBoardAndMembers, token, action.payload)
+    const response = yield call(
+      apiService.fetchBoardAndMembers,
+      token,
+      action.payload
+    )
     yield put(genericActionCreator(BOARD_FETCH_BOARD_AND_MEMBERS, response))
   } catch (error) {
     console.log(error)
@@ -199,7 +203,10 @@ function* fetchBoardAndMembers(token, action) {
 }
 
 function* watchFetchBoardAndMembers() {
-  yield takeLatest(BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST, withToken(fetchBoardAndMembers))
+  yield takeLatest(
+    BOARD_FETCH_BOARD_AND_MEMBERS_REQUEST,
+    withToken(fetchBoardAndMembers)
+  )
 }
 
 export const boardSagas = [

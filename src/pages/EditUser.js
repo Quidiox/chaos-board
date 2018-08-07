@@ -37,7 +37,11 @@ class EditUser extends Component {
         userId: this.props.user.id
       })
     } else {
-      this.props.requestEditUser({ name, username, userId: this.props.user.id })
+      this.props.requestEditUser({
+        name,
+        username,
+        userId: this.props.user.id
+      })
     }
     this.setState({
       name: '',
