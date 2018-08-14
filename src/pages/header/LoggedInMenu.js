@@ -16,7 +16,8 @@ const LoggedInMenu = ({
   handleClose,
   handleLogout,
   handleEdit,
-  handleDelete
+  handleDelete,
+  location
 }) => (
   <div>
     <IconButton
@@ -43,23 +44,28 @@ const LoggedInMenu = ({
       open={Boolean(personAnchorEl)}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleClose} className={menuItemStyle}>
+      <MenuItem onClick={handleClose}>
         <CloseIcon style={iconStyle} />
         Close
       </MenuItem>
-      <MenuItem onClick={handleLogout} className={menuItemStyle}>
+      <MenuItem onClick={handleLogout}>
         <AccountOffIcon style={iconStyle} />
         <NavLink to="/">
           <span style={menuItemStyle}>Logout</span>
         </NavLink>
       </MenuItem>
-      <MenuItem onClick={handleEdit} className={menuItemStyle}>
+      <MenuItem onClick={handleEdit}>
         <AccountEditIcon style={iconStyle} />
-        <NavLink to="/user/edit">
+        <NavLink
+          to={{
+            pathname: '/user/edit',
+            state: { prevPath: location.pathname }
+          }}
+        >
           <span style={menuItemStyle}>Edit account</span>
         </NavLink>
       </MenuItem>
-      <MenuItem onClick={handleDelete} className={menuItemStyle}>
+      <MenuItem onClick={handleDelete}>
         <AccountRemoveIcon style={iconStyle} />
         Delete account
       </MenuItem>

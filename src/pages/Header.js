@@ -50,7 +50,7 @@ class Header extends Component {
     return titles
   }
   render() {
-    const { user, classes, boards } = this.props
+    const { user, classes, boards, router } = this.props
     const { pageAnchorEl, personAnchorEl, confirmVisible } = this.state
     const boardsOwned = boards
       .filter(board => board.owner === user.id)
@@ -94,6 +94,7 @@ class Header extends Component {
                   handleLogout={this.handleLogout}
                   handleEdit={this.handleEdit}
                   handleDelete={this.handleDelete}
+                  location={router.location}
                 />
               )}
           </Toolbar>

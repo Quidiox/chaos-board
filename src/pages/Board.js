@@ -5,6 +5,7 @@ import {
   requestInitializeBoard,
   clearBoardState
 } from '../reducers/boardReducer'
+import { requestFetchBoardsByUser } from '../reducers/userBoardsReducer'
 import { sortByPosition } from '../utils/helpers'
 import Container from './container/Container'
 import AddContainer from './container/AddContainer'
@@ -17,7 +18,15 @@ class Board extends Component {
   }
   componentDidMount() {
     this.props.requestInitializeBoard(this.props.match.params.boardId)
+    if (
+      this.props.user &&
+      this.props.user.username &&
+      this.props.boards.length === 0
+    ) {
+      this.props.requestFetchBoardsByUser(this.props.user)
+    }
   }
+
   async shouldComponentUpdate(nextProps) {
     if (nextProps.match.params.boardId !== this.props.match.params.boardId) {
       await this.props.requestInitializeBoard(nextProps.match.params.boardId)
@@ -100,9 +109,17 @@ const containerStyle = {
   marginRight: '2px'
 }
 
-const mapStateToProps = state => ({ board: state.board })
+const mapStateToProps = state => ({
+  board: state.board,
+  boards: state.boards,
+  user: state.user
+})
 
-const mapDispatchToProps = { requestInitializeBoard, clearBoardState }
+const mapDispatchToProps = {
+  requestInitializeBoard,
+  clearBoardState,
+  requestFetchBoardsByUser
+}
 
 export default connect(
   mapStateToProps,

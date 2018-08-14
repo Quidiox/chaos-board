@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import EditForm from './user/EditForm'
 import { requestEditUser } from '../reducers/userReducer'
 
@@ -9,7 +10,8 @@ class EditUser extends Component {
     username: this.props.user.username,
     password: '',
     confirmPassword: '',
-    passwordEdit: false
+    passwordEdit: false,
+    redirect: false
   }
 
   handleChange = (e, checked) => {
@@ -48,7 +50,8 @@ class EditUser extends Component {
       username: '',
       password: '',
       confirmPassword: '',
-      passwordEdit: false
+      passwordEdit: false,
+      redirect: true
     })
   }
 
@@ -59,11 +62,16 @@ class EditUser extends Component {
       username: this.props.user.username,
       password: '',
       confirmPassword: '',
-      passwordEdit: false
+      passwordEdit: false,
+      redirect: true
     })
   }
 
   render() {
+    console.log(this.state.redirect, this.props.location.state)
+    if (this.state.redirect) {
+      return <Redirect to={this.props.location.state.prevPath} />
+    }
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div>

@@ -60,7 +60,7 @@ const EditForm = ({
           Submit
         </Form.Field>
         <Form.Field control={Button} onClick={clear}>
-          Clear
+          Close
         </Form.Field>
       </Form.Group>
     </Form>
