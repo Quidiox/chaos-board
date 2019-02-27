@@ -26,12 +26,10 @@
     "semantic-ui-react": "0.81.1"
   },
   "lint-staged": {
-    "linters": {
-      "*.{js,jsx,json,css}": [
-        "prettier --single-quote --write",
-        "git add"
-      ]
-    }
+    "*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "scripts": {
     "precommit": "lint-staged",
